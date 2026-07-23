@@ -4,10 +4,12 @@
 const SpeechSystem = {
   isSupported() { return 'speechSynthesis' in window; },
 
-  getArabicVoice() {
+  getArabicVoice(lang) {
     const voices = window.speechSynthesis.getVoices();
-    return voices.find(v => v.lang.includes('ar'));
+    const target = (lang || (window.HARFI_LANG === 'en' ? 'en-US' : 'ar-SA')).toLowerCase().split('-')[0];
+    return voices.find(v => v.lang.toLowerCase().startsWith(target));
   },
+
 
   speak(text, rate = 1.0, lang = 'ar-SA') {
     if (!this.isSupported()) { this.showFallbackMessage(); return; }
@@ -17,8 +19,9 @@ const SpeechSystem = {
     utterance.rate = rate;
     utterance.pitch = 1.2;
     utterance.volume = 1.0;
-    const arabicVoice = this.getArabicVoice();
+    const arabicVoice = this.getArabicVoice(lang);
     if (arabicVoice) utterance.voice = arabicVoice;
+
 
     showSpeakingIndicator(text);
     utterance.onend = () => hideSpeakingIndicator();
@@ -61,8 +64,9 @@ const SpeechSystem = {
       utterance.pitch = 1.2;
       utterance.onend = resolve;
       utterance.onerror = resolve;
-      const voice = this.getArabicVoice();
+      const voice = this.getArabicVoice(lang);
       if (voice) utterance.voice = voice;
+
       window.speechSynthesis.speak(utterance);
     });
   },
@@ -74,13 +78,15 @@ const SpeechSystem = {
 
 function checkArabicVoice() {
   const voices = window.speechSynthesis.getVoices();
-  const arabicVoice = voices.find(v => v.lang.includes('ar'));
-  if (!arabicVoice) {
-    console.warn('لا يوجد صوت عربي في هذا المتصفح');
+  const wantEn = window.HARFI_LANG === 'en';
+  const found = voices.find(v => wantEn ? v.lang.toLowerCase().startsWith('en') : v.lang.includes('ar'));
+  if (!found) {
+    console.warn('No suitable voice found for', wantEn ? 'English' : 'Arabic');
     showVoiceWarning();
   }
-  return arabicVoice;
+  return found;
 }
+
 
 function showVoiceWarning() {
   if (document.querySelector('.voice-warning')) return;
@@ -107,18 +113,25 @@ function hideSpeakingIndicator() {
   if (indicator) indicator.remove();
 }
 
-function speak(text, rate = 1.0) { SpeechSystem.speak(text, rate, 'ar-SA'); }
+function currentLang() {
+  return (window.HARFI_LANG === 'en') ? 'en-US' : 'ar-SA';
+}
+
+function speak(text, rate = 1.0, lang) { SpeechSystem.speak(text, rate, lang || currentLang()); }
 
 function readWithHighlight(text, element) {
   const card = element.closest('.card') || element.closest('.word-card') || element.closest('.sentence-row');
   const container = card ? (card.querySelector('.letter-big') || card.querySelector('.word-text') || card.querySelector('.sentence-text')) : null;
+  const lang = currentLang();
+  const readLabel = lang.startsWith('en') ? '📖 Read with me' : '📖 اقرأ معي';
+  const loadingLabel = lang.startsWith('en') ? '⏳ Reading...' : '⏳ جاري القراءة...';
 
   if (element && element.classList.contains('btn-read')) {
     element.disabled = true;
     element.classList.add('loading');
     const original = element.innerHTML;
     element.dataset.original = original;
-    element.innerHTML = '⏳ جاري القراءة...';
+    element.innerHTML = loadingLabel;
   }
   if (card) card.classList.add('speaking');
 
@@ -126,18 +139,19 @@ function readWithHighlight(text, element) {
     if (element && element.classList.contains('btn-read')) {
       element.disabled = false;
       element.classList.remove('loading');
-      element.innerHTML = element.dataset.original || '📖 اقرأ معي';
+      element.innerHTML = element.dataset.original || readLabel;
     }
     if (card) card.classList.remove('speaking');
   };
 
   if (container) {
-    SpeechSystem.readWithHighlight(text, container, 0.8, 'ar-SA').then(done).catch(done);
+    SpeechSystem.readWithHighlight(text, container, 0.8, lang).then(done).catch(done);
   } else {
-    SpeechSystem.speak(text, 0.8, 'ar-SA');
+    SpeechSystem.speak(text, 0.8, lang);
     setTimeout(done, text.length * 400);
   }
 }
+
 
 if ('speechSynthesis' in window) {
   window.speechSynthesis.getVoices();

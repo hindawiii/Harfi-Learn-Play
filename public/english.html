@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learn English - Harfi</title>
+<meta name="description" content="Learn English letters, words and sentences with interactive speech." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/style.css" />
+<style>
+  body { font-family: 'Fredoka', 'Tajawal', sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="sticky top-0 z-50 bg-white shadow-sm">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+    <a href="/" class="flex items-center gap-2 text-gray-700 hover:text-red-500 font-bold">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span>Home</span>
+    </a>
+    <h1 class="text-xl md:text-2xl font-bold text-gray-800">Learn English</h1>
+    <div id="score" class="text-sm md:text-base font-bold text-gray-700">🎯 Score: 0</div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" data-target="tab-letters">Letters</button>
+    <button class="tab" data-target="tab-words">Words</button>
+    <button class="tab" data-target="tab-sentences">Sentences</button>
+  </div>
+
+  <div id="tab-letters" class="tab-content active">
+    <div id="letters-grid" class="letters-grid"></div>
+  </div>
+
+  <div id="tab-words" class="tab-content">
+    <div id="words-container"></div>
+  </div>
+
+  <div id="tab-sentences" class="tab-content">
+    <div id="sentences-container"></div>
+  </div>
+</div>
+
+<script>window.HARFI_LANG = 'en';</script>
+<script src="/js/speech.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
