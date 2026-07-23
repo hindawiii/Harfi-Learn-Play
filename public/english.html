@@ -19,16 +19,11 @@
 </head>
 <body>
 
-<nav class="sticky top-0 z-50 bg-white shadow-sm">
-  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-    <a href="/" class="flex items-center gap-2 text-gray-700 hover:text-red-500 font-bold">
-      <i class="fa-solid fa-arrow-left"></i>
-      <span>Home</span>
-    </a>
-    <h1 class="text-xl md:text-2xl font-bold text-gray-800">Learn English</h1>
-    <div id="score" class="text-sm md:text-base font-bold text-gray-700">🎯 Score: 0</div>
-  </div>
-</nav>
+<div id="nav-root"></div>
+<div class="max-w-6xl mx-auto px-4 pt-4 flex items-center justify-between">
+  <h1 class="text-xl md:text-2xl font-bold text-gray-800">Learn English</h1>
+  <div id="score" class="text-sm md:text-base font-bold text-gray-700">🎯 Score: 0</div>
+</div>
 
 <div class="container">
   <div class="tabs">
@@ -49,6 +44,9 @@
     <div id="sentences-container"></div>
   </div>
 </div>
+
+<div id="footer-root"></div>
+<script src="/js/layout.js"></script>
 
 <script>window.HARFI_LANG = 'en';</script>
 <script src="/js/speech.js"></script>
