@@ -54,8 +54,8 @@ function closeModal(){
 }
 
 function speakText(text){
-  if(window.HarfiSpeech && window.HarfiSpeech.speak){
-    window.HarfiSpeech.speak(text, 'normal');
+  if(typeof speak === 'function'){
+    speak(text, 1.0, 'ar-SA');
   } else if(window.speechSynthesis){
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'ar-SA';
