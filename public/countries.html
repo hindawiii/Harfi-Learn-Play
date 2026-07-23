@@ -34,18 +34,10 @@
 </head>
 <body>
 
-<nav class="sticky top-0 z-50 bg-white shadow-sm">
-  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-    <a href="/" class="flex items-center gap-2 text-gray-700 hover:text-red-500 font-bold">
-      <i class="fa-solid fa-arrow-right"></i>
-      <span>الرئيسية</span>
-    </a>
-    <h1 class="text-xl md:text-2xl font-bold text-gray-800">🌍 اكتشف الدول العربية</h1>
-    <div class="w-16"></div>
-  </div>
-</nav>
+<div id="nav-root"></div>
 
 <section class="max-w-6xl mx-auto px-4 py-8 text-center">
+  <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">🌍 اكتشف الدول العربية</h1>
   <p class="text-lg text-gray-700">اضغط على أي دولة لتتعرف عليها 🎉</p>
 </section>
 
@@ -83,6 +75,9 @@
     <button class="close-btn" onclick="closeModal()">إغلاق</button>
   </div>
 </div>
+
+<div id="footer-root"></div>
+<script src="/js/layout.js"></script>
 
 <script>
 window.HARFI_LANG = 'ar';
