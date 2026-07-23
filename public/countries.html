@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>اكتشف الدول العربية - حرفي</title>
-<meta name="description" content="اكتشف الدول العربية الـ22: الأعلام، العواصم، التحيات، ومعلومات ممتعة للأطفال." />
+<title>اكتشف الدول العربية الـ22 - حرفي</title>
+<meta name="description" content="جولة تفاعلية في 22 دولة عربية: الأعلام، العواصم، التحيات، المعالم، ومعلومات ممتعة للأطفال." />
+<meta property="og:title" content="اكتشف الدول العربية - حرفي" />
+<meta property="og:description" content="22 دولة عربية بأعلامها وعواصمها وتحياتها ومعالمها." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" href="/favicon.ico" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,74 +18,69 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="/css/style.css" />
 <style>
-  body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #FFF8E1 0%, #E8F4F8 100%); min-height: 100vh; }
-  .country-card { background:#fff; border-radius:24px; padding:20px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.06); transition:all .3s ease; cursor:pointer; border:3px solid transparent; }
-  .country-card:hover { transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.12); border-color:#4ECDC4; }
-  .flag { font-size:72px; line-height:1; margin-bottom:8px; }
-  .country-name { font-size:22px; font-weight:900; color:#2D3436; }
-  .country-capital { font-size:14px; color:#636e72; margin-top:4px; }
-  .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:100; padding:16px; }
-  .modal-backdrop.active { display:flex; }
-  .modal { background:#fff; border-radius:28px; max-width:520px; width:100%; padding:28px; text-align:center; max-height:90vh; overflow-y:auto; }
-  .modal-flag { font-size:96px; line-height:1; }
-  .info-row { background:#F8F9FA; border-radius:16px; padding:12px 16px; margin:10px 0; display:flex; justify-content:space-between; align-items:center; gap:12px; }
-  .info-label { font-weight:700; color:#636e72; font-size:14px; }
-  .info-value { font-weight:700; color:#2D3436; font-size:18px; }
-  .speak-btn { background:#4ECDC4; color:#fff; border:none; width:44px; height:44px; border-radius:50%; font-size:18px; cursor:pointer; transition:all .2s; }
-  .speak-btn:hover { background:#3DBDB4; transform:scale(1.1); }
-  .close-btn { background:#FF6B6B; color:#fff; padding:12px 28px; border-radius:999px; font-weight:700; border:none; cursor:pointer; margin-top:12px; min-height:44px; }
+  body { font-family:'Tajawal',sans-serif; background:linear-gradient(135deg,#FFF8E1 0%,#E8F4F8 100%); min-height:100vh; }
+  .page-hero { background:linear-gradient(135deg,#4ECDC4 0%,#556270 100%); color:#fff; padding:56px 16px 72px; text-align:center; position:relative; overflow:hidden; }
+  .page-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 20%, rgba(255,255,255,.15), transparent 40%), radial-gradient(circle at 80% 60%, rgba(255,255,255,.1), transparent 40%); }
+  .page-hero h1 { font-size:clamp(28px,5vw,44px); font-weight:900; margin-bottom:10px; position:relative; }
+  .page-hero p { font-size:18px; opacity:.95; position:relative; }
+  .toolbar { max-width:1100px; margin:-40px auto 0; background:#fff; border-radius:20px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,.08); display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center; position:relative; z-index:2; }
+  .search-wrap { flex:1; min-width:220px; position:relative; }
+  .search-wrap input { width:100%; padding:12px 44px 12px 16px; border:2px solid #E9ECEF; border-radius:14px; font-family:inherit; font-size:16px; outline:none; transition:.2s; }
+  .search-wrap input:focus { border-color:#4ECDC4; }
+  .search-wrap i { position:absolute; right:14px; top:50%; transform:translateY(-50%); color:#4ECDC4; }
+  .filter-btn { padding:10px 18px; border-radius:999px; background:#F1F3F5; color:#495057; font-weight:700; border:none; cursor:pointer; min-height:44px; transition:.2s; }
+  .filter-btn:hover { background:#E9ECEF; }
+  .filter-btn.active { background:#4ECDC4; color:#fff; }
+
+  .country-card { background:#fff; border-radius:22px; padding:20px 14px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,.06); transition:.3s; border:3px solid transparent; text-decoration:none; color:inherit; position:relative; overflow:hidden; }
+  .country-card::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background:var(--accent,#4ECDC4); }
+  .country-card:hover { transform:translateY(-6px); box-shadow:0 14px 34px rgba(0,0,0,.14); border-color:var(--accent,#4ECDC4); }
+  .flag { font-size:64px; line-height:1; margin:8px 0 10px; }
+  .country-name { font-size:17px; font-weight:900; color:#2D3436; line-height:1.3; min-height:44px; display:flex; align-items:center; justify-content:center; }
+  .country-capital { font-size:13px; color:#636e72; margin-top:6px; }
+  .continent-badge { display:inline-block; margin-top:10px; font-size:11px; font-weight:700; background:#F8F9FA; color:#495057; padding:4px 10px; border-radius:999px; }
+
+  .stats-strip { max-width:1100px; margin:32px auto; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; padding:0 16px; }
+  .stat { background:#fff; border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.05); }
+  .stat .num { font-size:26px; font-weight:900; color:#4ECDC4; }
+  .stat .lbl { font-size:13px; color:#636e72; margin-top:2px; }
+  @media(max-width:640px){ .stats-strip{ grid-template-columns:repeat(2,1fr); } }
 </style>
 </head>
 <body>
 
 <div id="nav-root"></div>
 
-<section class="max-w-6xl mx-auto px-4 py-8 text-center">
-  <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">🌍 اكتشف الدول العربية</h1>
-  <p class="text-lg text-gray-700">اضغط على أي دولة لتتعرف عليها 🎉</p>
+<section class="page-hero">
+  <div class="text-6xl mb-3">🌍</div>
+  <h1>اكتشف الدول العربية</h1>
+  <p>جولة تفاعلية في 22 دولة عربية جميلة 🎉</p>
 </section>
 
-<div class="max-w-6xl mx-auto px-4 pb-12">
-  <div id="countries-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+<div class="toolbar">
+  <div class="search-wrap">
+    <input id="search-input" type="text" placeholder="ابحث عن دولة أو عاصمة..." />
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <button class="filter-btn active" data-continent="all">الكل</button>
+  <button class="filter-btn" data-continent="آسيا">🌏 آسيا</button>
+  <button class="filter-btn" data-continent="أفريقيا">🌍 أفريقيا</button>
 </div>
 
-<div id="modal" class="modal-backdrop" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div id="m-flag" class="modal-flag"></div>
-    <h2 id="m-name" class="text-3xl font-black text-gray-800 mt-2"></h2>
-    <div class="info-row">
-      <span class="info-label">العاصمة</span>
-      <div class="flex items-center gap-3">
-        <span id="m-capital" class="info-value"></span>
-        <button class="speak-btn" onclick="speakText(document.getElementById('m-capital').textContent)"><i class="fa-solid fa-volume-high"></i></button>
-      </div>
-    </div>
-    <div class="info-row">
-      <span class="info-label">التحية</span>
-      <div class="flex items-center gap-3">
-        <span id="m-greeting" class="info-value"></span>
-        <button class="speak-btn" onclick="speakText(document.getElementById('m-greeting').textContent)"><i class="fa-solid fa-volume-high"></i></button>
-      </div>
-    </div>
-    <div class="info-row">
-      <span class="info-label">القارة</span>
-      <span id="m-continent" class="info-value"></span>
-    </div>
-    <div class="info-row" style="flex-direction:column;align-items:stretch;text-align:right">
-      <span class="info-label mb-2">💡 معلومة ممتعة</span>
-      <p id="m-fact" class="text-gray-800 leading-relaxed"></p>
-      <button class="speak-btn mt-3 self-end" onclick="speakText(document.getElementById('m-fact').textContent)"><i class="fa-solid fa-volume-high"></i></button>
-    </div>
-    <button class="close-btn" onclick="closeModal()">إغلاق</button>
-  </div>
-</div>
+<section class="stats-strip">
+  <div class="stat"><div class="num">22</div><div class="lbl">دولة عربية</div></div>
+  <div class="stat"><div class="num">13</div><div class="lbl">في آسيا</div></div>
+  <div class="stat"><div class="num">9</div><div class="lbl">في أفريقيا</div></div>
+  <div class="stat"><div class="num">+400M</div><div class="lbl">عدد السكان</div></div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 pb-16">
+  <div id="countries-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+</main>
 
 <div id="footer-root"></div>
 <script src="/js/layout.js"></script>
-
-<script>
-window.HARFI_LANG = 'ar';
-</script>
+<script>window.HARFI_LANG='ar';</script>
 <script src="/js/speech.js"></script>
 <script src="/js/countries.js"></script>
 </body>
