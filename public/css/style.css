@@ -1,0 +1,187 @@
+:root {
+  --primary: #FF6B6B;
+  --secondary: #4ECDC4;
+  --accent: #FFD93D;
+  --bg-light: #FFF8E1;
+  --bg-dark: #1A1A2E;
+  --text-dark: #2D3436;
+  --text-light: #FFFFFF;
+  --success: #96CEB4;
+  --card-bg: #FFFFFF;
+  --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--bg-light);
+  direction: rtl;
+  color: var(--text-dark);
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 20px 0;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #666;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tab:hover { background: rgba(255,107,107,0.1); }
+.tab.active { background: var(--primary); color: var(--text-light); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+.letter-big {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.letter-small { font-size: 20px; color: #666; margin-bottom: 8px; }
+.emoji { font-size: 32px; margin-bottom: 8px; }
+.letter-name { font-size: 16px; color: var(--text-dark); margin-bottom: 12px; font-weight: 700; }
+
+/* Speech buttons */
+.speech-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.speech-buttons button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+.speech-buttons button:hover { transform: scale(1.2); }
+.btn-slow { background: #FFEAA7; }
+.btn-normal { background: #74B9FF; }
+.btn-fast { background: #FF7675; }
+
+.btn-read {
+  width: 100%;
+  padding: 8px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+.btn-read:hover { background: #FF5252; }
+.btn-read:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.char {
+  transition: background-color 0.3s, color 0.3s;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.char.highlight {
+  background-color: var(--accent);
+  color: var(--text-dark);
+  font-weight: bold;
+}
+
+.letters-grid {
+  display: grid;
+  gap: 16px;
+  padding: 20px 0;
+}
+@media (max-width: 639px) { .letters-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 640px) and (max-width: 1023px) { .letters-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1024px) { .letters-grid { grid-template-columns: repeat(7, 1fr); } }
+
+/* Words / Sentences sections */
+.letter-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+}
+.letter-section h3 {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+}
+.words-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+.word-card {
+  background: var(--bg-light);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.word-emoji { font-size: 32px; margin-bottom: 4px; }
+.word-text { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+
+.sentence-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--bg-light);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.sentence-text { font-size: 18px; font-weight: 500; flex: 1; }
+.btn-inline {
+  padding: 6px 14px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+}
+.btn-inline:hover { background: #FF5252; }

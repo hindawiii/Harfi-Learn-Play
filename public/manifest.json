@@ -1,0 +1,17 @@
+{
+  "name": "حرفي - تعلم الحروف العربية",
+  "short_name": "حرفي",
+  "description": "تطبيق تفاعلي لتعلم الحروف العربية بالنطق الصوتي",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8E1",
+  "theme_color": "#FF6B6B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%23FF6B6B' width='192' height='192' rx='48'/%3E%3Ctext x='96' y='120' font-size='80' text-anchor='middle' fill='white'%3E📚%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

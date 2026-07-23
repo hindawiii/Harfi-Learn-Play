@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>حرفي - تعلم الحروف العربية</title>
+<meta name="description" content="حرفي: تطبيق تفاعلي لتعلم الحروف والكلمات والجمل العربية بالنطق الصوتي." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/style.css" />
+<style>
+  body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #FFF8E1 0%, #E8F4F8 100%); min-height: 100vh; }
+  .hero-title { font-size: 64px; font-weight: 900; color: #FF6B6B; }
+  @media (max-width: 640px) { .hero-title { font-size: 40px; } }
+  .feature-card { background: #fff; border-radius: 24px; padding: 32px 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all .3s ease; }
+  .feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+  .btn-primary { background: #FF6B6B; color: #fff; padding: 14px 36px; border-radius: 999px; font-weight: 700; font-size: 18px; transition: all .2s; display: inline-block; }
+  .btn-primary:hover { background: #FF5252; transform: scale(1.05); }
+  .step-num { width: 56px; height: 56px; border-radius: 50%; background: #FFD93D; color: #2D3436; font-weight: 900; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<nav class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow-sm">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+    <div class="text-2xl font-bold text-gray-800">📚 حرفي</div>
+    <a href="/arabic.html" class="btn-primary text-base py-2 px-5">ابدأ التعلم</a>
+  </div>
+</nav>
+
+<section class="max-w-4xl mx-auto text-center px-4 py-20">
+  <h1 class="hero-title mb-4">حرفي</h1>
+  <p class="text-2xl text-gray-700 mb-3 font-bold">عالمٌ من الحروف والقصص</p>
+  <p class="text-lg text-gray-600 mb-8">تعلم العربية بطريقةٍ تفاعلية وممتعة</p>
+  <a href="/arabic.html" class="btn-primary text-xl">🚀 ابدأ الرحلة</a>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold text-center mb-10 text-gray-800">ماذا ستتعلم؟</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="feature-card">
+      <div class="text-6xl mb-4">🔤</div>
+      <h3 class="text-xl font-bold mb-2 text-gray-800">الحروف</h3>
+      <p class="text-gray-600">28 حرفاً عربياً</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-6xl mb-4">🎙️</div>
+      <h3 class="text-xl font-bold mb-2 text-gray-800">النطق</h3>
+      <p class="text-gray-600">صوتي ذكي بطيء وسريع</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-6xl mb-4">🎨</div>
+      <h3 class="text-xl font-bold mb-2 text-gray-800">التفاعل</h3>
+      <p class="text-gray-600">العب وتعلم بطريقة ممتعة</p>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-5xl mx-auto px-4 py-16">
+  <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">كيف يعمل؟</h2>
+  <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="text-center flex-1">
+      <div class="step-num mb-3">1</div>
+      <p class="text-lg font-bold text-gray-800">اختر حرفاً</p>
+    </div>
+    <div class="hidden md:block flex-1 h-1 bg-yellow-300 rounded"></div>
+    <div class="text-center flex-1">
+      <div class="step-num mb-3">2</div>
+      <p class="text-lg font-bold text-gray-800">استمع وكرّر</p>
+    </div>
+    <div class="hidden md:block flex-1 h-1 bg-yellow-300 rounded"></div>
+    <div class="text-center flex-1">
+      <div class="step-num mb-3">3</div>
+      <p class="text-lg font-bold text-gray-800">العب وتعلم</p>
+    </div>
+  </div>
+</section>
+
+<footer class="text-center py-8 text-gray-600 border-t border-gray-200 mt-12">
+  <p>© 2026 حرفي - تعلم بمتعة</p>
+  <div class="mt-2 space-x-4 space-x-reverse">
+    <a href="#" class="hover:text-gray-800">من نحن</a>
+    <span>|</span>
+    <a href="#" class="hover:text-gray-800">تواصل معنا</a>
+  </div>
+</footer>
+
+</body>
+</html>

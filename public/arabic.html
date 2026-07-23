@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>تعلم العربية - حرفي</title>
+<meta name="description" content="تعلم الحروف والكلمات والجمل العربية بالنطق الصوتي التفاعلي." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<nav class="sticky top-0 z-50 bg-white shadow-sm">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+    <a href="/" class="flex items-center gap-2 text-gray-700 hover:text-red-500 font-bold">
+      <i class="fa-solid fa-arrow-right"></i>
+      <span>الرئيسية</span>
+    </a>
+    <h1 class="text-xl md:text-2xl font-bold text-gray-800">تعلم العربية</h1>
+    <div id="score" class="text-sm md:text-base font-bold text-gray-700">🎯 نقاطك: 0</div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" data-target="tab-letters">الحروف</button>
+    <button class="tab" data-target="tab-words">الكلمات</button>
+    <button class="tab" data-target="tab-sentences">الجمل</button>
+  </div>
+
+  <div id="tab-letters" class="tab-content active">
+    <div id="letters-grid" class="letters-grid"></div>
+  </div>
+
+  <div id="tab-words" class="tab-content">
+    <div id="words-container"></div>
+  </div>
+
+  <div id="tab-sentences" class="tab-content">
+    <div id="sentences-container"></div>
+  </div>
+</div>
+
+<script src="/js/speech.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
