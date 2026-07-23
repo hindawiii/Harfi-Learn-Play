@@ -94,6 +94,103 @@ const sentencesByLetter = {
   "ي": [{text:"اليَدُ تَعْمَلُ."},{text:"اليَقْطِينُ بُرْتُقَالِيٌّ."},{text:"اليَمَامَةُ رَمْزُ السَّلَامِ."}]
 };
 
+/* ================= English Data ================= */
+const englishLetters = [
+  { letter: "A", small: "a", name: "A", emoji: "🍎", sound: "A" },
+  { letter: "B", small: "b", name: "B", emoji: "🐝", sound: "B" },
+  { letter: "C", small: "c", name: "C", emoji: "🐈", sound: "C" },
+  { letter: "D", small: "d", name: "D", emoji: "🐕", sound: "D" },
+  { letter: "E", small: "e", name: "E", emoji: "🥚", sound: "E" },
+  { letter: "F", small: "f", name: "F", emoji: "🐟", sound: "F" },
+  { letter: "G", small: "g", name: "G", emoji: "🍇", sound: "G" },
+  { letter: "H", small: "h", name: "H", emoji: "🏠", sound: "H" },
+  { letter: "I", small: "i", name: "I", emoji: "🍦", sound: "I" },
+  { letter: "J", small: "j", name: "J", emoji: "🧃", sound: "J" },
+  { letter: "K", small: "k", name: "K", emoji: "🪁", sound: "K" },
+  { letter: "L", small: "l", name: "L", emoji: "🦁", sound: "L" },
+  { letter: "M", small: "m", name: "M", emoji: "🌙", sound: "M" },
+  { letter: "N", small: "n", name: "N", emoji: "👃", sound: "N" },
+  { letter: "O", small: "o", name: "O", emoji: "🍊", sound: "O" },
+  { letter: "P", small: "p", name: "P", emoji: "🐧", sound: "P" },
+  { letter: "Q", small: "q", name: "Q", emoji: "👑", sound: "Q" },
+  { letter: "R", small: "r", name: "R", emoji: "🌈", sound: "R" },
+  { letter: "S", small: "s", name: "S", emoji: "☀️", sound: "S" },
+  { letter: "T", small: "t", name: "T", emoji: "🌳", sound: "T" },
+  { letter: "U", small: "u", name: "U", emoji: "☂️", sound: "U" },
+  { letter: "V", small: "v", name: "V", emoji: "🎻", sound: "V" },
+  { letter: "W", small: "w", name: "W", emoji: "🍉", sound: "W" },
+  { letter: "X", small: "x", name: "X", emoji: "🎷", sound: "X" },
+  { letter: "Y", small: "y", name: "Y", emoji: "💛", sound: "Y" },
+  { letter: "Z", small: "z", name: "Z", emoji: "🦓", sound: "Z" }
+];
+
+const wordsByLetter_en = {
+  "A": [{text:"Apple",emoji:"🍎"},{text:"Ant",emoji:"🐜"},{text:"Airplane",emoji:"✈️"}],
+  "B": [{text:"Ball",emoji:"⚽"},{text:"Bear",emoji:"🐻"},{text:"Banana",emoji:"🍌"}],
+  "C": [{text:"Cat",emoji:"🐈"},{text:"Car",emoji:"🚗"},{text:"Cake",emoji:"🍰"}],
+  "D": [{text:"Dog",emoji:"🐕"},{text:"Duck",emoji:"🦆"},{text:"Door",emoji:"🚪"}],
+  "E": [{text:"Egg",emoji:"🥚"},{text:"Elephant",emoji:"🐘"},{text:"Eye",emoji:"👁️"}],
+  "F": [{text:"Fish",emoji:"🐟"},{text:"Frog",emoji:"🐸"},{text:"Flower",emoji:"🌸"}],
+  "G": [{text:"Goat",emoji:"🐐"},{text:"Grapes",emoji:"🍇"},{text:"Gift",emoji:"🎁"}],
+  "H": [{text:"House",emoji:"🏠"},{text:"Hat",emoji:"🎩"},{text:"Horse",emoji:"🐎"}],
+  "I": [{text:"Ice",emoji:"🧊"},{text:"Igloo",emoji:"🏔️"},{text:"Ink",emoji:"🖋️"}],
+  "J": [{text:"Juice",emoji:"🧃"},{text:"Jam",emoji:"🍓"},{text:"Jet",emoji:"✈️"}],
+  "K": [{text:"Kite",emoji:"🪁"},{text:"Key",emoji:"🔑"},{text:"King",emoji:"🤴"}],
+  "L": [{text:"Lion",emoji:"🦁"},{text:"Leaf",emoji:"🍃"},{text:"Lamp",emoji:"💡"}],
+  "M": [{text:"Moon",emoji:"🌙"},{text:"Milk",emoji:"🥛"},{text:"Mouse",emoji:"🐭"}],
+  "N": [{text:"Nose",emoji:"👃"},{text:"Nest",emoji:"🪺"},{text:"Nut",emoji:"🌰"}],
+  "O": [{text:"Orange",emoji:"🍊"},{text:"Owl",emoji:"🦉"},{text:"Ocean",emoji:"🌊"}],
+  "P": [{text:"Pig",emoji:"🐖"},{text:"Pen",emoji:"🖊️"},{text:"Pizza",emoji:"🍕"}],
+  "Q": [{text:"Queen",emoji:"👸"},{text:"Quilt",emoji:"🛏️"},{text:"Quiet",emoji:"🤫"}],
+  "R": [{text:"Rain",emoji:"🌧️"},{text:"Rabbit",emoji:"🐰"},{text:"Rose",emoji:"🌹"}],
+  "S": [{text:"Sun",emoji:"☀️"},{text:"Snake",emoji:"🐍"},{text:"Star",emoji:"⭐"}],
+  "T": [{text:"Tree",emoji:"🌳"},{text:"Tiger",emoji:"🐅"},{text:"Train",emoji:"🚆"}],
+  "U": [{text:"Umbrella",emoji:"☂️"},{text:"Uncle",emoji:"👨"},{text:"Up",emoji:"⬆️"}],
+  "V": [{text:"Van",emoji:"🚐"},{text:"Violin",emoji:"🎻"},{text:"Vase",emoji:"🏺"}],
+  "W": [{text:"Water",emoji:"💧"},{text:"Whale",emoji:"🐋"},{text:"Wolf",emoji:"🐺"}],
+  "X": [{text:"Xylophone",emoji:"🎶"},{text:"X-ray",emoji:"🩻"},{text:"Box",emoji:"📦"}],
+  "Y": [{text:"Yellow",emoji:"💛"},{text:"Yo-yo",emoji:"🪀"},{text:"Yogurt",emoji:"🥣"}],
+  "Z": [{text:"Zebra",emoji:"🦓"},{text:"Zoo",emoji:"🦁"},{text:"Zero",emoji:"0️⃣"}]
+};
+
+const sentencesByLetter_en = {
+  "A": [{text:"An apple a day keeps the doctor away."},{text:"Ants are very small."}],
+  "B": [{text:"The ball is round and red."},{text:"Bears love honey."}],
+  "C": [{text:"The cat drinks milk."},{text:"Cars go fast."}],
+  "D": [{text:"The dog is very friendly."},{text:"Ducks swim in the pond."}],
+  "E": [{text:"I eat one egg for breakfast."},{text:"Elephants are huge."}],
+  "F": [{text:"Fish live in the water."},{text:"Flowers smell nice."}],
+  "G": [{text:"Grapes are sweet."},{text:"I got a nice gift."}],
+  "H": [{text:"My house is big."},{text:"Horses run fast."}],
+  "I": [{text:"I like ice cream."},{text:"An igloo is made of ice."}],
+  "J": [{text:"I drink orange juice."},{text:"The jet flies high."}],
+  "K": [{text:"The kite flies in the sky."},{text:"The king wears a crown."}],
+  "L": [{text:"The lion is the king of the jungle."},{text:"Leaves are green."}],
+  "M": [{text:"The moon shines at night."},{text:"I drink milk every day."}],
+  "N": [{text:"The bird built a nest."},{text:"My nose is small."}],
+  "O": [{text:"Oranges are juicy."},{text:"The owl hoots at night."}],
+  "P": [{text:"Pizza is delicious."},{text:"The pig is pink."}],
+  "Q": [{text:"The queen is kind."},{text:"Please be quiet."}],
+  "R": [{text:"The rabbit hops fast."},{text:"Rain makes plants grow."}],
+  "S": [{text:"The sun is bright."},{text:"Stars twinkle at night."}],
+  "T": [{text:"The tree is tall."},{text:"Tigers have stripes."}],
+  "U": [{text:"I use an umbrella when it rains."},{text:"My uncle is funny."}],
+  "V": [{text:"She plays the violin."},{text:"The vase has flowers."}],
+  "W": [{text:"Water is life."},{text:"Whales live in the ocean."}],
+  "X": [{text:"He plays the xylophone."},{text:"The doctor took an x-ray."}],
+  "Y": [{text:"Yellow is a bright color."},{text:"I eat yogurt for breakfast."}],
+  "Z": [{text:"Zebras have black and white stripes."},{text:"We visited the zoo."}]
+};
+
+/* ================= App ================= */
+const LANG = (typeof window !== 'undefined' && window.HARFI_LANG === 'en') ? 'en' : 'ar';
+const DATA = LANG === 'en'
+  ? { letters: englishLetters, words: wordsByLetter_en, sentences: sentencesByLetter_en }
+  : { letters: arabicLetters, words: wordsByLetter, sentences: sentencesByLetter };
+const T = LANG === 'en'
+  ? { scorePrefix: '🎯 Score:', readBtn: '📖 Read with me', playBtn: '🔊 Play', wordsOf: (L,N)=>`Words with ${L}`, sentencesOf: (L,N)=>`Sentences with ${L}` }
+  : { scorePrefix: '🎯 نقاطك:', readBtn: '📖 اقرأ معي', playBtn: '🔊 اقرأ', wordsOf: (L,N)=>`كلمات بحرف ${L} (${N})`, sentencesOf: (L,N)=>`جمل بحرف ${L} (${N})` };
+
 const App = {
   progress: null,
 
@@ -110,9 +207,11 @@ const App = {
     const saved = localStorage.getItem('harfi_progress');
     this.progress = saved ? JSON.parse(saved) : {
       arabic: { letters: [], words: [], sentences: [] },
+      english: { letters: [], words: [], sentences: [] },
       score: 0,
       badges: []
     };
+    if (!this.progress.english) this.progress.english = { letters: [], words: [], sentences: [] };
   },
 
   saveProgress() {
@@ -136,18 +235,18 @@ const App = {
   renderLetters() {
     const grid = document.getElementById('letters-grid');
     if (!grid) return;
-    grid.innerHTML = arabicLetters.map(item => `
+    grid.innerHTML = DATA.letters.map(item => `
       <div class="card">
         <div class="letter-big">${item.letter}</div>
         <div class="letter-small">${item.small}</div>
         <div class="emoji">${item.emoji}</div>
         <div class="letter-name">${item.name}</div>
         <div class="speech-buttons">
-          <button class="btn-slow" onclick="App.playAndScore('${item.sound}', 0.5)" title="بطيء">🐢</button>
-          <button class="btn-normal" onclick="App.playAndScore('${item.sound}', 1.0)" title="عادي">🚶</button>
-          <button class="btn-fast" onclick="App.playAndScore('${item.sound}', 1.5)" title="سريع">🚀</button>
+          <button class="btn-slow" onclick="App.playAndScore('${item.sound}', 0.5)" title="slow">🐢</button>
+          <button class="btn-normal" onclick="App.playAndScore('${item.sound}', 1.0)" title="normal">🚶</button>
+          <button class="btn-fast" onclick="App.playAndScore('${item.sound}', 1.5)" title="fast">🚀</button>
         </div>
-        <button class="btn-read" onclick="readWithHighlight('${item.letter}', this)">📖 اقرأ معي</button>
+        <button class="btn-read" onclick="readWithHighlight('${item.letter}', this)">${T.readBtn}</button>
       </div>
     `).join('');
   },
@@ -155,12 +254,12 @@ const App = {
   renderWords() {
     const container = document.getElementById('words-container');
     if (!container) return;
-    container.innerHTML = arabicLetters.map(letter => {
-      const words = wordsByLetter[letter.letter] || [];
+    container.innerHTML = DATA.letters.map(letter => {
+      const words = DATA.words[letter.letter] || [];
       if (!words.length) return '';
       return `
         <div class="letter-section">
-          <h3>كلمات بحرف ${letter.letter} (${letter.name})</h3>
+          <h3>${T.wordsOf(letter.letter, letter.name)}</h3>
           <div class="words-grid">
             ${words.map(word => `
               <div class="word-card">
@@ -171,7 +270,7 @@ const App = {
                   <button class="btn-normal" onclick="App.playAndScore(\`${word.text}\`, 1.0)">🚶</button>
                   <button class="btn-fast" onclick="App.playAndScore(\`${word.text}\`, 1.5)">🚀</button>
                 </div>
-                <button class="btn-read" onclick="readWithHighlight(\`${word.text}\`, this)">📖 اقرأ معي</button>
+                <button class="btn-read" onclick="readWithHighlight(\`${word.text}\`, this)">${T.readBtn}</button>
               </div>
             `).join('')}
           </div>
@@ -183,16 +282,16 @@ const App = {
   renderSentences() {
     const container = document.getElementById('sentences-container');
     if (!container) return;
-    container.innerHTML = arabicLetters.map(letter => {
-      const sentences = sentencesByLetter[letter.letter] || [];
+    container.innerHTML = DATA.letters.map(letter => {
+      const sentences = DATA.sentences[letter.letter] || [];
       if (!sentences.length) return '';
       return `
         <div class="letter-section">
-          <h3>جمل بحرف ${letter.letter} (${letter.name})</h3>
+          <h3>${T.sentencesOf(letter.letter, letter.name)}</h3>
           ${sentences.map(s => `
             <div class="sentence-row">
               <span class="sentence-text">${s.text}</span>
-              <button class="btn-inline" onclick="App.playAndScore(\`${s.text}\`, 0.9)">🔊 اقرأ</button>
+              <button class="btn-inline" onclick="App.playAndScore(\`${s.text}\`, 0.9)">${T.playBtn}</button>
             </div>
           `).join('')}
         </div>
@@ -207,7 +306,7 @@ const App = {
 
   updateScore() {
     const el = document.getElementById('score');
-    if (el) el.textContent = `🎯 نقاطك: ${this.progress.score}`;
+    if (el) el.textContent = `${T.scorePrefix} ${this.progress.score}`;
   },
 
   addScore(points) {
@@ -218,3 +317,4 @@ const App = {
 };
 
 document.addEventListener('DOMContentLoaded', () => { App.init(); });
+
