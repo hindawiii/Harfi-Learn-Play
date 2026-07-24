@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>لوّن معنا - حرفي</title>
+<meta name="description" content="صفحات تلوين تفاعلية بسيطة للأطفال داخل المتصفح." />
+<meta property="og:title" content="لوّن معنا - حرفي" />
+<meta property="og:description" content="اختر لوناً ولوّن الأشكال الجميلة على الشاشة." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/favicon.ico" />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/style.css" />
+<style>
+  body{font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#FFF3E0 0%,#E1F5FE 100%);min-height:100vh}
+  .swatch{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:.2s}
+  .swatch.active{transform:scale(1.15);box-shadow:0 0 0 3px #333}
+  .scene svg path, .scene svg circle, .scene svg rect, .scene svg polygon, .scene svg ellipse{
+    cursor:pointer; transition:fill .2s; stroke:#333; stroke-width:3;
+  }
+  .scene svg path:hover, .scene svg circle:hover, .scene svg rect:hover, .scene svg polygon:hover, .scene svg ellipse:hover{
+    opacity:.85;
+  }
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+
+<section class="max-w-4xl mx-auto px-4 pt-8 text-center">
+  <div class="text-6xl mb-2">🎨</div>
+  <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لوّن معنا</h1>
+  <p class="text-gray-600 mb-4">اختر لوناً واضغط على أي شكل لتلوينه ✨</p>
+</section>
+
+<main class="max-w-4xl mx-auto px-4 pb-12">
+  <div class="bg-white rounded-3xl shadow-xl p-6">
+    <!-- Color palette -->
+    <div id="palette" class="flex flex-wrap justify-center gap-3 mb-6"></div>
+
+    <!-- Scene switcher -->
+    <div class="flex flex-wrap justify-center gap-2 mb-4">
+      <button data-scene="0" class="scene-btn bg-[#FF6B6B] text-white px-4 py-2 rounded-full font-bold text-sm">🏠 المنزل</button>
+      <button data-scene="1" class="scene-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-bold text-sm">🌸 الزهرة</button>
+      <button data-scene="2" class="scene-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-bold text-sm">🐟 السمكة</button>
+    </div>
+
+    <!-- Canvas -->
+    <div class="scene bg-gray-50 rounded-2xl p-4 flex justify-center overflow-auto">
+      <div id="scene-holder"></div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button onclick="clearScene()" class="bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-full font-bold">🗑 مسح الألوان</button>
+    </div>
+  </div>
+</main>
+
+<div id="footer-root"></div>
+<script src="/js/layout.js"></script>
+<script>
+const COLORS = ['#FF6B6B','#FFD93D','#4ECDC4','#6BCB77','#A66CFF','#FF9F45','#FF6BAA','#38B6FF','#8B4513','#2D3436','#ffffff'];
+let currentColor = COLORS[0];
+
+const SCENES = [
+  // House
+  `<svg viewBox="0 0 400 300" width="100%" style="max-width:500px" xmlns="http://www.w3.org/2000/svg">
+    <rect x="80" y="140" width="240" height="140" fill="#fff"/>
+    <polygon points="60,140 200,40 340,140" fill="#fff"/>
+    <rect x="170" y="190" width="60" height="90" fill="#fff"/>
+    <rect x="110" y="170" width="40" height="40" fill="#fff"/>
+    <rect x="250" y="170" width="40" height="40" fill="#fff"/>
+    <circle cx="340" cy="70" r="25" fill="#fff"/>
+    <path d="M20 280 Q 200 260 380 280 L 380 300 L 20 300 Z" fill="#fff"/>
+  </svg>`,
+  // Flower
+  `<svg viewBox="0 0 400 400" width="100%" style="max-width:500px" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="150" r="35" fill="#fff"/>
+    <ellipse cx="200" cy="90" rx="30" ry="45" fill="#fff"/>
+    <ellipse cx="200" cy="210" rx="30" ry="45" fill="#fff"/>
+    <ellipse cx="140" cy="150" rx="45" ry="30" fill="#fff"/>
+    <ellipse cx="260" cy="150" rx="45" ry="30" fill="#fff"/>
+    <rect x="192" y="180" width="16" height="180" fill="#fff"/>
+    <ellipse cx="160" cy="260" rx="35" ry="15" fill="#fff" transform="rotate(-30 160 260)"/>
+    <ellipse cx="240" cy="300" rx="35" ry="15" fill="#fff" transform="rotate(30 240 300)"/>
+  </svg>`,
+  // Fish
+  `<svg viewBox="0 0 400 300" width="100%" style="max-width:500px" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="180" cy="150" rx="110" ry="65" fill="#fff"/>
+    <polygon points="290,150 370,90 370,210" fill="#fff"/>
+    <circle cx="130" cy="130" r="12" fill="#fff"/>
+    <path d="M120 170 Q 150 190 190 170" fill="#fff"/>
+    <circle cx="230" cy="110" r="15" fill="#fff"/>
+    <circle cx="240" cy="170" r="12" fill="#fff"/>
+    <circle cx="200" cy="200" r="10" fill="#fff"/>
+    <path d="M20 250 Q 100 240 180 250 T 380 250" fill="none" stroke="#38B6FF" stroke-width="4"/>
+  </svg>`,
+];
+
+function renderPalette(){
+  document.getElementById('palette').innerHTML = COLORS.map((c,i)=>`
+    <button class="swatch ${i===0?'active':''}" data-color="${c}" style="background:${c}"></button>
+  `).join('');
+  document.querySelectorAll('.swatch').forEach(b=>{
+    b.addEventListener('click',()=>{
+      currentColor = b.dataset.color;
+      document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+}
+
+function loadScene(i){
+  document.getElementById('scene-holder').innerHTML = SCENES[i];
+  document.querySelectorAll('.scene-btn').forEach((b,idx)=>{
+    b.className = 'scene-btn px-4 py-2 rounded-full font-bold text-sm ' +
+      (idx===i ? 'bg-[#FF6B6B] text-white' : 'bg-gray-200 text-gray-700');
+  });
+  document.querySelectorAll('#scene-holder svg *').forEach(el=>{
+    el.addEventListener('click',()=>{ el.setAttribute('fill', currentColor); });
+  });
+}
+
+function clearScene(){
+  document.querySelectorAll('#scene-holder svg *').forEach(el=>{
+    if (el.tagName !== 'path' || el.getAttribute('stroke') !== '#38B6FF') el.setAttribute('fill','#fff');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderPalette();
+  loadScene(0);
+  document.querySelectorAll('.scene-btn').forEach((b,i)=>{
+    b.addEventListener('click', ()=>loadScene(i));
+  });
+});
+</script>
+</body>
+</html>
