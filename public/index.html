@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>حرفي - تعلم الحروف العربية</title>
-<meta name="description" content="حرفي: تطبيق تفاعلي لتعلم الحروف والكلمات والجمل العربية بالنطق الصوتي." />
+<title>حرفي - تعلم العربية بطريقة تفاعلية وممتعة للأطفال</title>
+<meta name="description" content="حرفي: تطبيق تعليمي تفاعلي للأطفال لتعلم الحروف العربية والإنجليزية، اكتشاف الدول العربية، قصص، أغاني، تلوين وألعاب تعليمية." />
+<meta property="og:title" content="حرفي - عالمٌ من الحروف والقصص" />
+<meta property="og:description" content="تطبيق تعليمي تفاعلي للأطفال بالعربية والإنجليزية." />
+<meta property="og:type" content="website" />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" href="/favicon.ico" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,64 +18,148 @@
 <link rel="stylesheet" href="/css/style.css" />
 <style>
   body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #FFF8E1 0%, #E8F4F8 100%); min-height: 100vh; }
-  .hero-title { font-size: 64px; font-weight: 900; color: #FF6B6B; }
-  @media (max-width: 640px) { .hero-title { font-size: 40px; } }
-  .feature-card { background: #fff; border-radius: 24px; padding: 32px 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all .3s ease; }
-  .feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-  .btn-primary { background: #FF6B6B; color: #fff; padding: 14px 36px; border-radius: 999px; font-weight: 700; font-size: 18px; transition: all .2s; display: inline-block; }
-  .btn-primary:hover { background: #FF5252; transform: scale(1.05); }
-  .step-num { width: 56px; height: 56px; border-radius: 50%; background: #FFD93D; color: #2D3436; font-weight: 900; font-size: 24px; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; }
+  .hero-title { font-size: 72px; font-weight: 900; color: #FF6B6B; line-height: 1; letter-spacing: -2px; }
+  @media (max-width: 640px) { .hero-title { font-size: 48px; } }
+  .hero-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .35; z-index: 0; }
+  .blob-1 { width: 320px; height: 320px; background: #FFD93D; top: -80px; right: -80px; }
+  .blob-2 { width: 380px; height: 380px; background: #4ECDC4; bottom: -120px; left: -100px; }
+  .float { animation: float 4s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+
+  /* Buttons */
+  .btn-primary { background: #FF6B6B; color: #fff; padding: 16px 40px; border-radius: 999px; font-weight: 900; font-size: 20px; transition: all .2s; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(255,107,107,.35); }
+  .btn-primary:hover { background: #FF5252; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,107,107,.45); }
+  .btn-ghost { background: #fff; color: #2D3436; padding: 16px 32px; border-radius: 999px; font-weight: 700; font-size: 18px; border: 2px solid #E5E7EB; display: inline-flex; align-items: center; gap: 8px; transition: all .2s; }
+  .btn-ghost:hover { border-color: #FF6B6B; color: #FF6B6B; }
+
+  /* Feature cards */
+  .feat { background: #fff; border-radius: 24px; padding: 28px 22px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all .3s ease; text-decoration: none; color: inherit; display: block; border: 3px solid transparent; }
+  .feat:hover { transform: translateY(-6px); box-shadow: 0 16px 34px rgba(0,0,0,0.12); border-color: currentColor; }
+  .feat .ico { font-size: 56px; margin-bottom: 12px; display: block; }
+  .feat h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; color: #2D3436; }
+  .feat p { font-size: 14px; color: #6B7280; }
+  .feat .tag { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #F3F4F6; color: #374151; }
+
+  /* Stats */
+  .stat { text-align: center; }
+  .stat-num { font-size: 44px; font-weight: 900; color: #FF6B6B; line-height: 1; }
+  .stat-lbl { font-size: 14px; color: #6B7280; margin-top: 4px; font-weight: 700; }
+
+  /* Steps */
+  .step { background: #fff; border-radius: 20px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,.05); text-align: center; }
+  .step-num { width: 52px; height: 52px; border-radius: 50%; background: #FFD93D; color: #2D3436; font-weight: 900; font-size: 22px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+
+  /* Testimonials */
+  .quote { background: #fff; border-radius: 20px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,.05); }
+  .stars { color: #FFD93D; font-size: 16px; }
+
+  /* CTA banner */
+  .cta-banner { background: linear-gradient(135deg, #FF6B6B 0%, #FFB86B 100%); border-radius: 32px; padding: 48px 32px; text-align: center; color: #fff; box-shadow: 0 20px 40px rgba(255,107,107,.25); }
 </style>
 </head>
 <body>
 
 <div id="nav-root"></div>
 
-
-<section class="max-w-4xl mx-auto text-center px-4 py-20">
-  <h1 class="hero-title mb-4">حرفي</h1>
-  <p class="text-2xl text-gray-700 mb-3 font-bold">عالمٌ من الحروف والقصص</p>
-  <p class="text-lg text-gray-600 mb-8">تعلم العربية بطريقةٍ تفاعلية وممتعة</p>
-  <a href="/arabic.html" class="btn-primary text-xl">🚀 ابدأ الرحلة</a>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-12">
-  <h2 class="text-3xl font-bold text-center mb-10 text-gray-800">ماذا ستتعلم؟</h2>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="feature-card">
-      <div class="text-6xl mb-4">🔤</div>
-      <h3 class="text-xl font-bold mb-2 text-gray-800">الحروف</h3>
-      <p class="text-gray-600">28 حرفاً عربياً</p>
+<!-- HERO -->
+<section class="hero max-w-6xl mx-auto text-center px-4 pt-16 pb-12 relative">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="relative z-10">
+    <div class="text-6xl mb-4 float">📚</div>
+    <h1 class="hero-title mb-3">حرفي</h1>
+    <p class="text-2xl md:text-3xl text-gray-800 mb-3 font-bold">عالمٌ من الحروف والقصص</p>
+    <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">تطبيق تعليمي تفاعلي للأطفال لتعلم العربية والإنجليزية، اكتشاف الدول، قصص قبل النوم، أغاني، تلوين وألعاب — كل ذلك في مكانٍ واحد.</p>
+    <div class="flex flex-wrap justify-center gap-3 mb-6">
+      <a href="/arabic.html" class="btn-primary">🚀 ابدأ الرحلة</a>
+      <a href="/stories.html" class="btn-ghost">🌙 استمع لقصة</a>
     </div>
-    <div class="feature-card">
-      <div class="text-6xl mb-4">🎙️</div>
-      <h3 class="text-xl font-bold mb-2 text-gray-800">النطق</h3>
-      <p class="text-gray-600">صوتي ذكي بطيء وسريع</p>
-    </div>
-    <div class="feature-card">
-      <div class="text-6xl mb-4">🎨</div>
-      <h3 class="text-xl font-bold mb-2 text-gray-800">التفاعل</h3>
-      <p class="text-gray-600">العب وتعلم بطريقة ممتعة</p>
+    <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
+      <span>✅ مجاني بالكامل</span>
+      <span>✅ بدون إعلانات</span>
+      <span>✅ آمن للأطفال</span>
     </div>
   </div>
 </section>
 
+<!-- STATS -->
+<section class="max-w-5xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-3xl shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6 py-8 px-6">
+    <div class="stat"><div class="stat-num">28</div><div class="stat-lbl">حرفاً عربياً</div></div>
+    <div class="stat"><div class="stat-num">26</div><div class="stat-lbl">حرفاً إنجليزياً</div></div>
+    <div class="stat"><div class="stat-num">22</div><div class="stat-lbl">دولة عربية</div></div>
+    <div class="stat"><div class="stat-num">4+</div><div class="stat-lbl">قصص وأغاني</div></div>
+  </div>
+</section>
+
+<!-- FEATURES GRID -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  <div class="text-center mb-10">
+    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">اكتشف عالم حرفي</h2>
+    <p class="text-gray-600 text-lg">تسع تجارب تعليمية بين يديك</p>
+  </div>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <a href="/arabic.html" class="feat" style="color:#FF6B6B"><span class="ico">🔤</span><h3>الحروف العربية</h3><p>تعلم 28 حرفاً بالنطق والكلمات والجمل</p><span class="tag">مجاني</span></a>
+    <a href="/english.html" class="feat" style="color:#4ECDC4"><span class="ico">🔠</span><h3>English Letters</h3><p>Learn A-Z with words and sentences</p><span class="tag">Free</span></a>
+    <a href="/countries.html" class="feat" style="color:#6C5CE7"><span class="ico">🌍</span><h3>الدول العربية</h3><p>اكتشف 22 دولة بأعلامها وعواصمها</p><span class="tag">مجاني</span></a>
+    <a href="/stories.html" class="feat" style="color:#FDA7DF"><span class="ico">🌙</span><h3>قصص قبل النوم</h3><p>قصص تفاعلية بقارئ صوتي</p><span class="tag">مجاني</span></a>
+    <a href="/songs.html" class="feat" style="color:#FFB86B"><span class="ico">🎵</span><h3>أغاني الحروف</h3><p>نشيد قصير لكل حرف</p><span class="tag">مجاني</span></a>
+    <a href="/coloring.html" class="feat" style="color:#26D0CE"><span class="ico">🎨</span><h3>التلوين</h3><p>مشاهد تفاعلية للتلوين الحر</p><span class="tag">مجاني</span></a>
+    <a href="/play.html" class="feat" style="color:#F368E0"><span class="ico">🎮</span><h3>العب وتعلم</h3><p>لعبة اختيار الحرف الأول للكلمة</p><span class="tag">مجاني</span></a>
+    <a href="/parent-report.html" class="feat" style="color:#5F9EA0"><span class="ico">👨‍👩‍👧</span><h3>تقرير الأهل</h3><p>تابع تقدّم طفلك بسهولة</p><span class="tag">مجاني</span></a>
+    <a href="/pro.html" class="feat" style="color:#FFD93D"><span class="ico">💎</span><h3>حرفي Pro</h3><p>ميزات إضافية للعائلات</p><span class="tag">قريباً</span></a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
 <section class="max-w-5xl mx-auto px-4 py-16">
-  <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">كيف يعمل؟</h2>
-  <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-    <div class="text-center flex-1">
-      <div class="step-num mb-3">1</div>
-      <p class="text-lg font-bold text-gray-800">اختر حرفاً</p>
-    </div>
-    <div class="hidden md:block flex-1 h-1 bg-yellow-300 rounded"></div>
-    <div class="text-center flex-1">
-      <div class="step-num mb-3">2</div>
-      <p class="text-lg font-bold text-gray-800">استمع وكرّر</p>
-    </div>
-    <div class="hidden md:block flex-1 h-1 bg-yellow-300 rounded"></div>
-    <div class="text-center flex-1">
-      <div class="step-num mb-3">3</div>
-      <p class="text-lg font-bold text-gray-800">العب وتعلم</p>
+  <div class="text-center mb-10">
+    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">كيف يعمل؟</h2>
+    <p class="text-gray-600 text-lg">ثلاث خطوات بسيطة</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="step"><div class="step-num">1</div><h3 class="text-lg font-black text-gray-800 mb-1">اختر النشاط</h3><p class="text-gray-600 text-sm">حروف، قصة، لعبة أو تلوين</p></div>
+    <div class="step"><div class="step-num">2</div><h3 class="text-lg font-black text-gray-800 mb-1">استمع وكرّر</h3><p class="text-gray-600 text-sm">نطق صوتي واضح بالعربية والإنجليزية</p></div>
+    <div class="step"><div class="step-num">3</div><h3 class="text-lg font-black text-gray-800 mb-1">العب واكتسب النقاط</h3><p class="text-gray-600 text-sm">تقدّم محفوظ تلقائياً</p></div>
+  </div>
+</section>
+
+<!-- WHY HARFI -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  <div class="text-center mb-10">
+    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لماذا حرفي؟</h2>
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🎙️</div><h3 class="font-black text-gray-800 mb-1">نطق ذكي</h3><p class="text-sm text-gray-600">صوت بطيء وسريع لكل عمر</p></div>
+    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🛡️</div><h3 class="font-black text-gray-800 mb-1">آمن 100%</h3><p class="text-sm text-gray-600">بدون إعلانات ولا تتبّع</p></div>
+    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">📱</div><h3 class="font-black text-gray-800 mb-1">يعمل بلا نت</h3><p class="text-sm text-gray-600">تطبيق ويب قابل للتثبيت</p></div>
+    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">💛</div><h3 class="font-black text-gray-800 mb-1">صُنع بحب</h3><p class="text-sm text-gray-600">مصمّم للأطفال العرب</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  <div class="text-center mb-10">
+    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">ماذا يقول الأهل؟</h2>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع."</p><div class="text-sm font-bold text-gray-800">— أم سارة</div></div>
+    <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة."</p><div class="text-sm font-bold text-gray-800">— أبو محمد</div></div>
+    <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة."</p><div class="text-sm font-bold text-gray-800">— أم يوسف</div></div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="max-w-5xl mx-auto px-4 py-12">
+  <div class="cta-banner">
+    <h2 class="text-3xl md:text-4xl font-black mb-3">جاهز لتبدأ الرحلة؟ 🚀</h2>
+    <p class="text-lg opacity-95 mb-6">انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/arabic.html" class="bg-white text-[#FF6B6B] font-black px-8 py-4 rounded-full text-lg hover:scale-105 transition">ابدأ بالعربية</a>
+      <a href="/english.html" class="bg-white/20 border-2 border-white text-white font-black px-8 py-4 rounded-full text-lg hover:bg-white/30 transition">Start in English</a>
     </div>
   </div>
 </section>
