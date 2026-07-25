@@ -4,27 +4,179 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>تقرير الأهل - حرفي</title>
-<meta name="description" content="تابع تقدم طفلك في تعلم الحروف والكلمات." />
+<meta name="description" content="تابع تقدم طفلك: الحروف المتعلّمة، الوقت، النقاط، ونقاط القوة." />
 <link rel="manifest" href="/manifest.json" />
 <link rel="icon" href="/favicon.ico" />
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="/css/style.css" />
-<style>body{font-family:'Tajawal',sans-serif;background:#F8F9FA;min-height:100vh}</style>
+<style>
+  body{font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#FFF9F0 0%,#F0F9FF 100%);min-height:100vh}
+  .stat-card{transition:transform .2s}
+  .stat-card:hover{transform:translateY(-4px)}
+  .bar{height:10px;border-radius:999px;background:#E5E7EB;overflow:hidden}
+  .bar>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#4ECDC4,#FF6B6B)}
+  .letter-chip{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;font-weight:900;font-size:20px;margin:3px}
+  .learned{background:#4ECDC4;color:#fff}
+  .not-yet{background:#F3F4F6;color:#9CA3AF}
+</style>
 </head>
 <body>
 <div id="nav-root"></div>
-<section class="max-w-4xl mx-auto px-4 py-20 text-center">
-  <div class="text-8xl mb-6">👨‍👩‍👧</div>
-  <h1 class="text-4xl md:text-5xl font-black text-gray-800 mb-4">تقرير تقدم طفلك</h1>
-  <p class="text-xl text-gray-600 mb-8">تابع الحروف المكتملة، نقاط القوة، وما يحتاج دعماً</p>
-  <div class="inline-block bg-white rounded-3xl px-8 py-6 shadow-lg">
-    <div class="text-2xl font-bold text-[#4ECDC4] mb-2">🚧 قريباً</div>
-    <p class="text-gray-600">تقارير أسبوعية تفصيلية + تصدير PDF</p>
+
+<section class="max-w-5xl mx-auto px-4 py-10">
+  <div class="text-center mb-8">
+    <div class="text-6xl mb-3">👨‍👩‍👧</div>
+    <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">تقرير تقدّم طفلك</h1>
+    <p class="text-gray-600">نظرة كاملة على رحلة التعلم</p>
+    <div class="mt-3">
+      <label class="text-sm text-gray-600">اسم الطفل:</label>
+      <input id="kidName" class="mx-2 px-3 py-1 rounded-lg border border-gray-300 text-sm" placeholder="اكتب الاسم" />
+    </div>
+  </div>
+
+  <!-- إحصائيات رئيسية -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="stat-card bg-white rounded-2xl p-5 shadow text-center">
+      <div class="text-3xl mb-1">🔤</div>
+      <div id="statArabic" class="text-3xl font-black text-[#FF6B6B]">0</div>
+      <div class="text-xs text-gray-600 mt-1">حرف عربي</div>
+    </div>
+    <div class="stat-card bg-white rounded-2xl p-5 shadow text-center">
+      <div class="text-3xl mb-1">🔠</div>
+      <div id="statEnglish" class="text-3xl font-black text-[#4ECDC4]">0</div>
+      <div class="text-xs text-gray-600 mt-1">حرف إنجليزي</div>
+    </div>
+    <div class="stat-card bg-white rounded-2xl p-5 shadow text-center">
+      <div class="text-3xl mb-1">🏆</div>
+      <div id="statScore" class="text-3xl font-black text-[#FFD93D]">0</div>
+      <div class="text-xs text-gray-600 mt-1">نقاط اللعب</div>
+    </div>
+    <div class="stat-card bg-white rounded-2xl p-5 shadow text-center">
+      <div class="text-3xl mb-1">🔥</div>
+      <div id="statStreak" class="text-3xl font-black text-[#FF6B6B]">0</div>
+      <div class="text-xs text-gray-600 mt-1">أفضل سلسلة</div>
+    </div>
+  </div>
+
+  <!-- تقدم اللغات -->
+  <div class="grid md:grid-cols-2 gap-5 mb-8">
+    <div class="bg-white rounded-2xl p-6 shadow">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="font-black text-gray-800">🇸🇦 العربية</h3>
+        <span id="pctArabic" class="text-sm font-bold text-[#FF6B6B]">0%</span>
+      </div>
+      <div class="bar mb-4"><span id="barArabic" style="width:0%"></span></div>
+      <div id="arabicLetters" class="text-center leading-none"></div>
+    </div>
+    <div class="bg-white rounded-2xl p-6 shadow">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="font-black text-gray-800">🇬🇧 English</h3>
+        <span id="pctEnglish" class="text-sm font-bold text-[#4ECDC4]">0%</span>
+      </div>
+      <div class="bar mb-4"><span id="barEnglish" style="width:0%"></span></div>
+      <div id="englishLetters" class="text-center leading-none" dir="ltr"></div>
+    </div>
+  </div>
+
+  <!-- نقاط القوة والاحتياج -->
+  <div class="grid md:grid-cols-2 gap-5 mb-8">
+    <div class="bg-gradient-to-br from-[#4ECDC4]/10 to-[#4ECDC4]/5 rounded-2xl p-6 border border-[#4ECDC4]/30">
+      <h3 class="font-black text-gray-800 mb-3">💪 نقاط القوة</h3>
+      <ul id="strengths" class="space-y-2 text-sm text-gray-700"></ul>
+    </div>
+    <div class="bg-gradient-to-br from-[#FF6B6B]/10 to-[#FF6B6B]/5 rounded-2xl p-6 border border-[#FF6B6B]/30">
+      <h3 class="font-black text-gray-800 mb-3">🎯 يحتاج دعماً</h3>
+      <ul id="needs" class="space-y-2 text-sm text-gray-700"></ul>
+    </div>
+  </div>
+
+  <!-- نصائح -->
+  <div class="bg-white rounded-2xl p-6 shadow mb-8">
+    <h3 class="font-black text-gray-800 mb-3">💡 نصائح للأهل</h3>
+    <ul class="space-y-2 text-sm text-gray-700 list-disc pr-5">
+      <li>اجلس مع طفلك 10-15 دقيقة يومياً لتعلّم حرف جديد.</li>
+      <li>كرّر النطق البطيء ثم العادي، واطلب منه تكراره بصوته.</li>
+      <li>استخدم قصص المرحلة الليلية قبل النوم لتعزيز الاستماع.</li>
+      <li>احتفل بكل إنجاز صغير — شجّعه على الاستمرار!</li>
+    </ul>
+  </div>
+
+  <!-- أزرار -->
+  <div class="flex flex-wrap justify-center gap-3">
+    <button onclick="window.print()" class="bg-[#4ECDC4] text-white font-bold px-6 py-3 rounded-full hover:opacity-90">
+      🖨️ طباعة / حفظ PDF
+    </button>
+    <button id="resetBtn" class="bg-white border-2 border-[#FF6B6B] text-[#FF6B6B] font-bold px-6 py-3 rounded-full hover:bg-[#FF6B6B] hover:text-white transition">
+      🔄 إعادة تعيين التقدم
+    </button>
   </div>
 </section>
+
 <div id="footer-root"></div>
 <script src="/js/layout.js"></script>
+<script>
+(function(){
+  const AR = ['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
+  const EN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+  const learnedAr = JSON.parse(localStorage.getItem('harfi_learned_ar') || '[]');
+  const learnedEn = JSON.parse(localStorage.getItem('harfi_learned_en') || '[]');
+  const score = parseInt(localStorage.getItem('harfi_score') || '0', 10);
+  const bestStreak = parseInt(localStorage.getItem('harfi_best_streak') || '0', 10);
+  const kidName = localStorage.getItem('harfi_kid_name') || '';
+
+  document.getElementById('kidName').value = kidName;
+  document.getElementById('kidName').addEventListener('input', e => {
+    localStorage.setItem('harfi_kid_name', e.target.value);
+  });
+
+  const setNum = (id,v) => document.getElementById(id).textContent = v;
+  setNum('statArabic', learnedAr.length);
+  setNum('statEnglish', learnedEn.length);
+  setNum('statScore', score);
+  setNum('statStreak', bestStreak);
+
+  const pctA = Math.round(learnedAr.length / AR.length * 100);
+  const pctE = Math.round(learnedEn.length / EN.length * 100);
+  document.getElementById('pctArabic').textContent = pctA + '%';
+  document.getElementById('pctEnglish').textContent = pctE + '%';
+  document.getElementById('barArabic').style.width = pctA + '%';
+  document.getElementById('barEnglish').style.width = pctE + '%';
+
+  document.getElementById('arabicLetters').innerHTML = AR.map(l =>
+    `<span class="letter-chip ${learnedAr.includes(l)?'learned':'not-yet'}">${l}</span>`
+  ).join('');
+  document.getElementById('englishLetters').innerHTML = EN.map(l =>
+    `<span class="letter-chip ${learnedEn.includes(l)?'learned':'not-yet'}">${l}</span>`
+  ).join('');
+
+  // نقاط القوة والاحتياج
+  const strengths = [];
+  const needs = [];
+  if (learnedAr.length >= 10) strengths.push(`✅ تقدّم ممتاز في العربية (${learnedAr.length} حرف)`);
+  if (learnedEn.length >= 10) strengths.push(`✅ إتقان جيد للإنجليزية (${learnedEn.length} حرف)`);
+  if (score >= 50) strengths.push(`✅ لاعب نشيط — جمع ${score} نقطة`);
+  if (bestStreak >= 5) strengths.push(`✅ تركيز عالٍ — سلسلة ${bestStreak} إجابات صحيحة متتالية`);
+  if (strengths.length === 0) strengths.push('ابدأ الرحلة لتظهر إنجازات طفلك هنا 🌟');
+
+  if (learnedAr.length < 10) needs.push(`📚 أكمِل الحروف العربية (${AR.length - learnedAr.length} حرف متبقّي)`);
+  if (learnedEn.length < 10) needs.push(`📚 تدرّب أكثر على الإنجليزية (${EN.length - learnedEn.length} حرف متبقّي)`);
+  if (score < 20) needs.push('🎮 جرّب صفحة "العب" لتعزيز التمييز الصوتي');
+  if (bestStreak < 3) needs.push('🎯 ركّز أكثر أثناء اللعب — كل إجابة صحيحة تبني سلسلة');
+  if (needs.length === 0) needs.push('طفلك في مستوى ممتاز! استمر بالمراجعة 💚');
+
+  document.getElementById('strengths').innerHTML = strengths.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('needs').innerHTML = needs.map(s=>`<li>${s}</li>`).join('');
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (confirm('هل أنت متأكد من مسح كل التقدم؟')) {
+      ['harfi_learned_ar','harfi_learned_en','harfi_score','harfi_best_streak'].forEach(k=>localStorage.removeItem(k));
+      location.reload();
+    }
+  });
+})();
+</script>
 </body>
 </html>
