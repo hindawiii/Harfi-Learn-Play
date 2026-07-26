@@ -58,6 +58,40 @@
 
   /* CTA banner */
   .cta-banner { background: linear-gradient(135deg, #FF6B6B 0%, #FFB86B 100%); border-radius: 32px; padding: 48px 32px; text-align: center; color: #fff; box-shadow: 0 20px 40px rgba(255,107,107,.25); }
+
+  /* Tighter sections */
+  section.tight { padding-top: 40px; padding-bottom: 40px; }
+  .bg-fade-1 { background: linear-gradient(to bottom, #FFF8E1, #FFFFFF); }
+  .bg-fade-3 { background: linear-gradient(to bottom, #FFFFFF, #E8F4F8); }
+  .bg-fade-4 { background: #E8F4F8; }
+  .bg-fade-5 { background: linear-gradient(to bottom, #E8F4F8, #FFF8E1); }
+
+  /* Carousel */
+  .carousel-wrap { position: relative; max-width: 1100px; margin: 0 auto; padding: 20px 0; }
+  .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 30px 40px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .c-card { flex: 0 0 260px; background: #fff; border-radius: 24px; padding: 28px 22px; text-align: center; scroll-snap-align: center; transition: all .4s ease; opacity: .55; transform: scale(.9); text-decoration: none; color: inherit; box-shadow: 0 4px 14px rgba(0,0,0,.05); display: flex; flex-direction: column; align-items: center; }
+  .c-card.active { flex: 0 0 300px; opacity: 1; transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,.15); border: 3px solid #FF6B6B; }
+  .c-card .ico { font-size: 60px; margin-bottom: 12px; }
+  .c-card h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; color: #2D3436; }
+  .c-card p { font-size: 14px; color: #6B7280; margin-bottom: 10px; min-height: 42px; }
+  .badge-free { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #E8F8F0; color: #0B7A3B; }
+  .badge-pro { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #FFF4CC; color: #8A6D00; }
+  .btn-card { margin-top: 10px; background: #FF6B6B; color: #fff; padding: 10px 24px; border-radius: 999px; font-weight: 800; font-size: 14px; }
+  .btn-card:hover { background: #FF5252; }
+  .c-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 2px solid #FF6B6B; color: #FF6B6B; font-size: 26px; font-weight: 900; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+  .c-nav:hover { background: #FF6B6B; color: #fff; }
+  .c-nav.prev { left: -8px; }
+  .c-nav.next { right: -8px; }
+  .c-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .c-dots .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; cursor: pointer; transition: all .3s; border: none; padding: 0; }
+  .c-dots .dot.active { background: #FF6B6B; width: 26px; border-radius: 5px; }
+  @media (max-width: 640px) {
+    .c-nav { display: none; }
+    .c-card { flex: 0 0 230px; }
+    .c-card.active { flex: 0 0 260px; }
+  }
+
 </style>
 </head>
 <body>
