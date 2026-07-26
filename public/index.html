@@ -58,6 +58,40 @@
 
   /* CTA banner */
   .cta-banner { background: linear-gradient(135deg, #FF6B6B 0%, #FFB86B 100%); border-radius: 32px; padding: 48px 32px; text-align: center; color: #fff; box-shadow: 0 20px 40px rgba(255,107,107,.25); }
+
+  /* Tighter sections */
+  section.tight { padding-top: 40px; padding-bottom: 40px; }
+  .bg-fade-1 { background: linear-gradient(to bottom, #FFF8E1, #FFFFFF); }
+  .bg-fade-3 { background: linear-gradient(to bottom, #FFFFFF, #E8F4F8); }
+  .bg-fade-4 { background: #E8F4F8; }
+  .bg-fade-5 { background: linear-gradient(to bottom, #E8F4F8, #FFF8E1); }
+
+  /* Carousel */
+  .carousel-wrap { position: relative; max-width: 1100px; margin: 0 auto; padding: 20px 0; }
+  .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 30px 40px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .c-card { flex: 0 0 260px; background: #fff; border-radius: 24px; padding: 28px 22px; text-align: center; scroll-snap-align: center; transition: all .4s ease; opacity: .55; transform: scale(.9); text-decoration: none; color: inherit; box-shadow: 0 4px 14px rgba(0,0,0,.05); display: flex; flex-direction: column; align-items: center; }
+  .c-card.active { flex: 0 0 300px; opacity: 1; transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,.15); border: 3px solid #FF6B6B; }
+  .c-card .ico { font-size: 60px; margin-bottom: 12px; }
+  .c-card h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; color: #2D3436; }
+  .c-card p { font-size: 14px; color: #6B7280; margin-bottom: 10px; min-height: 42px; }
+  .badge-free { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #E8F8F0; color: #0B7A3B; }
+  .badge-pro { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #FFF4CC; color: #8A6D00; }
+  .btn-card { margin-top: 10px; background: #FF6B6B; color: #fff; padding: 10px 24px; border-radius: 999px; font-weight: 800; font-size: 14px; }
+  .btn-card:hover { background: #FF5252; }
+  .c-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 2px solid #FF6B6B; color: #FF6B6B; font-size: 26px; font-weight: 900; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+  .c-nav:hover { background: #FF6B6B; color: #fff; }
+  .c-nav.prev { left: -8px; }
+  .c-nav.next { right: -8px; }
+  .c-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .c-dots .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; cursor: pointer; transition: all .3s; border: none; padding: 0; }
+  .c-dots .dot.active { background: #FF6B6B; width: 26px; border-radius: 5px; }
+  @media (max-width: 640px) {
+    .c-nav { display: none; }
+    .c-card { flex: 0 0 230px; }
+    .c-card.active { flex: 0 0 260px; }
+  }
+
 </style>
 </head>
 <body>
@@ -95,65 +129,78 @@
   </div>
 </section>
 
-<!-- FEATURES GRID -->
-<section class="max-w-6xl mx-auto px-4 py-16">
-  <div class="text-center mb-10">
-    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">اكتشف عالم حرفي</h2>
-    <p class="text-gray-600 text-lg">تسع تجارب تعليمية بين يديك</p>
-  </div>
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-    <a href="/arabic.html" class="feat" style="color:#FF6B6B"><span class="ico">🔤</span><h3>الحروف العربية</h3><p>تعلم 28 حرفاً بالنطق والكلمات والجمل</p><span class="tag">مجاني</span></a>
-    <a href="/english.html" class="feat" style="color:#4ECDC4"><span class="ico">🔠</span><h3>English Letters</h3><p>Learn A-Z with words and sentences</p><span class="tag">Free</span></a>
-    <a href="/countries.html" class="feat" style="color:#6C5CE7"><span class="ico">🌍</span><h3>الدول العربية</h3><p>اكتشف 22 دولة بأعلامها وعواصمها</p><span class="tag">مجاني</span></a>
-    <a href="/stories.html" class="feat" style="color:#FDA7DF"><span class="ico">🌙</span><h3>قصص قبل النوم</h3><p>قصص تفاعلية بقارئ صوتي</p><span class="tag">مجاني</span></a>
-    <a href="/songs.html" class="feat" style="color:#FFB86B"><span class="ico">🎵</span><h3>أغاني الحروف</h3><p>نشيد قصير لكل حرف</p><span class="tag">مجاني</span></a>
-    <a href="/coloring.html" class="feat" style="color:#26D0CE"><span class="ico">🎨</span><h3>التلوين</h3><p>مشاهد تفاعلية للتلوين الحر</p><span class="tag">مجاني</span></a>
-    <a href="/play.html" class="feat" style="color:#F368E0"><span class="ico">🎮</span><h3>العب وتعلم</h3><p>لعبة اختيار الحرف الأول للكلمة</p><span class="tag">مجاني</span></a>
-    <a href="/parent-report.html" class="feat" style="color:#5F9EA0"><span class="ico">👨‍👩‍👧</span><h3>تقرير الأهل</h3><p>تابع تقدّم طفلك بسهولة</p><span class="tag">مجاني</span></a>
-    <a href="/pro.html" class="feat" style="color:#FFD93D"><span class="ico">💎</span><h3>حرفي Pro</h3><p>ميزات إضافية للعائلات</p><span class="tag">قريباً</span></a>
+<!-- FEATURES CAROUSEL -->
+<section class="tight bg-fade-1">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-2">
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">🎯 اكتشف عالم حرفي</h2>
+      <p class="text-gray-600 text-lg">تسع تجارب تعليمية بين يديك</p>
+    </div>
+    <div class="carousel-wrap">
+      <button class="c-nav prev" onclick="scrollCarousel(-1)" aria-label="السابق">‹</button>
+      <div class="carousel-track" id="carousel-track">
+        <a href="/arabic.html" class="c-card"><span class="ico">🔤</span><h3>الحروف العربية</h3><p>تعلم 28 حرفاً بالنطق والكلمات والجمل</p><span class="badge-free">مجاني</span><span class="btn-card">ابدأ</span></a>
+        <a href="/english.html" class="c-card"><span class="ico">🇬🇧</span><h3>English Letters</h3><p>Learn A-Z with words and sentences</p><span class="badge-free">Free</span><span class="btn-card">Start</span></a>
+        <a href="/countries.html" class="c-card"><span class="ico">🌍</span><h3>الدول العربية</h3><p>اكتشف 22 دولة بأعلامها وعواصمها</p><span class="badge-free">مجاني</span><span class="btn-card">اكتشف</span></a>
+        <a href="/stories.html" class="c-card"><span class="ico">🌙</span><h3>قصص قبل النوم</h3><p>قصص تفاعلية بقارئ صوتي هادئ</p><span class="badge-free">مجاني</span><span class="btn-card">اقرأ</span></a>
+        <a href="/songs.html" class="c-card"><span class="ico">🎵</span><h3>أغاني الحروف</h3><p>نشيد قصير وممتع لكل حرف</p><span class="badge-free">مجاني</span><span class="btn-card">استمع</span></a>
+        <a href="/coloring.html" class="c-card"><span class="ico">🎨</span><h3>التلوين</h3><p>مشاهد تفاعلية للتلوين الحر</p><span class="badge-free">مجاني</span><span class="btn-card">لوّن</span></a>
+        <a href="/play.html" class="c-card"><span class="ico">🎮</span><h3>العب وتعلم</h3><p>لعبة اختيار الحرف الأول</p><span class="badge-free">مجاني</span><span class="btn-card">العب</span></a>
+        <a href="/parent-report.html" class="c-card"><span class="ico">👨‍👩‍👧</span><h3>تقرير الأهل</h3><p>تابع تقدّم طفلك بسهولة</p><span class="badge-free">مجاني</span><span class="btn-card">شاهد</span></a>
+        <a href="/pro.html" class="c-card"><span class="ico">💎</span><h3>حرفي Pro</h3><p>ميزات إضافية للعائلات</p><span class="badge-pro">قريباً</span><span class="btn-card">اشترك</span></a>
+      </div>
+      <button class="c-nav next" onclick="scrollCarousel(1)" aria-label="التالي">›</button>
+    </div>
+    <div class="c-dots" id="carousel-dots"></div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="max-w-5xl mx-auto px-4 py-16">
-  <div class="text-center mb-10">
-    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">كيف يعمل؟</h2>
-    <p class="text-gray-600 text-lg">ثلاث خطوات بسيطة</p>
-  </div>
-  <div class="grid md:grid-cols-3 gap-5">
-    <div class="step"><div class="step-num">1</div><h3 class="text-lg font-black text-gray-800 mb-1">اختر النشاط</h3><p class="text-gray-600 text-sm">حروف، قصة، لعبة أو تلوين</p></div>
-    <div class="step"><div class="step-num">2</div><h3 class="text-lg font-black text-gray-800 mb-1">استمع وكرّر</h3><p class="text-gray-600 text-sm">نطق صوتي واضح بالعربية والإنجليزية</p></div>
-    <div class="step"><div class="step-num">3</div><h3 class="text-lg font-black text-gray-800 mb-1">العب واكتسب النقاط</h3><p class="text-gray-600 text-sm">تقدّم محفوظ تلقائياً</p></div>
+<section class="tight bg-fade-3">
+  <div class="max-w-5xl mx-auto px-4">
+    <div class="text-center mb-6">
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">كيف يعمل؟</h2>
+      <p class="text-gray-600 text-lg">ثلاث خطوات بسيطة</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="step"><div class="step-num">1</div><h3 class="text-lg font-black text-gray-800 mb-1">اختر النشاط</h3><p class="text-gray-600 text-sm">حروف، قصة، لعبة أو تلوين</p></div>
+      <div class="step"><div class="step-num">2</div><h3 class="text-lg font-black text-gray-800 mb-1">استمع وكرّر</h3><p class="text-gray-600 text-sm">نطق صوتي واضح بالعربية والإنجليزية</p></div>
+      <div class="step"><div class="step-num">3</div><h3 class="text-lg font-black text-gray-800 mb-1">العب واكتسب النقاط</h3><p class="text-gray-600 text-sm">تقدّم محفوظ تلقائياً</p></div>
+    </div>
   </div>
 </section>
 
 <!-- WHY HARFI -->
-<section class="max-w-6xl mx-auto px-4 py-16">
-  <div class="text-center mb-10">
-    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لماذا حرفي؟</h2>
-  </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🎙️</div><h3 class="font-black text-gray-800 mb-1">نطق ذكي</h3><p class="text-sm text-gray-600">صوت بطيء وسريع لكل عمر</p></div>
-    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🛡️</div><h3 class="font-black text-gray-800 mb-1">آمن 100%</h3><p class="text-sm text-gray-600">بدون إعلانات ولا تتبّع</p></div>
-    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">📱</div><h3 class="font-black text-gray-800 mb-1">يعمل بلا نت</h3><p class="text-sm text-gray-600">تطبيق ويب قابل للتثبيت</p></div>
-    <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">💛</div><h3 class="font-black text-gray-800 mb-1">صُنع بحب</h3><p class="text-sm text-gray-600">مصمّم للأطفال العرب</p></div>
+<section class="tight bg-fade-4">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-6">
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لماذا حرفي؟</h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🎙️</div><h3 class="font-black text-gray-800 mb-1">نطق ذكي</h3><p class="text-sm text-gray-600">صوت بطيء وسريع لكل عمر</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🛡️</div><h3 class="font-black text-gray-800 mb-1">آمن 100%</h3><p class="text-sm text-gray-600">بدون إعلانات ولا تتبّع</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">📱</div><h3 class="font-black text-gray-800 mb-1">يعمل بلا نت</h3><p class="text-sm text-gray-600">تطبيق ويب قابل للتثبيت</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">💛</div><h3 class="font-black text-gray-800 mb-1">صُنع بحب</h3><p class="text-sm text-gray-600">مصمّم للأطفال العرب</p></div>
+    </div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="max-w-6xl mx-auto px-4 py-16">
-  <div class="text-center mb-10">
-    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">ماذا يقول الأهل؟</h2>
-  </div>
-  <div class="grid md:grid-cols-3 gap-5">
-    <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع."</p><div class="text-sm font-bold text-gray-800">— أم سارة</div></div>
-    <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة."</p><div class="text-sm font-bold text-gray-800">— أبو محمد</div></div>
-    <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة."</p><div class="text-sm font-bold text-gray-800">— أم يوسف</div></div>
+<section class="tight bg-fade-5">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-6">
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">ماذا يقول الأهل؟</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع."</p><div class="text-sm font-bold text-gray-800">— أم سارة</div></div>
+      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة."</p><div class="text-sm font-bold text-gray-800">— أبو محمد</div></div>
+      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة."</p><div class="text-sm font-bold text-gray-800">— أم يوسف</div></div>
+    </div>
   </div>
 </section>
 
 <!-- CTA BANNER -->
-<section class="max-w-5xl mx-auto px-4 py-12">
+<section class="max-w-5xl mx-auto px-4 py-10">
   <div class="cta-banner">
     <h2 class="text-3xl md:text-4xl font-black mb-3">جاهز لتبدأ الرحلة؟ 🚀</h2>
     <p class="text-lg opacity-95 mb-6">انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل.</p>
@@ -163,6 +210,45 @@
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  const track = document.getElementById('carousel-track');
+  const cards = Array.from(track.querySelectorAll('.c-card'));
+  const dotsWrap = document.getElementById('carousel-dots');
+  let idx = 0, timer = null;
+
+  cards.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot'; d.setAttribute('aria-label', 'الشريحة ' + (i+1));
+    d.addEventListener('click', () => { idx = i; update(); reset(); });
+    dotsWrap.appendChild(d);
+  });
+
+  function update() {
+    cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+    dotsWrap.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+  window.scrollCarousel = function (dir) {
+    idx = (idx + dir + cards.length) % cards.length;
+    update(); reset();
+  };
+  function reset() { if (timer) clearInterval(timer); timer = setInterval(() => window.scrollCarousel(1), 5000); }
+
+  // Touch swipe
+  let sx = 0, dragging = false;
+  track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; dragging = true; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    if (!dragging) return; dragging = false;
+    const diff = sx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) window.scrollCarousel(diff > 0 ? 1 : -1);
+  });
+
+  update(); reset();
+})();
+</script>
+
 
 <div id="footer-root"></div>
 <script src="/js/layout.js"></script>
