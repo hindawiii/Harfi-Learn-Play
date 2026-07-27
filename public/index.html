@@ -216,12 +216,12 @@
   const track = document.getElementById('carousel-track');
   const cards = Array.from(track.querySelectorAll('.c-card'));
   const dotsWrap = document.getElementById('carousel-dots');
-  let idx = 0, timer = null;
+  let idx = 0;
 
   cards.forEach((_, i) => {
     const d = document.createElement('button');
     d.className = 'dot'; d.setAttribute('aria-label', 'الشريحة ' + (i+1));
-    d.addEventListener('click', () => { idx = i; update(); reset(); });
+    d.addEventListener('click', () => { idx = i; update(); });
     dotsWrap.appendChild(d);
   });
 
@@ -232,9 +232,8 @@
   }
   window.scrollCarousel = function (dir) {
     idx = (idx + dir + cards.length) % cards.length;
-    update(); reset();
+    update();
   };
-  function reset() { if (timer) clearInterval(timer); timer = setInterval(() => window.scrollCarousel(1), 5000); }
 
   // Touch swipe
   let sx = 0, dragging = false;
@@ -245,7 +244,28 @@
     if (Math.abs(diff) > 40) window.scrollCarousel(diff > 0 ? 1 : -1);
   });
 
-  update(); reset();
+  // Sync active card on manual scroll
+  let scrollTimer = null;
+  track.addEventListener('scroll', () => {
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const trackRect = track.getBoundingClientRect();
+      const centerX = trackRect.left + trackRect.width / 2;
+      let closest = 0, minDist = Infinity;
+      cards.forEach((c, i) => {
+        const r = c.getBoundingClientRect();
+        const dist = Math.abs((r.left + r.width / 2) - centerX);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      if (closest !== idx) {
+        idx = closest;
+        cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+        dotsWrap.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    }, 120);
+  }, { passive: true });
+
+  update();
 })();
 </script>
 
