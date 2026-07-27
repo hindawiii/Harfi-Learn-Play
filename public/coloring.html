@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>لوّن معنا - حرفي</title>
-<meta name="description" content="صفحات تلوين تفاعلية بسيطة للأطفال داخل المتصفح." />
-<meta property="og:title" content="لوّن معنا - حرفي" />
-<meta property="og:description" content="اختر لوناً ولوّن الأشكال الجميلة على الشاشة." />
+<title>لوّن وارسم - حرفي</title>
+<meta name="description" content="ركن التلوين وركن الرسم الحر للأطفال: أشكال جاهزة، 24 لون، فرشاة، مطاط، وتنزيل الأعمال." />
+<meta property="og:title" content="لوّن وارسم - حرفي" />
+<meta property="og:description" content="ركنان تفاعليان: لوّن الأشكال الجاهزة أو ارسم بحرية." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <link rel="manifest" href="/manifest.json" />
@@ -17,14 +17,34 @@
 <link rel="stylesheet" href="/css/style.css" />
 <style>
   body{font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#FFF3E0 0%,#E1F5FE 100%);min-height:100vh}
-  .swatch{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:.2s}
-  .swatch.active{transform:scale(1.15);box-shadow:0 0 0 3px #333}
-  .scene svg path, .scene svg circle, .scene svg rect, .scene svg polygon, .scene svg ellipse{
-    cursor:pointer; transition:fill .2s; stroke:#333; stroke-width:3;
+  .corner-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+  .corner-tab{padding:12px 26px;border-radius:999px;background:#fff;color:#333;font-weight:900;border:3px solid transparent;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.06);min-height:44px}
+  .corner-tab.active{background:linear-gradient(135deg,#FF6B6B,#FF9F45);color:#fff;border-color:#fff;transform:translateY(-2px)}
+
+  .swatch{width:40px;height:40px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:.15s}
+  .swatch:hover{transform:scale(1.1)}
+  .swatch.active{transform:scale(1.2);box-shadow:0 0 0 3px #333}
+
+  .shape-cat{padding:8px 16px;border-radius:999px;background:#F1F3F5;color:#495057;font-weight:700;border:none;cursor:pointer;min-height:40px;font-size:14px}
+  .shape-cat.active{background:#4ECDC4;color:#fff}
+  .shape-thumb{background:#fff;border-radius:14px;padding:8px;cursor:pointer;border:3px solid transparent;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .shape-thumb:hover{border-color:#FFD93D;transform:translateY(-2px)}
+  .shape-thumb.active{border-color:#FF6B6B;background:#FFF3E0}
+  .shape-thumb svg{width:60px;height:60px}
+  .shape-thumb .lbl{font-size:11px;font-weight:700;color:#495057}
+
+  #coloring-svg *, #coloring-svg path, #coloring-svg circle, #coloring-svg rect, #coloring-svg polygon, #coloring-svg ellipse{
+    cursor:pointer;transition:fill .15s;stroke:#2D3436;stroke-width:3;stroke-linejoin:round
   }
-  .scene svg path:hover, .scene svg circle:hover, .scene svg rect:hover, .scene svg polygon:hover, .scene svg ellipse:hover{
-    opacity:.85;
-  }
+  #coloring-svg *:hover{opacity:.85}
+
+  #draw-canvas{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);touch-action:none;cursor:crosshair;max-width:100%;height:auto;display:block;margin:0 auto}
+  .tool-btn{padding:10px 16px;border-radius:12px;background:#fff;color:#495057;font-weight:700;border:2px solid #E9ECEF;cursor:pointer;min-height:44px;font-size:14px}
+  .tool-btn.active{background:#4ECDC4;color:#fff;border-color:#4ECDC4}
+  .tool-btn:hover{border-color:#4ECDC4}
+  .brush-btn{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid #E9ECEF;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .brush-btn.active{border-color:#FF6B6B;background:#FFF3E0}
+  .brush-dot{background:#2D3436;border-radius:50%}
 </style>
 </head>
 <body>
@@ -32,110 +52,371 @@
 
 <section class="max-w-4xl mx-auto px-4 pt-8 text-center">
   <div class="text-6xl mb-2">🎨</div>
-  <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لوّن معنا</h1>
-  <p class="text-gray-600 mb-4">اختر لوناً واضغط على أي شكل لتلوينه ✨</p>
+  <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لوّن وارسم</h1>
+  <p class="text-gray-600 mb-6">اختر ركن التلوين أو الرسم الحر ✨</p>
 </section>
 
-<main class="max-w-4xl mx-auto px-4 pb-12">
-  <div class="bg-white rounded-3xl shadow-xl p-6">
-    <!-- Color palette -->
-    <div id="palette" class="flex flex-wrap justify-center gap-3 mb-6"></div>
+<main class="max-w-5xl mx-auto px-4 pb-16">
+  <div class="corner-tabs">
+    <button class="corner-tab active" data-corner="color">🎨 ركن التلوين</button>
+    <button class="corner-tab" data-corner="draw">✏️ ركن الرسم</button>
+  </div>
 
-    <!-- Scene switcher -->
+  <!-- ============= COLOR CORNER ============= -->
+  <section id="corner-color" class="bg-white rounded-3xl shadow-xl p-5 md:p-6">
+    <!-- Categories -->
     <div class="flex flex-wrap justify-center gap-2 mb-4">
-      <button data-scene="0" class="scene-btn bg-[#FF6B6B] text-white px-4 py-2 rounded-full font-bold text-sm">🏠 المنزل</button>
-      <button data-scene="1" class="scene-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-bold text-sm">🌸 الزهرة</button>
-      <button data-scene="2" class="scene-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-bold text-sm">🐟 السمكة</button>
+      <button class="shape-cat active" data-cat="letter">🔤 حروف</button>
+      <button class="shape-cat" data-cat="animal">🐪 حيوانات</button>
+      <button class="shape-cat" data-cat="object">🏠 أشياء</button>
+      <button class="shape-cat" data-cat="nature">🌳 طبيعة</button>
+    </div>
+
+    <!-- Shape thumbs -->
+    <div id="shapes-grid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 mb-5"></div>
+
+    <!-- Canvas -->
+    <div class="bg-gray-50 rounded-2xl p-4 flex justify-center mb-4">
+      <svg id="coloring-svg" viewBox="0 0 400 400" style="width:100%;max-width:460px;height:auto"></svg>
+    </div>
+
+    <!-- Palette -->
+    <div class="mb-3 text-center">
+      <div class="text-sm font-bold text-gray-600 mb-2">🎨 اختر لوناً</div>
+      <div id="palette-color" class="flex flex-wrap justify-center gap-2"></div>
+    </div>
+
+    <!-- Tools -->
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+      <button class="tool-btn" onclick="undoColor()">↩️ تراجع</button>
+      <button class="tool-btn" onclick="resetColoring()">🔄 إعادة</button>
+      <button class="tool-btn" onclick="downloadColoring()">💾 حفظ صورة</button>
+    </div>
+  </section>
+
+  <!-- ============= DRAW CORNER ============= -->
+  <section id="corner-draw" class="hidden bg-white rounded-3xl shadow-xl p-5 md:p-6">
+    <!-- Templates -->
+    <div class="mb-4 text-center">
+      <div class="text-sm font-bold text-gray-600 mb-2">📋 اختر صورة كخلفية (اختياري)</div>
+      <div class="flex flex-wrap justify-center gap-2">
+        <button class="tool-btn" onclick="loadTemplate('blank')">📄 فارغ</button>
+        <button class="tool-btn" onclick="loadTemplate('flower')">🌸 وردة</button>
+        <button class="tool-btn" onclick="loadTemplate('car')">🚗 سيارة</button>
+        <button class="tool-btn" onclick="loadTemplate('fish')">🐟 سمكة</button>
+        <button class="tool-btn" onclick="loadTemplate('house')">🏠 بيت</button>
+      </div>
     </div>
 
     <!-- Canvas -->
-    <div class="scene bg-gray-50 rounded-2xl p-4 flex justify-center overflow-auto">
-      <div id="scene-holder"></div>
+    <div class="bg-gray-50 rounded-2xl p-3 mb-4">
+      <canvas id="draw-canvas" width="800" height="500"></canvas>
     </div>
 
-    <div class="text-center mt-4">
-      <button onclick="clearScene()" class="bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-full font-bold">🗑 مسح الألوان</button>
+    <!-- Palette -->
+    <div class="mb-3 text-center">
+      <div class="text-sm font-bold text-gray-600 mb-2">🎨 لون الفرشاة</div>
+      <div id="palette-draw" class="flex flex-wrap justify-center gap-2"></div>
     </div>
-  </div>
+
+    <!-- Brush sizes -->
+    <div class="mb-3 text-center">
+      <div class="text-sm font-bold text-gray-600 mb-2">🖌️ سماكة الفرشاة</div>
+      <div class="flex justify-center gap-3">
+        <button class="brush-btn" data-size="3"><span class="brush-dot" style="width:6px;height:6px"></span></button>
+        <button class="brush-btn active" data-size="8"><span class="brush-dot" style="width:12px;height:12px"></span></button>
+        <button class="brush-btn" data-size="16"><span class="brush-dot" style="width:20px;height:20px"></span></button>
+        <button class="brush-btn" data-size="28"><span class="brush-dot" style="width:30px;height:30px"></span></button>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+      <button id="tool-brush" class="tool-btn active" onclick="setTool('brush')">🖌️ فرشاة</button>
+      <button id="tool-eraser" class="tool-btn" onclick="setTool('eraser')">🧽 مطاط</button>
+      <button class="tool-btn" onclick="undoDraw()">↩️ تراجع</button>
+      <button class="tool-btn" onclick="clearCanvas()">🗑️ مسح الكل</button>
+      <button class="tool-btn" onclick="downloadDrawing()">💾 حفظ صورة</button>
+    </div>
+  </section>
 </main>
 
 <div id="footer-root"></div>
 <script src="/js/layout.js"></script>
 <script>
-const COLORS = ['#FF6B6B','#FFD93D','#4ECDC4','#6BCB77','#A66CFF','#FF9F45','#FF6BAA','#38B6FF','#8B4513','#2D3436','#ffffff'];
-let currentColor = COLORS[0];
-
-const SCENES = [
-  // House
-  `<svg viewBox="0 0 400 300" width="100%" style="max-width:500px" xmlns="http://www.w3.org/2000/svg">
-    <rect x="80" y="140" width="240" height="140" fill="#fff"/>
-    <polygon points="60,140 200,40 340,140" fill="#fff"/>
-    <rect x="170" y="190" width="60" height="90" fill="#fff"/>
-    <rect x="110" y="170" width="40" height="40" fill="#fff"/>
-    <rect x="250" y="170" width="40" height="40" fill="#fff"/>
-    <circle cx="340" cy="70" r="25" fill="#fff"/>
-    <path d="M20 280 Q 200 260 380 280 L 380 300 L 20 300 Z" fill="#fff"/>
-  </svg>`,
-  // Flower
-  `<svg viewBox="0 0 400 400" width="100%" style="max-width:500px" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="200" cy="150" r="35" fill="#fff"/>
-    <ellipse cx="200" cy="90" rx="30" ry="45" fill="#fff"/>
-    <ellipse cx="200" cy="210" rx="30" ry="45" fill="#fff"/>
-    <ellipse cx="140" cy="150" rx="45" ry="30" fill="#fff"/>
-    <ellipse cx="260" cy="150" rx="45" ry="30" fill="#fff"/>
-    <rect x="192" y="180" width="16" height="180" fill="#fff"/>
-    <ellipse cx="160" cy="260" rx="35" ry="15" fill="#fff" transform="rotate(-30 160 260)"/>
-    <ellipse cx="240" cy="300" rx="35" ry="15" fill="#fff" transform="rotate(30 240 300)"/>
-  </svg>`,
-  // Fish
-  `<svg viewBox="0 0 400 300" width="100%" style="max-width:500px" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="180" cy="150" rx="110" ry="65" fill="#fff"/>
-    <polygon points="290,150 370,90 370,210" fill="#fff"/>
-    <circle cx="130" cy="130" r="12" fill="#fff"/>
-    <path d="M120 170 Q 150 190 190 170" fill="#fff"/>
-    <circle cx="230" cy="110" r="15" fill="#fff"/>
-    <circle cx="240" cy="170" r="12" fill="#fff"/>
-    <circle cx="200" cy="200" r="10" fill="#fff"/>
-    <path d="M20 250 Q 100 240 180 250 T 380 250" fill="none" stroke="#38B6FF" stroke-width="4"/>
-  </svg>`,
+/* ================ 24-COLOR PALETTE ================ */
+const COLORS = [
+  '#FF0000','#FF6B6B','#FF8E8E','#FFA500','#FFD93D','#FFFF00',
+  '#90EE90','#4ECDC4','#00CED1','#45B7D1','#0000FF','#6C5CE7',
+  '#FF69B4','#FFB6C1','#8B4513','#D2691E','#A0522D','#808080',
+  '#000000','#FFFFFF','#C0C0C0','#FFD700','#FF1493','#00FF00'
 ];
 
-function renderPalette(){
-  document.getElementById('palette').innerHTML = COLORS.map((c,i)=>`
-    <button class="swatch ${i===0?'active':''}" data-color="${c}" style="background:${c}"></button>
-  `).join('');
-  document.querySelectorAll('.swatch').forEach(b=>{
+/* ================ COLORING SHAPES ================ */
+// Each shape: category + inner SVG markup (viewBox 0 0 400 400). All paths fill #fff by default.
+const SHAPES = [
+  // Letters
+  { cat:'letter', name:'أ', svg:`<path d="M120 320 L200 90 L280 320 M155 240 L245 240" fill="#fff"/>` },
+  { cat:'letter', name:'ب', svg:`<path d="M80 130 L80 260 Q80 300 120 300 L280 300 Q320 300 320 260 L320 200" fill="#fff"/><circle cx="200" cy="340" r="14" fill="#fff"/>` },
+  { cat:'letter', name:'ت', svg:`<path d="M80 160 L80 260 Q80 300 120 300 L280 300 Q320 300 320 260 L320 160" fill="#fff"/><circle cx="170" cy="120" r="14" fill="#fff"/><circle cx="230" cy="120" r="14" fill="#fff"/>` },
+  { cat:'letter', name:'ج', svg:`<path d="M100 130 L280 130 Q320 130 300 170 L200 300 Q170 340 130 320 L100 300" fill="#fff"/><circle cx="200" cy="230" r="14" fill="#fff"/>` },
+  { cat:'letter', name:'د', svg:`<path d="M110 130 L280 130 Q320 130 300 170 L200 300 Q170 330 130 310" fill="#fff"/>` },
+  { cat:'letter', name:'ر', svg:`<path d="M100 130 L260 130 Q290 130 280 160 L220 280 Q200 320 160 320" fill="#fff"/>` },
+  { cat:'letter', name:'س', svg:`<path d="M80 200 L100 260 L120 200 L140 260 L160 200 L180 260 Q200 300 240 300 L320 300" fill="#fff"/>` },
+  { cat:'letter', name:'م', svg:`<circle cx="180" cy="180" r="60" fill="#fff"/><path d="M180 240 L180 320" fill="#fff"/>` },
+
+  // Animals
+  { cat:'animal', name:'سمكة', svg:`<ellipse cx="180" cy="200" rx="120" ry="70" fill="#fff"/><polygon points="290,200 370,140 370,260" fill="#fff"/><circle cx="130" cy="180" r="12" fill="#fff"/><path d="M120 220 Q 150 240 190 220" fill="#fff"/>` },
+  { cat:'animal', name:'قطة', svg:`<circle cx="200" cy="220" r="90" fill="#fff"/><polygon points="130,160 110,80 180,140" fill="#fff"/><polygon points="270,160 290,80 220,140" fill="#fff"/><circle cx="170" cy="210" r="10" fill="#fff"/><circle cx="230" cy="210" r="10" fill="#fff"/><path d="M180 250 Q 200 270 220 250" fill="#fff"/>` },
+  { cat:'animal', name:'أرنب', svg:`<ellipse cx="200" cy="260" rx="80" ry="70" fill="#fff"/><ellipse cx="160" cy="140" rx="20" ry="60" fill="#fff"/><ellipse cx="240" cy="140" rx="20" ry="60" fill="#fff"/><circle cx="180" cy="250" r="8" fill="#fff"/><circle cx="220" cy="250" r="8" fill="#fff"/>` },
+  { cat:'animal', name:'دجاجة', svg:`<ellipse cx="200" cy="240" rx="90" ry="70" fill="#fff"/><circle cx="200" cy="150" r="45" fill="#fff"/><polygon points="230,145 260,155 230,165" fill="#fff"/><path d="M180 105 L190 80 M210 105 L220 80" fill="#fff"/><circle cx="205" cy="145" r="6" fill="#fff"/>` },
+  { cat:'animal', name:'فراشة', svg:`<ellipse cx="140" cy="180" rx="70" ry="60" fill="#fff"/><ellipse cx="260" cy="180" rx="70" ry="60" fill="#fff"/><ellipse cx="150" cy="280" rx="55" ry="45" fill="#fff"/><ellipse cx="250" cy="280" rx="55" ry="45" fill="#fff"/><ellipse cx="200" cy="220" rx="12" ry="70" fill="#fff"/>` },
+
+  // Objects
+  { cat:'object', name:'بيت', svg:`<rect x="100" y="200" width="200" height="160" fill="#fff"/><polygon points="80,200 200,90 320,200" fill="#fff"/><rect x="180" y="260" width="50" height="100" fill="#fff"/><rect x="120" y="230" width="40" height="40" fill="#fff"/><rect x="240" y="230" width="40" height="40" fill="#fff"/>` },
+  { cat:'object', name:'سيارة', svg:`<rect x="80" y="200" width="240" height="80" rx="18" fill="#fff"/><path d="M120 200 L150 140 L250 140 L280 200 Z" fill="#fff"/><circle cx="140" cy="290" r="28" fill="#fff"/><circle cx="260" cy="290" r="28" fill="#fff"/>` },
+  { cat:'object', name:'كوب', svg:`<path d="M130 130 L130 300 Q130 340 170 340 L230 340 Q270 340 270 300 L270 130 Z" fill="#fff"/><path d="M270 180 Q320 180 320 230 Q320 280 270 280" fill="#fff"/>` },
+  { cat:'object', name:'كتاب', svg:`<path d="M80 120 L200 140 L320 120 L320 320 L200 340 L80 320 Z" fill="#fff"/><path d="M200 140 L200 340" fill="#fff"/>` },
+  { cat:'object', name:'قلب', svg:`<path d="M200 340 L100 220 Q60 170 110 130 Q160 100 200 160 Q240 100 290 130 Q340 170 300 220 Z" fill="#fff"/>` },
+  { cat:'object', name:'نجمة', svg:`<polygon points="200,80 232,170 328,170 250,225 280,320 200,265 120,320 150,225 72,170 168,170" fill="#fff"/>` },
+
+  // Nature
+  { cat:'nature', name:'وردة', svg:`<circle cx="200" cy="170" r="35" fill="#fff"/><ellipse cx="200" cy="110" rx="30" ry="45" fill="#fff"/><ellipse cx="200" cy="230" rx="30" ry="45" fill="#fff"/><ellipse cx="140" cy="170" rx="45" ry="30" fill="#fff"/><ellipse cx="260" cy="170" rx="45" ry="30" fill="#fff"/><rect x="192" y="200" width="16" height="150" fill="#fff"/><ellipse cx="160" cy="270" rx="35" ry="15" fill="#fff" transform="rotate(-30 160 270)"/><ellipse cx="240" cy="310" rx="35" ry="15" fill="#fff" transform="rotate(30 240 310)"/>` },
+  { cat:'nature', name:'شمس', svg:`<circle cx="200" cy="200" r="70" fill="#fff"/><g fill="#fff"><rect x="192" y="60" width="16" height="50"/><rect x="192" y="290" width="16" height="50"/><rect x="60" y="192" width="50" height="16"/><rect x="290" y="192" width="50" height="16"/><rect x="90" y="90" width="16" height="50" transform="rotate(-45 98 115)"/><rect x="294" y="90" width="16" height="50" transform="rotate(45 302 115)"/><rect x="90" y="260" width="16" height="50" transform="rotate(45 98 285)"/><rect x="294" y="260" width="16" height="50" transform="rotate(-45 302 285)"/></g>` },
+  { cat:'nature', name:'شجرة', svg:`<rect x="180" y="240" width="40" height="120" fill="#fff"/><circle cx="200" cy="180" r="90" fill="#fff"/>` },
+  { cat:'nature', name:'سحابة', svg:`<path d="M120 240 Q80 240 80 200 Q80 160 130 160 Q140 110 200 110 Q260 110 270 160 Q320 160 320 200 Q320 240 280 240 Z" fill="#fff"/>` },
+  { cat:'nature', name:'قمر', svg:`<path d="M260 90 Q160 90 160 200 Q160 310 260 310 Q180 260 180 200 Q180 140 260 90 Z" fill="#fff"/><circle cx="330" cy="140" r="6" fill="#fff"/><circle cx="310" cy="220" r="4" fill="#fff"/><circle cx="340" cy="260" r="5" fill="#fff"/>` },
+  { cat:'nature', name:'جبل', svg:`<polygon points="60,320 160,150 220,240 280,120 360,320" fill="#fff"/><polygon points="140,180 160,150 180,180 165,195" fill="#fff"/>` },
+];
+
+/* ================ STATE ================ */
+let currentColor = COLORS[0];
+let currentCat = 'letter';
+let currentShapeIdx = 0;
+let colorHistory = []; // {el, prev}
+
+/* ================ RENDER ================ */
+function renderPalette(containerId, onPick){
+  const el = document.getElementById(containerId);
+  el.innerHTML = COLORS.map((c,i)=>`<button class="swatch ${i===0?'active':''}" data-color="${c}" style="background:${c}" aria-label="لون"></button>`).join('');
+  el.querySelectorAll('.swatch').forEach(b=>{
     b.addEventListener('click',()=>{
-      currentColor = b.dataset.color;
-      document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));
+      el.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));
       b.classList.add('active');
+      onPick(b.dataset.color);
     });
   });
 }
 
-function loadScene(i){
-  document.getElementById('scene-holder').innerHTML = SCENES[i];
-  document.querySelectorAll('.scene-btn').forEach((b,idx)=>{
-    b.className = 'scene-btn px-4 py-2 rounded-full font-bold text-sm ' +
-      (idx===i ? 'bg-[#FF6B6B] text-white' : 'bg-gray-200 text-gray-700');
+function renderShapes(){
+  const list = SHAPES.filter(s=>s.cat===currentCat);
+  const grid = document.getElementById('shapes-grid');
+  grid.innerHTML = list.map((s,i)=>`
+    <div class="shape-thumb ${i===0?'active':''}" data-idx="${SHAPES.indexOf(s)}">
+      <svg viewBox="0 0 400 400">${s.svg}</svg>
+      <div class="lbl">${s.name}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.shape-thumb').forEach(t=>{
+    t.addEventListener('click',()=>{
+      grid.querySelectorAll('.shape-thumb').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      loadShape(parseInt(t.dataset.idx,10));
+    });
   });
-  document.querySelectorAll('#scene-holder svg *').forEach(el=>{
-    el.addEventListener('click',()=>{ el.setAttribute('fill', currentColor); });
+  if (list.length) loadShape(SHAPES.indexOf(list[0]));
+}
+
+function loadShape(idx){
+  currentShapeIdx = idx;
+  colorHistory = [];
+  const svg = document.getElementById('coloring-svg');
+  svg.innerHTML = SHAPES[idx].svg;
+  svg.querySelectorAll('*').forEach(el=>{
+    el.addEventListener('click',()=>{
+      colorHistory.push({el, prev: el.getAttribute('fill') || '#fff'});
+      el.setAttribute('fill', currentColor);
+    });
   });
 }
 
-function clearScene(){
-  document.querySelectorAll('#scene-holder svg *').forEach(el=>{
-    if (el.tagName !== 'path' || el.getAttribute('stroke') !== '#38B6FF') el.setAttribute('fill','#fff');
-  });
+function undoColor(){
+  const last = colorHistory.pop();
+  if (last) last.el.setAttribute('fill', last.prev);
+}
+function resetColoring(){
+  colorHistory = [];
+  document.querySelectorAll('#coloring-svg *').forEach(el=>el.setAttribute('fill','#fff'));
+}
+function downloadColoring(){
+  const svg = document.getElementById('coloring-svg');
+  const clone = svg.cloneNode(true);
+  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+  const data = new XMLSerializer().serializeToString(clone);
+  const svgBlob = new Blob([data], {type:'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(svgBlob);
+  const img = new Image();
+  img.onload = ()=>{
+    const canvas = document.createElement('canvas');
+    canvas.width = 800; canvas.height = 800;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,800,800);
+    ctx.drawImage(img,0,0,800,800);
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'harfi-coloring-' + SHAPES[currentShapeIdx].name + '.png';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
 }
 
+/* ================ DRAW CORNER ================ */
+let drawColor = COLORS[18]; // black default
+let brushSize = 8;
+let tool = 'brush';
+let drawing = false;
+let lastX = 0, lastY = 0;
+let drawSnapshots = [];
+
+const canvas = document.getElementById('draw-canvas');
+const dctx = canvas.getContext('2d');
+
+function initDrawCanvas(){
+  dctx.fillStyle = '#fff';
+  dctx.fillRect(0,0,canvas.width,canvas.height);
+  pushSnapshot();
+}
+function pushSnapshot(){
+  try { drawSnapshots.push(canvas.toDataURL()); if (drawSnapshots.length>30) drawSnapshots.shift(); } catch(e){}
+}
+function undoDraw(){
+  if (drawSnapshots.length<=1) return;
+  drawSnapshots.pop();
+  const img = new Image();
+  img.onload = ()=>{ dctx.clearRect(0,0,canvas.width,canvas.height); dctx.drawImage(img,0,0); };
+  img.src = drawSnapshots[drawSnapshots.length-1];
+}
+function clearCanvas(){
+  dctx.fillStyle = '#fff';
+  dctx.fillRect(0,0,canvas.width,canvas.height);
+  pushSnapshot();
+}
+function setTool(t){
+  tool = t;
+  document.getElementById('tool-brush').classList.toggle('active', t==='brush');
+  document.getElementById('tool-eraser').classList.toggle('active', t==='eraser');
+}
+function downloadDrawing(){
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = 'harfi-drawing.png';
+  a.click();
+}
+
+function getPos(e){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const p = e.touches ? e.touches[0] : e;
+  return { x:(p.clientX - rect.left)*scaleX, y:(p.clientY - rect.top)*scaleY };
+}
+function startDraw(e){ e.preventDefault(); drawing = true; const p = getPos(e); lastX=p.x; lastY=p.y; }
+function moveDraw(e){
+  if(!drawing) return; e.preventDefault();
+  const p = getPos(e);
+  dctx.strokeStyle = tool==='eraser' ? '#ffffff' : drawColor;
+  dctx.lineWidth = tool==='eraser' ? brushSize*2 : brushSize;
+  dctx.lineCap = 'round'; dctx.lineJoin = 'round';
+  dctx.beginPath(); dctx.moveTo(lastX,lastY); dctx.lineTo(p.x,p.y); dctx.stroke();
+  lastX = p.x; lastY = p.y;
+}
+function endDraw(e){ if(!drawing) return; drawing=false; pushSnapshot(); }
+
+canvas.addEventListener('mousedown', startDraw);
+canvas.addEventListener('mousemove', moveDraw);
+canvas.addEventListener('mouseup', endDraw);
+canvas.addEventListener('mouseleave', endDraw);
+canvas.addEventListener('touchstart', startDraw, {passive:false});
+canvas.addEventListener('touchmove', moveDraw, {passive:false});
+canvas.addEventListener('touchend', endDraw);
+
+document.querySelectorAll('.brush-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.brush-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    brushSize = parseInt(b.dataset.size,10);
+  });
+});
+
+/* Simple background templates drawn onto canvas */
+function loadTemplate(name){
+  clearCanvas();
+  dctx.save();
+  dctx.strokeStyle = '#2D3436';
+  dctx.lineWidth = 3;
+  dctx.lineJoin = 'round';
+  const cx = canvas.width/2, cy = canvas.height/2;
+  if (name==='flower'){
+    dctx.beginPath(); dctx.arc(cx,cy-40,40,0,Math.PI*2); dctx.stroke();
+    for (let i=0;i<6;i++){
+      const a = i*Math.PI/3;
+      dctx.beginPath(); dctx.ellipse(cx+Math.cos(a)*80, cy-40+Math.sin(a)*80, 40, 25, a, 0, Math.PI*2); dctx.stroke();
+    }
+    dctx.beginPath(); dctx.moveTo(cx, cy); dctx.lineTo(cx, cy+180); dctx.stroke();
+    dctx.beginPath(); dctx.ellipse(cx-50, cy+120, 40, 18, -Math.PI/6, 0, Math.PI*2); dctx.stroke();
+    dctx.beginPath(); dctx.ellipse(cx+50, cy+160, 40, 18, Math.PI/6, 0, Math.PI*2); dctx.stroke();
+  } else if (name==='car'){
+    dctx.beginPath(); dctx.roundRect(cx-180, cy-40, 360, 100, 20); dctx.stroke();
+    dctx.beginPath(); dctx.moveTo(cx-140, cy-40); dctx.lineTo(cx-100, cy-120); dctx.lineTo(cx+100, cy-120); dctx.lineTo(cx+140, cy-40); dctx.stroke();
+    dctx.beginPath(); dctx.arc(cx-110, cy+80, 40, 0, Math.PI*2); dctx.stroke();
+    dctx.beginPath(); dctx.arc(cx+110, cy+80, 40, 0, Math.PI*2); dctx.stroke();
+  } else if (name==='fish'){
+    dctx.beginPath(); dctx.ellipse(cx-40, cy, 180, 100, 0, 0, Math.PI*2); dctx.stroke();
+    dctx.beginPath(); dctx.moveTo(cx+130, cy); dctx.lineTo(cx+220, cy-80); dctx.lineTo(cx+220, cy+80); dctx.closePath(); dctx.stroke();
+    dctx.beginPath(); dctx.arc(cx-110, cy-20, 12, 0, Math.PI*2); dctx.stroke();
+    dctx.beginPath(); dctx.arc(cx-110, cy-20, 5, 0, Math.PI*2); dctx.fill();
+    dctx.beginPath(); dctx.moveTo(cx-140, cy+40); dctx.quadraticCurveTo(cx-90, cy+70, cx-40, cy+40); dctx.stroke();
+  } else if (name==='house'){
+    dctx.beginPath(); dctx.rect(cx-130, cy-40, 260, 200); dctx.stroke();
+    dctx.beginPath(); dctx.moveTo(cx-160, cy-40); dctx.lineTo(cx, cy-180); dctx.lineTo(cx+160, cy-40); dctx.stroke();
+    dctx.beginPath(); dctx.rect(cx-30, cy+50, 60, 110); dctx.stroke();
+    dctx.beginPath(); dctx.rect(cx-100, cy+10, 50, 50); dctx.stroke();
+    dctx.beginPath(); dctx.rect(cx+50, cy+10, 50, 50); dctx.stroke();
+  }
+  dctx.restore();
+  pushSnapshot();
+}
+
+/* ================ TABS ================ */
+document.querySelectorAll('.corner-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.corner-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const c = t.dataset.corner;
+    document.getElementById('corner-color').classList.toggle('hidden', c!=='color');
+    document.getElementById('corner-draw').classList.toggle('hidden', c!=='draw');
+  });
+});
+document.querySelectorAll('.shape-cat').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.shape-cat').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentCat = b.dataset.cat;
+    renderShapes();
+  });
+});
+
+/* ================ INIT ================ */
 document.addEventListener('DOMContentLoaded', ()=>{
-  renderPalette();
-  loadScene(0);
-  document.querySelectorAll('.scene-btn').forEach((b,i)=>{
-    b.addEventListener('click', ()=>loadScene(i));
-  });
+  renderPalette('palette-color', c=>currentColor=c);
+  renderPalette('palette-draw', c=>drawColor=c);
+  // Set black active in draw palette
+  const dp = document.getElementById('palette-draw');
+  dp.querySelectorAll('.swatch').forEach((s,i)=>s.classList.toggle('active', i===18));
+  drawColor = COLORS[18];
+  renderShapes();
+  initDrawCanvas();
 });
 </script>
 </body>
