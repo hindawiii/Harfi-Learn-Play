@@ -48,6 +48,18 @@
   .landmark:hover { background:#fff; border-color:#4ECDC4; transform:translateY(-3px); }
   .landmark .pin { font-size:26px; margin-bottom:6px; }
 
+  .anthem-box { background:linear-gradient(135deg,#FFF8E1 0%,#FFECB3 100%); border:2px solid #FFD54F; border-radius:18px; padding:20px; }
+  .anthem-title { font-size:22px; font-weight:900; color:#5D4037; display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .anthem-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:14px; }
+  .anthem-meta .m { background:rgba(255,255,255,.7); padding:10px 12px; border-radius:12px; font-size:13px; color:#5D4037; }
+  .anthem-meta .m b { display:block; color:#8D6E63; font-size:11px; font-weight:800; margin-bottom:2px; }
+  .anthem-lyrics { background:rgba(255,255,255,.85); padding:18px; border-radius:14px; font-size:17px; line-height:2.2; color:#3E2723; font-weight:600; text-align:center; margin-bottom:12px; white-space:pre-line; }
+  .anthem-note { font-size:13px; color:#795548; font-style:italic; background:rgba(255,255,255,.5); padding:10px 14px; border-radius:10px; border-right:3px solid #FFB300; }
+  .anthem-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .anthem-btn { background:#FF9800; color:#fff; border:none; padding:10px 18px; border-radius:999px; font-family:inherit; font-weight:700; cursor:pointer; min-height:44px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 14px rgba(255,152,0,.35); transition:.2s; }
+  .anthem-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(255,152,0,.45); }
+  .anthem-btn.stop { background:#E53935; box-shadow:0 4px 14px rgba(229,57,53,.35); }
+
   .related { margin-top:26px; }
   .related-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; }
   .related a { background:#fff; padding:14px; border-radius:16px; text-align:center; text-decoration:none; color:#2D3436; box-shadow:0 4px 14px rgba(0,0,0,.05); transition:.2s; }
@@ -104,6 +116,23 @@
     <div id="i-landmarks" class="landmarks"></div>
   </div>
 
+  <div class="section-card" id="anthem-section" style="display:none">
+    <div class="anthem-box">
+      <div class="anthem-title">🎵 النشيد الوطني: <span id="a-title"></span></div>
+      <div class="anthem-meta">
+        <div class="m"><b>الشاعر</b><span id="a-poet"></span></div>
+        <div class="m"><b>الملحن</b><span id="a-comp"></span></div>
+        <div class="m"><b>سنة الاعتماد</b><span id="a-year"></span></div>
+      </div>
+      <div class="anthem-lyrics" id="a-lyrics"></div>
+      <div class="anthem-note" id="a-note"></div>
+      <div class="anthem-actions">
+        <button class="anthem-btn" onclick="playAnthem()"><i class="fa-solid fa-play"></i> استمع للنشيد</button>
+        <button class="anthem-btn stop" onclick="stopAnthem()"><i class="fa-solid fa-stop"></i> إيقاف</button>
+      </div>
+    </div>
+  </div>
+
   <div class="related">
     <div class="section-title">🌟 اكتشف دولاً أخرى</div>
     <div id="related-grid" class="related-grid"></div>
@@ -115,6 +144,7 @@
 <script>window.HARFI_LANG='ar';</script>
 <script src="/js/speech.js"></script>
 <script src="/js/countries.js"></script>
+<script src="/js/anthems.js"></script>
 <script>
   const params = new URLSearchParams(location.search);
   const id = params.get('id') || 'sa';
@@ -139,6 +169,18 @@
     </div>
   `).join('');
 
+  // النشيد الوطني
+  const anthem = (window.ANTHEMS||{})[c.id];
+  if(anthem){
+    document.getElementById('anthem-section').style.display='block';
+    document.getElementById('a-title').textContent = anthem.title;
+    document.getElementById('a-poet').textContent = anthem.poet;
+    document.getElementById('a-comp').textContent = anthem.composer;
+    document.getElementById('a-year').textContent = anthem.year;
+    document.getElementById('a-lyrics').textContent = anthem.lyrics.join('\n');
+    document.getElementById('a-note').textContent = '📝 ' + anthem.note;
+  }
+
   const related = window.COUNTRIES.filter(x=>x.continent===c.continent && x.id!==c.id).slice(0,6);
   document.getElementById('related-grid').innerHTML = related.map(r=>`
     <a href="/country.html?id=${r.id}"><div class="rf">${r.flag}</div><div class="rn">${r.name}</div></a>
@@ -148,6 +190,13 @@
   function speakName(){ speakText(c.name); }
   function speakGreeting(){ speakText(c.greeting); }
   function speakFact(){ speakText(c.fact); }
+  function playAnthem(){
+    if(!anthem) return;
+    stopAnthem();
+    const text = anthem.title + '. ' + anthem.lyrics.join('. ');
+    if(typeof speak==='function') speak(text, 0.85, 'ar-SA');
+  }
+  function stopAnthem(){ if(window.speechSynthesis) window.speechSynthesis.cancel(); }
 </script>
 </body>
 </html>
