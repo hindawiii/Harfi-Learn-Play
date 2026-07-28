@@ -169,6 +169,18 @@
     </div>
   `).join('');
 
+  // النشيد الوطني
+  const anthem = (window.ANTHEMS||{})[c.id];
+  if(anthem){
+    document.getElementById('anthem-section').style.display='block';
+    document.getElementById('a-title').textContent = anthem.title;
+    document.getElementById('a-poet').textContent = anthem.poet;
+    document.getElementById('a-comp').textContent = anthem.composer;
+    document.getElementById('a-year').textContent = anthem.year;
+    document.getElementById('a-lyrics').textContent = anthem.lyrics.join('\n');
+    document.getElementById('a-note').textContent = '📝 ' + anthem.note;
+  }
+
   const related = window.COUNTRIES.filter(x=>x.continent===c.continent && x.id!==c.id).slice(0,6);
   document.getElementById('related-grid').innerHTML = related.map(r=>`
     <a href="/country.html?id=${r.id}"><div class="rf">${r.flag}</div><div class="rn">${r.name}</div></a>
@@ -178,6 +190,13 @@
   function speakName(){ speakText(c.name); }
   function speakGreeting(){ speakText(c.greeting); }
   function speakFact(){ speakText(c.fact); }
+  function playAnthem(){
+    if(!anthem) return;
+    stopAnthem();
+    const text = anthem.title + '. ' + anthem.lyrics.join('. ');
+    if(typeof speak==='function') speak(text, 0.85, 'ar-SA');
+  }
+  function stopAnthem(){ if(window.speechSynthesis) window.speechSynthesis.cancel(); }
 </script>
 </body>
 </html>
