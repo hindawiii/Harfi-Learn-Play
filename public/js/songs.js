@@ -48,3 +48,11 @@ function playSong(i){
 }
 
 document.addEventListener('DOMContentLoaded', renderSongs);
+
+// فتح ركن الأغاني مباشرة عند الوصول عبر #songs
+document.addEventListener('DOMContentLoaded', () => {
+  if (location.hash === '#songs') {
+    const btn = document.querySelector('.tab[data-target="tab-songs"]');
+    if (btn) btn.click();
+  }
+});
