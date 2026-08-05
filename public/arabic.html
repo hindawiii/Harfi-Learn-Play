@@ -27,6 +27,7 @@
     <button class="tab active" data-target="tab-letters">الحروف</button>
     <button class="tab" data-target="tab-words">الكلمات</button>
     <button class="tab" data-target="tab-sentences">الجمل</button>
+    <button class="tab" data-target="tab-songs">🎵 أغاني الحروف</button>
   </div>
 
   <div id="tab-letters" class="tab-content active">
@@ -40,6 +41,11 @@
   <div id="tab-sentences" class="tab-content">
     <div id="sentences-container"></div>
   </div>
+
+  <div id="tab-songs" class="tab-content">
+    <p class="text-center text-gray-700 mb-4">اضغط على أي بطاقة لسماع النشيد 🎧</p>
+    <div id="songs-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+  </div>
 </div>
 
 <div id="footer-root"></div>
@@ -47,5 +53,6 @@
 
 <script src="/js/speech.js"></script>
 <script src="/js/app.js"></script>
+<script src="/js/songs.js"></script>
 </body>
 </html>
