@@ -2,91 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>أغاني الحروف - حرفي</title>
-<meta name="description" content="أناشيد قصيرة لكل حرف عربي مع النطق الصوتي والإيقاع." />
-<meta property="og:title" content="أغاني الحروف - حرفي" />
-<meta property="og:description" content="أناشيد وأغاني بسيطة لتعليم الحروف العربية." />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<link rel="manifest" href="/manifest.json" />
-<link rel="icon" href="/favicon.ico" />
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="/css/style.css" />
-<style>
-  body{font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#FFE0B2 0%,#FFCDD2 50%,#F8BBD0 100%);min-height:100vh}
-  .song-card{transition:.25s} .song-card:hover{transform:translateY(-4px)}
-</style>
+<meta name="description" content="أناشيد قصيرة لكل حرف عربي داخل قسم تعلم العربية." />
+<link rel="canonical" href="/arabic.html" />
+<meta http-equiv="refresh" content="0; url=/arabic.html#songs" />
+<script>location.replace('/arabic.html#songs');</script>
 </head>
 <body>
-<div id="nav-root"></div>
-
-<section class="max-w-4xl mx-auto px-4 pt-10 text-center">
-  <div class="text-7xl mb-3">🎵</div>
-  <h1 class="text-3xl md:text-5xl font-black text-gray-800 mb-2">أغاني الحروف</h1>
-  <p class="text-lg text-gray-700">اضغط على أي بطاقة لسماع النشيد 🎧</p>
-</section>
-
-<main class="max-w-5xl mx-auto px-4 py-10">
-  <div id="songs-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
-</main>
-
-<div id="footer-root"></div>
-<script src="/js/layout.js"></script>
-<script>window.HARFI_LANG='ar';</script>
-<script src="/js/speech.js"></script>
-<script>
-const SONGS = [
-  { l:'أ', w:'أسد', line:'ألف ألف يا أسد، في الغابة له عدد' },
-  { l:'ب', w:'بطة', line:'باء باء يا بطة، تسبح في البركة' },
-  { l:'ت', w:'تفاح', line:'تاء تاء تفاحة، حمراء ولذيذة' },
-  { l:'ث', w:'ثعلب', line:'ثاء ثاء ثعلب، يجري ولا يتعب' },
-  { l:'ج', w:'جمل', line:'جيم جيم جمل، في الصحراء يعمل' },
-  { l:'ح', w:'حصان', line:'حاء حاء حصان، يجري في الميدان' },
-  { l:'خ', w:'خروف', line:'خاء خاء خروف، صوفه ناعم ومعروف' },
-  { l:'د', w:'دب', line:'دال دال دبدوب، يحب العسل المحبوب' },
-  { l:'ذ', w:'ذئب', line:'ذال ذال ذئب، في الغابة يهيب' },
-  { l:'ر', w:'رمان', line:'راء راء رمان، حباته كالمرجان' },
-  { l:'ز', w:'زرافة', line:'زاي زاي زرافة، رقبتها طويلة لطيفة' },
-  { l:'س', w:'سمكة', line:'سين سين سمكة، في البحر متحركة' },
-  { l:'ش', w:'شمس', line:'شين شين شمس، تشرق كل يوم بحمس' },
-  { l:'ص', w:'صقر', line:'صاد صاد صقر، يطير عالياً بفخر' },
-  { l:'ط', w:'طائر', line:'طاء طاء طائر، يغرد في المرابع' },
-  { l:'ع', w:'عصفور', line:'عين عين عصفور، على الغصن مسرور' },
-  { l:'ف', w:'فيل', line:'فاء فاء فيل، خرطومه طويل جميل' },
-  { l:'ق', w:'قمر', line:'قاف قاف قمر، في الليل يستمر' },
-  { l:'ك', w:'كتاب', line:'كاف كاف كتاب، فيه علم وأبواب' },
-  { l:'ل', w:'ليمون', line:'لام لام ليمون، أصفر كالميمون' },
-  { l:'م', w:'موز', line:'ميم ميم موزة، صفراء ومحبوبة' },
-  { l:'ن', w:'نحلة', line:'نون نون نحلة، تصنع عسل حلوة' },
-  { l:'ه', w:'هدهد', line:'هاء هاء هدهد، على رأسه تاج يوجد' },
-  { l:'و', w:'وردة', line:'واو واو وردة، حمراء وممتدة' },
-  { l:'ي', w:'يمامة', line:'ياء ياء يمامة، تطير بسلام وابتسامة' },
-];
-
-const colors = ['#FF6B6B','#4ECDC4','#FFD93D','#6BCB77','#A66CFF','#FF9F45','#FF6BAA','#38B6FF'];
-
-function render(){
-  const grid = document.getElementById('songs-grid');
-  grid.innerHTML = SONGS.map((s,i)=>`
-    <button onclick="playSong(${i})" class="song-card text-right rounded-2xl p-5 shadow-lg text-white"
-      style="background:${colors[i%colors.length]}">
-      <div class="text-5xl font-black mb-2">${s.l}</div>
-      <div class="text-sm opacity-95 mb-1">🎵 ${s.w}</div>
-      <div class="text-xs opacity-80 leading-relaxed">${s.line}</div>
-    </button>
-  `).join('');
-}
-
-function playSong(i){
-  const s = SONGS[i];
-  const text = `${s.l} ${s.l}. ${s.line}. ${s.w}`;
-  speak(text, 0.9, 'ar-SA');
-}
-
-document.addEventListener('DOMContentLoaded', render);
-</script>
+<p>جارٍ التحويل إلى <a href="/arabic.html#songs">قسم أغاني الحروف داخل تعلم العربية</a>…</p>
 </body>
 </html>
