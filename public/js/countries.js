@@ -41,7 +41,7 @@ function renderCountries(){
   }
   grid.innerHTML = list.map(c=>`
     <a href="/country.html?id=${c.id}" class="country-card block" style="--accent:${c.color}">
-      <div class="flag">${c.flag}</div>
+      <div class="flag">${flagImg(c, 96)}</div>
       <div class="country-name">${c.name}</div>
       <div class="country-capital"><i class="fa-solid fa-location-dot"></i> ${c.capital}</div>
       <div class="continent-badge">${c.continent}</div>
