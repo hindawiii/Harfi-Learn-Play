@@ -211,9 +211,16 @@ body {
   gap: 16px;
   padding: 20px 0;
 }
-@media (max-width: 639px) { .letters-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 640px) and (max-width: 1023px) { .letters-grid { grid-template-columns: repeat(4, 1fr); } }
-@media (min-width: 1024px) { .letters-grid { grid-template-columns: repeat(7, 1fr); } }
+.letters-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+.letters-grid > * { min-width: 0; }
+.letters-grid .card { padding: 14px 10px; }
+.letters-grid .btn-read { font-size: 14px; padding: 10px 6px; white-space: nowrap; }
+.letters-grid .speech-buttons { gap: 6px; }
+@media (max-width: 400px) { .letters-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+/* Flags */
+.flag-img { display:block; margin:0 auto; border-radius:8px; box-shadow:0 3px 10px rgba(0,0,0,.18); object-fit:cover; }
+.flag-emoji { font-size:56px; line-height:1; }
 
 /* Words / Sentences sections */
 .letter-section {

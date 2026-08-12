@@ -26,6 +26,16 @@ const COUNTRIES = [
 
 window.COUNTRIES = COUNTRIES;
 
+// صورة العلم الرسمية (مع رجوع للإيموجي عند تعذّر التحميل)
+function flagImg(c, w){
+  const size = w >= 300 ? 'w320' : (w >= 150 ? 'w160' : 'w80');
+  return `<img src="https://flagcdn.com/${size}/${c.id}.png"
+    srcset="https://flagcdn.com/w320/${c.id}.png 2x"
+    alt="علم ${c.name}" loading="lazy" class="flag-img" style="width:${w}px"
+    onerror="this.outerHTML='<span class=\\'flag-emoji\\'>${c.flag}</span>'" />`;
+}
+window.flagImg = flagImg;
+
 function renderCountries(){
   const grid = document.getElementById('countries-grid');
   if(!grid) return;
