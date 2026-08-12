@@ -118,13 +118,13 @@ function renderOrder() {
       </button>
     </div>
 
-    <div id="slots" class="flex flex-row-reverse flex-wrap justify-center gap-2 mb-5">
+    <div id="slots" dir="rtl" class="flex flex-wrap justify-center gap-2 mb-5">
       ${target.map((_, i) => `
         <div class="slot w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/80 border-4 border-dashed border-[#FFD93D] flex items-center justify-center text-4xl font-black text-gray-800" data-i="${i}"></div>
       `).join('')}
     </div>
 
-    <div id="pool" class="flex flex-row-reverse flex-wrap justify-center gap-2">
+    <div id="pool" dir="rtl" class="flex flex-wrap justify-center gap-2">
       ${pool.map((l, i) => `
         <button onclick="placeLetter(${i}, this)" data-letter="${l}"
           class="pool-letter w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white shadow-lg text-4xl font-black text-gray-800 hover:bg-[#FFE66D] active:scale-95 transition-all">
