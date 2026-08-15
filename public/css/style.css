@@ -284,3 +284,14 @@ body {
 }
 
 .speaking-full { color: #FF6B6B; transition: color .2s; }
+
+/* ===== ركن الحروف بالتشكيل ===== */
+.tk-picker{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:8px}
+.tk-letter{min-width:48px;min-height:48px;font-size:1.4rem;font-weight:700;border-radius:14px;border:2px solid #e5e7eb;background:#fff;color:#374151;cursor:pointer;transition:.2s}
+.tk-letter:hover{transform:translateY(-2px);border-color:#f59e0b}
+.tk-letter.active{background:#f59e0b;color:#fff;border-color:#f59e0b}
+.tk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.tk-card{background:#fff;border:3px solid #e5e7eb;border-radius:18px;padding:14px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.tk-big{font-size:3rem;font-weight:900;line-height:1.4}
+.tk-name{font-weight:700;color:#374151;margin-top:4px}
+.tk-hint{font-size:.85rem;color:#6b7280;margin-bottom:8px}
