@@ -282,3 +282,5 @@ body {
   color: #555;
   margin: 2px 0 6px;
 }
+
+.speaking-full { color: #FF6B6B; transition: color .2s; }
