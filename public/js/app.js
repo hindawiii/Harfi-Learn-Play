@@ -241,7 +241,9 @@ const App = {
       <div class="card">
         <div class="letter-big">${item.letter}</div>
         <div class="letter-small">${item.small}</div>
-        <div class="emoji">${item.emoji}</div>
+        <div class="emoji" onclick="App.playAndScore(\`${item.example}\`, 0.9)" style="cursor:pointer">${item.emoji}</div>
+        <div class="letter-example">${item.example}</div>
+
         <div class="letter-name">${item.name}</div>
         <div class="speech-buttons">
           <button class="btn-slow" onclick="App.playAndScore('${item.sound}', 0.5)" title="slow">🐢</button>
