@@ -2,35 +2,36 @@
  * المنطق العام - حرفي
  */
 const arabicLetters = [
-  { letter: "أ", small: "ــأ", name: "ألف", emoji: "🍎", sound: "ألف" },
-  { letter: "ب", small: "ــب", name: "باء", emoji: "🏠", sound: "باء" },
-  { letter: "ت", small: "ــت", name: "تاء", emoji: "🍇", sound: "تاء" },
-  { letter: "ث", small: "ــث", name: "ثاء", emoji: "🦊", sound: "ثاء" },
-  { letter: "ج", small: "ــج", name: "جيم", emoji: "🐪", sound: "جيم" },
-  { letter: "ح", small: "ــح", name: "حاء", emoji: "🌙", sound: "حاء" },
-  { letter: "خ", small: "ــخ", name: "خاء", emoji: "🌵", sound: "خاء" },
-  { letter: "د", small: "ــد", name: "دال", emoji: "🚪", sound: "دال" },
-  { letter: "ذ", small: "ــذ", name: "ذال", emoji: "🐺", sound: "ذال" },
-  { letter: "ر", small: "ــر", name: "راء", emoji: "🌹", sound: "راء" },
-  { letter: "ز", small: "ــز", name: "زاي", emoji: "🦓", sound: "زاي" },
-  { letter: "س", small: "ــس", name: "سين", emoji: "🐟", sound: "سين" },
-  { letter: "ش", small: "ــش", name: "شين", emoji: "🌳", sound: "شين" },
-  { letter: "ص", small: "ــص", name: "صاد", emoji: "📦", sound: "صاد" },
-  { letter: "ض", small: "ــض", name: "ضاد", emoji: "🍋", sound: "ضاد" },
-  { letter: "ط", small: "ــط", name: "طاء", emoji: "🍌", sound: "طاء" },
-  { letter: "ظ", small: "ــظ", name: "ظاء", emoji: "🦒", sound: "ظاء" },
-  { letter: "ع", small: "ــع", name: "عين", emoji: "👁️", sound: "عين" },
-  { letter: "غ", small: "ــغ", name: "غين", emoji: "🦅", sound: "غين" },
-  { letter: "ف", small: "ــف", name: "فاء", emoji: "🐘", sound: "فاء" },
-  { letter: "ق", small: "ــق", name: "قاف", emoji: "🎈", sound: "قاف" },
-  { letter: "ك", small: "ــك", name: "كاف", emoji: "📚", sound: "كاف" },
-  { letter: "ل", small: "ــل", name: "لام", emoji: "🥩", sound: "لام" },
-  { letter: "م", small: "ــم", name: "ميم", emoji: "🌊", sound: "ميم" },
-  { letter: "ن", small: "ــن", name: "نون", emoji: "🐝", sound: "نون" },
-  { letter: "ه", small: "ــه", name: "هاء", emoji: "🌺", sound: "هاء" },
-  { letter: "و", small: "ــو", name: "واو", emoji: "🌹", sound: "واو" },
-  { letter: "ي", small: "ــي", name: "ياء", emoji: "🐑", sound: "ياء" }
+  { letter: "أ", small: "ــأ", name: "ألف", emoji: "🦁", example: "أَسَد", sound: "ألف" },
+  { letter: "ب", small: "ــب", name: "باء", emoji: "🏠", example: "بَيْت", sound: "باء" },
+  { letter: "ت", small: "ــت", name: "تاء", emoji: "🍎", example: "تُفَّاح", sound: "تاء" },
+  { letter: "ث", small: "ــث", name: "ثاء", emoji: "🦊", example: "ثَعْلَب", sound: "ثاء" },
+  { letter: "ج", small: "ــج", name: "جيم", emoji: "🐪", example: "جَمَل", sound: "جيم" },
+  { letter: "ح", small: "ــح", name: "حاء", emoji: "🐎", example: "حِصَان", sound: "حاء" },
+  { letter: "خ", small: "ــخ", name: "خاء", emoji: "🍞", example: "خُبْز", sound: "خاء" },
+  { letter: "د", small: "ــد", name: "دال", emoji: "🐻", example: "دُبّ", sound: "دال" },
+  { letter: "ذ", small: "ــذ", name: "ذال", emoji: "🐺", example: "ذِئْب", sound: "ذال" },
+  { letter: "ر", small: "ــر", name: "راء", emoji: "👨", example: "رَجُل", sound: "راء" },
+  { letter: "ز", small: "ــز", name: "زاي", emoji: "🦒", example: "زَرَافَة", sound: "زاي" },
+  { letter: "س", small: "ــس", name: "سين", emoji: "🐟", example: "سَمَك", sound: "سين" },
+  { letter: "ش", small: "ــش", name: "شين", emoji: "☀️", example: "شَمْس", sound: "شين" },
+  { letter: "ص", small: "ــص", name: "صاد", emoji: "🦅", example: "صَقْر", sound: "صاد" },
+  { letter: "ض", small: "ــض", name: "ضاد", emoji: "🐸", example: "ضِفْدَع", sound: "ضاد" },
+  { letter: "ط", small: "ــط", name: "طاء", emoji: "✈️", example: "طَائِرَة", sound: "طاء" },
+  { letter: "ظ", small: "ــظ", name: "ظاء", emoji: "🦌", example: "ظَبْي", sound: "ظاء" },
+  { letter: "ع", small: "ــع", name: "عين", emoji: "👁️", example: "عَيْن", sound: "عين" },
+  { letter: "غ", small: "ــغ", name: "غين", emoji: "🌲", example: "غَابَة", sound: "غين" },
+  { letter: "ف", small: "ــف", name: "فاء", emoji: "🐘", example: "فِيل", sound: "فاء" },
+  { letter: "ق", small: "ــق", name: "قاف", emoji: "🐱", example: "قِطّ", sound: "قاف" },
+  { letter: "ك", small: "ــك", name: "كاف", emoji: "📚", example: "كِتَاب", sound: "كاف" },
+  { letter: "ل", small: "ــل", name: "لام", emoji: "🍋", example: "لَيْمُون", sound: "لام" },
+  { letter: "م", small: "ــم", name: "ميم", emoji: "🍌", example: "مَوْز", sound: "ميم" },
+  { letter: "ن", small: "ــن", name: "نون", emoji: "🐝", example: "نَحْلَة", sound: "نون" },
+  { letter: "ه", small: "ــه", name: "هاء", emoji: "🎁", example: "هَدِيَّة", sound: "هاء" },
+  { letter: "و", small: "ــو", name: "واو", emoji: "🌹", example: "وَرْدَة", sound: "واو" },
+  { letter: "ي", small: "ــي", name: "ياء", emoji: "✋", example: "يَد", sound: "ياء" }
 ];
+
 
 const wordsByLetter = {
   "أ": [{text:"أَسَد",emoji:"🦁"},{text:"أُمّ",emoji:"👩"},{text:"أَب",emoji:"👨"},{text:"أَرْنَب",emoji:"🐰"},{text:"أَنَانَاس",emoji:"🍍"}],
@@ -42,14 +43,14 @@ const wordsByLetter = {
   "خ": [{text:"خُبْز",emoji:"🍞"},{text:"خَرُوف",emoji:"🐑"},{text:"خَوْخ",emoji:"🍑"},{text:"خَاتَم",emoji:"💍"},{text:"خِيَار",emoji:"🥒"}],
   "د": [{text:"دَجَاجَة",emoji:"🐔"},{text:"دُبّ",emoji:"🐻"},{text:"دَرَّاجَة",emoji:"🚲"},{text:"دَلْو",emoji:"🪣"},{text:"دُولَاب",emoji:"🎡"}],
   "ذ": [{text:"ذِئْب",emoji:"🐺"},{text:"ذَهَب",emoji:"🏅"},{text:"ذُبَابَة",emoji:"🪰"},{text:"ذَقْن",emoji:"🧔"},{text:"ذُرَة",emoji:"🌽"}],
-  "ر": [{text:"رُمَّان",emoji:"🍎"},{text:"رَجُل",emoji:"👨"},{text:"رَسَّام",emoji:"🎨"},{text:"رَغِيف",emoji:"🥖"},{text:"رِيح",emoji:"💨"}],
+  "ر": [{text:"رُمَّان",emoji:"🍒"},{text:"رَجُل",emoji:"👨"},{text:"رَسَّام",emoji:"🎨"},{text:"رَغِيف",emoji:"🥖"},{text:"رِيح",emoji:"💨"}],
   "ز": [{text:"زَرَافَة",emoji:"🦒"},{text:"زَهْرَة",emoji:"🌸"},{text:"زَيْتُون",emoji:"🫒"},{text:"زَبِيب",emoji:"🍇"},{text:"زُجَاجَة",emoji:"🍾"}],
   "س": [{text:"سَمَك",emoji:"🐟"},{text:"سَيَّارَة",emoji:"🚗"},{text:"سُلَحْفَاة",emoji:"🐢"},{text:"سَاعَة",emoji:"⏰"},{text:"سَحَاب",emoji:"☁️"}],
   "ش": [{text:"شَجَرَة",emoji:"🌳"},{text:"شَمْس",emoji:"☀️"},{text:"شَاي",emoji:"🍵"},{text:"شَاطِئ",emoji:"🏖️"},{text:"شُعْلَة",emoji:"🔥"}],
   "ص": [{text:"صَقْر",emoji:"🦅"},{text:"صُنْدُوق",emoji:"📦"},{text:"صَحْن",emoji:"🍽️"},{text:"صَابُون",emoji:"🧼"},{text:"صَبَّار",emoji:"🌵"}],
-  "ض": [{text:"ضِفْدَع",emoji:"🐸"},{text:"ضَوْء",emoji:"💡"},{text:"ضَبُع",emoji:"🐺"},{text:"ضَبَاب",emoji:"🌫️"},{text:"ضَيْف",emoji:"👤"}],
+  "ض": [{text:"ضِفْدَع",emoji:"🐸"},{text:"ضَوْء",emoji:"💡"},{text:"ضَبُع",emoji:"🐆"},{text:"ضَبَاب",emoji:"🌫️"},{text:"ضَيْف",emoji:"👤"}],
   "ط": [{text:"طَاوُوس",emoji:"🦚"},{text:"طَبْل",emoji:"🥁"},{text:"طَائِرَة",emoji:"✈️"},{text:"طَمَاطِم",emoji:"🍅"},{text:"طَبِيب",emoji:"👨‍⚕️"}],
-  "ظ": [{text:"ظَبْي",emoji:"🦌"},{text:"ظِلّ",emoji:"🌑"},{text:"ظَرْف",emoji:"✉️"},{text:"ظُهْر",emoji:"🌞"},{text:"ظَافِر",emoji:"🏆"}],
+  "ظ": [{text:"ظَبْي",emoji:"🦌"},{text:"ظِلّ",emoji:"🌑"},{text:"ظَرْف",emoji:"✉️"},{text:"ظُهْر",emoji:"🌞"},{text:"ظُفْر",emoji:"💅"}],
   "ع": [{text:"عَيْن",emoji:"👁️"},{text:"عَصِير",emoji:"🧃"},{text:"عَسَل",emoji:"🍯"},{text:"عُصْفُور",emoji:"🐦"},{text:"عِنَب",emoji:"🍇"}],
   "غ": [{text:"غَزَال",emoji:"🦌"},{text:"غَيْمَة",emoji:"☁️"},{text:"غُرَاب",emoji:"🐦‍⬛"},{text:"غَابَة",emoji:"🌲"},{text:"غَسَّالَة",emoji:"🧺"}],
   "ف": [{text:"فِيل",emoji:"🐘"},{text:"فَرَاشَة",emoji:"🦋"},{text:"فُرْن",emoji:"🔥"},{text:"فُسْتُق",emoji:"🥜"},{text:"فَاكِهَة",emoji:"🍉"}],
@@ -96,32 +97,33 @@ const sentencesByLetter = {
 
 /* ================= English Data ================= */
 const englishLetters = [
-  { letter: "A", small: "a", name: "A", emoji: "🍎", sound: "A" },
-  { letter: "B", small: "b", name: "B", emoji: "🐝", sound: "B" },
-  { letter: "C", small: "c", name: "C", emoji: "🐈", sound: "C" },
-  { letter: "D", small: "d", name: "D", emoji: "🐕", sound: "D" },
-  { letter: "E", small: "e", name: "E", emoji: "🥚", sound: "E" },
-  { letter: "F", small: "f", name: "F", emoji: "🐟", sound: "F" },
-  { letter: "G", small: "g", name: "G", emoji: "🍇", sound: "G" },
-  { letter: "H", small: "h", name: "H", emoji: "🏠", sound: "H" },
-  { letter: "I", small: "i", name: "I", emoji: "🍦", sound: "I" },
-  { letter: "J", small: "j", name: "J", emoji: "🧃", sound: "J" },
-  { letter: "K", small: "k", name: "K", emoji: "🪁", sound: "K" },
-  { letter: "L", small: "l", name: "L", emoji: "🦁", sound: "L" },
-  { letter: "M", small: "m", name: "M", emoji: "🌙", sound: "M" },
-  { letter: "N", small: "n", name: "N", emoji: "👃", sound: "N" },
-  { letter: "O", small: "o", name: "O", emoji: "🍊", sound: "O" },
-  { letter: "P", small: "p", name: "P", emoji: "🐧", sound: "P" },
-  { letter: "Q", small: "q", name: "Q", emoji: "👑", sound: "Q" },
-  { letter: "R", small: "r", name: "R", emoji: "🌈", sound: "R" },
-  { letter: "S", small: "s", name: "S", emoji: "☀️", sound: "S" },
-  { letter: "T", small: "t", name: "T", emoji: "🌳", sound: "T" },
-  { letter: "U", small: "u", name: "U", emoji: "☂️", sound: "U" },
-  { letter: "V", small: "v", name: "V", emoji: "🎻", sound: "V" },
-  { letter: "W", small: "w", name: "W", emoji: "🍉", sound: "W" },
-  { letter: "X", small: "x", name: "X", emoji: "🎷", sound: "X" },
-  { letter: "Y", small: "y", name: "Y", emoji: "💛", sound: "Y" },
-  { letter: "Z", small: "z", name: "Z", emoji: "🦓", sound: "Z" }
+  { letter: "A", small: "a", name: "A", emoji: "🍎", example: "Apple", sound: "A" },
+  { letter: "B", small: "b", name: "B", emoji: "⚽", example: "Ball", sound: "B" },
+  { letter: "C", small: "c", name: "C", emoji: "🐈", example: "Cat", sound: "C" },
+  { letter: "D", small: "d", name: "D", emoji: "🐕", example: "Dog", sound: "D" },
+  { letter: "E", small: "e", name: "E", emoji: "🥚", example: "Egg", sound: "E" },
+  { letter: "F", small: "f", name: "F", emoji: "🐟", example: "Fish", sound: "F" },
+  { letter: "G", small: "g", name: "G", emoji: "🐐", example: "Goat", sound: "G" },
+  { letter: "H", small: "h", name: "H", emoji: "🏠", example: "House", sound: "H" },
+  { letter: "I", small: "i", name: "I", emoji: "🧊", example: "Ice", sound: "I" },
+  { letter: "J", small: "j", name: "J", emoji: "🧃", example: "Juice", sound: "J" },
+  { letter: "K", small: "k", name: "K", emoji: "🪁", example: "Kite", sound: "K" },
+  { letter: "L", small: "l", name: "L", emoji: "🦁", example: "Lion", sound: "L" },
+  { letter: "M", small: "m", name: "M", emoji: "🌙", example: "Moon", sound: "M" },
+  { letter: "N", small: "n", name: "N", emoji: "👃", example: "Nose", sound: "N" },
+  { letter: "O", small: "o", name: "O", emoji: "🍊", example: "Orange", sound: "O" },
+  { letter: "P", small: "p", name: "P", emoji: "🐖", example: "Pig", sound: "P" },
+  { letter: "Q", small: "q", name: "Q", emoji: "👸", example: "Queen", sound: "Q" },
+  { letter: "R", small: "r", name: "R", emoji: "🐰", example: "Rabbit", sound: "R" },
+  { letter: "S", small: "s", name: "S", emoji: "☀️", example: "Sun", sound: "S" },
+  { letter: "T", small: "t", name: "T", emoji: "🌳", example: "Tree", sound: "T" },
+  { letter: "U", small: "u", name: "U", emoji: "☂️", example: "Umbrella", sound: "U" },
+  { letter: "V", small: "v", name: "V", emoji: "🎻", example: "Violin", sound: "V" },
+  { letter: "W", small: "w", name: "W", emoji: "🐋", example: "Whale", sound: "W" },
+  { letter: "X", small: "x", name: "X", emoji: "🩻", example: "X-ray", sound: "X" },
+  { letter: "Y", small: "y", name: "Y", emoji: "💛", example: "Yellow", sound: "Y" },
+  { letter: "Z", small: "z", name: "Z", emoji: "🦓", example: "Zebra", sound: "Z" }
+
 ];
 
 const wordsByLetter_en = {
@@ -239,7 +241,9 @@ const App = {
       <div class="card">
         <div class="letter-big">${item.letter}</div>
         <div class="letter-small">${item.small}</div>
-        <div class="emoji">${item.emoji}</div>
+        <div class="emoji" onclick="App.playAndScore(\`${item.example}\`, 0.9)" style="cursor:pointer">${item.emoji}</div>
+        <div class="letter-example">${item.example}</div>
+
         <div class="letter-name">${item.name}</div>
         <div class="speech-buttons">
           <button class="btn-slow" onclick="App.playAndScore('${item.sound}', 0.5)" title="slow">🐢</button>

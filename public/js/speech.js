@@ -53,7 +53,15 @@ const SpeechSystem = {
     }
     const last = document.getElementById(`char-${letters.length-1}`);
     if (last) last.classList.remove('highlight');
+    // بعد تهجئة الحروف: انطق الكلمة/الجملة كاملة
+    if (letters.length > 1) {
+      await delay(300);
+      containerElement.classList.add('speaking-full');
+      await this.speakLetter(text, Math.min(rate + 0.1, 1), lang);
+      containerElement.classList.remove('speaking-full');
+    }
     hideSpeakingIndicator();
+
   },
 
   speakLetter(letter, rate, lang) {
