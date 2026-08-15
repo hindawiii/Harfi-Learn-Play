@@ -275,3 +275,10 @@ body {
   font-weight: 700;
 }
 .btn-inline:hover { background: #FF5252; }
+
+.letter-example {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #555;
+  margin: 2px 0 6px;
+}
