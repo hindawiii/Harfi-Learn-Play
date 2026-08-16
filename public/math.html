@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>تعلم الحساب والعد - حرفي</title>
+<meta name="description" content="ركن الأرقام العربية والإنجليزية وعمليات حسابية بسيطة للأطفال من عمر 3 سنوات." />
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<div id="nav-root"></div>
+<div class="max-w-6xl mx-auto px-4 pt-4 flex items-center justify-between">
+  <h1 class="text-xl md:text-2xl font-bold text-gray-800">🔢 تعلم الحساب والعد</h1>
+  <div id="math-score" class="text-sm md:text-base font-bold text-gray-700">⭐ نقاطك: 0</div>
+</div>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" data-target="tab-ar-numbers">الأرقام العربية</button>
+    <button class="tab" data-target="tab-en-numbers">الأرقام الإنجليزية</button>
+    <button class="tab" data-target="tab-ops">عمليات حسابية</button>
+  </div>
+
+  <div id="tab-ar-numbers" class="tab-content active">
+    <p class="text-center text-gray-700 mb-3">اختر مجموعة ثم اضغط على أي رقم لسماع نطقه وعدّ الأشكال 🔊</p>
+    <div id="ar-groups" class="tk-picker"></div>
+    <div id="ar-numbers" class="letters-grid"></div>
+  </div>
+
+  <div id="tab-en-numbers" class="tab-content">
+    <p class="text-center text-gray-700 mb-3">اختر مجموعة ثم اضغط على أي رقم لسماع نطقه بالإنجليزية 🔊</p>
+    <div id="en-groups" class="tk-picker"></div>
+    <div id="en-numbers" class="letters-grid"></div>
+  </div>
+
+  <div id="tab-ops" class="tab-content">
+    <div class="tk-picker" id="ops-modes"></div>
+    <div id="ops-box" class="max-w-xl mx-auto"></div>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+<script src="/js/layout.js"></script>
+<script src="/js/speech.js"></script>
+<script src="/js/rewards.js"></script>
+<script src="/js/math.js"></script>
+</body>
+</html>
