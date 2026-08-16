@@ -195,7 +195,7 @@ const EN_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩','١٠'];
 const EN_DIGITS = ['0','1','2','3','4','5','6','7','8','9','10'];
 
-AR_LETTERS.forEach(ch => SHAPES.unshift({ cat:'arletter', name:ch, svg: glyphSvg(ch, 260) }));
+AR_LETTERS.forEach(ch => SHAPES.push({ cat:'arletter', name:ch, svg: glyphSvg(ch, 260) }));
 EN_LETTERS.forEach(ch => SHAPES.push({ cat:'enletter', name:ch, svg: glyphSvg(ch, 260) }));
 AR_DIGITS.forEach(ch => SHAPES.push({ cat:'arnum', name:ch, svg: glyphSvg(ch, ch.length>1?200:280) }));
 EN_DIGITS.forEach(ch => SHAPES.push({ cat:'ennum', name:ch, svg: glyphSvg(ch, ch.length>1?200:280) }));
