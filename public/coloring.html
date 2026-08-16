@@ -66,11 +66,15 @@
   <section id="corner-color" class="bg-white rounded-3xl shadow-xl p-5 md:p-6">
     <!-- Categories -->
     <div class="flex flex-wrap justify-center gap-2 mb-4">
-      <button class="shape-cat active" data-cat="letter">🔤 حروف</button>
+      <button class="shape-cat active" data-cat="arletter">🔤 حروف عربية</button>
+      <button class="shape-cat" data-cat="enletter">🔡 حروف إنجليزية</button>
+      <button class="shape-cat" data-cat="arnum">🔢 أرقام عربية</button>
+      <button class="shape-cat" data-cat="ennum">1️⃣ أرقام إنجليزية</button>
       <button class="shape-cat" data-cat="animal">🐪 حيوانات</button>
       <button class="shape-cat" data-cat="object">🏠 أشياء</button>
       <button class="shape-cat" data-cat="nature">🌳 طبيعة</button>
     </div>
+
 
     <!-- Shape thumbs -->
     <div id="shapes-grid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 mb-5"></div>
@@ -155,15 +159,8 @@ const COLORS = [
 /* ================ COLORING SHAPES ================ */
 // Each shape: category + inner SVG markup (viewBox 0 0 400 400). All paths fill #fff by default.
 const SHAPES = [
-  // Letters
-  { cat:'letter', name:'أ', svg:`<path d="M120 320 L200 90 L280 320 M155 240 L245 240" fill="#fff"/>` },
-  { cat:'letter', name:'ب', svg:`<path d="M80 130 L80 260 Q80 300 120 300 L280 300 Q320 300 320 260 L320 200" fill="#fff"/><circle cx="200" cy="340" r="14" fill="#fff"/>` },
-  { cat:'letter', name:'ت', svg:`<path d="M80 160 L80 260 Q80 300 120 300 L280 300 Q320 300 320 260 L320 160" fill="#fff"/><circle cx="170" cy="120" r="14" fill="#fff"/><circle cx="230" cy="120" r="14" fill="#fff"/>` },
-  { cat:'letter', name:'ج', svg:`<path d="M100 130 L280 130 Q320 130 300 170 L200 300 Q170 340 130 320 L100 300" fill="#fff"/><circle cx="200" cy="230" r="14" fill="#fff"/>` },
-  { cat:'letter', name:'د', svg:`<path d="M110 130 L280 130 Q320 130 300 170 L200 300 Q170 330 130 310" fill="#fff"/>` },
-  { cat:'letter', name:'ر', svg:`<path d="M100 130 L260 130 Q290 130 280 160 L220 280 Q200 320 160 320" fill="#fff"/>` },
-  { cat:'letter', name:'س', svg:`<path d="M80 200 L100 260 L120 200 L140 260 L160 200 L180 260 Q200 300 240 300 L320 300" fill="#fff"/>` },
-  { cat:'letter', name:'م', svg:`<circle cx="180" cy="180" r="60" fill="#fff"/><path d="M180 240 L180 320" fill="#fff"/>` },
+
+
 
   // Animals
   { cat:'animal', name:'سمكة', svg:`<ellipse cx="180" cy="200" rx="120" ry="70" fill="#fff"/><polygon points="290,200 370,140 370,260" fill="#fff"/><circle cx="130" cy="180" r="12" fill="#fff"/><path d="M120 220 Q 150 240 190 220" fill="#fff"/>` },
@@ -189,9 +186,24 @@ const SHAPES = [
   { cat:'nature', name:'جبل', svg:`<polygon points="60,320 160,150 220,240 280,120 360,320" fill="#fff"/><polygon points="140,180 160,150 180,180 165,195" fill="#fff"/>` },
 ];
 
+/* ===== Generated letters & numbers (colorable glyphs) ===== */
+function glyphSvg(ch, fontSize){
+  return `<text x="200" y="200" dominant-baseline="central" text-anchor="middle" font-family="Tajawal, Arial, sans-serif" font-weight="900" font-size="${fontSize}" fill="#fff">${ch}</text>`;
+}
+const AR_LETTERS = ['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','هـ','و','ي'];
+const EN_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩','١٠'];
+const EN_DIGITS = ['0','1','2','3','4','5','6','7','8','9','10'];
+
+AR_LETTERS.forEach(ch => SHAPES.push({ cat:'arletter', name:ch, svg: glyphSvg(ch, 260) }));
+EN_LETTERS.forEach(ch => SHAPES.push({ cat:'enletter', name:ch, svg: glyphSvg(ch, 260) }));
+AR_DIGITS.forEach(ch => SHAPES.push({ cat:'arnum', name:ch, svg: glyphSvg(ch, ch.length>1?200:280) }));
+EN_DIGITS.forEach(ch => SHAPES.push({ cat:'ennum', name:ch, svg: glyphSvg(ch, ch.length>1?200:280) }));
+
 /* ================ STATE ================ */
 let currentColor = COLORS[0];
-let currentCat = 'letter';
+let currentCat = 'arletter';
+
 let currentShapeIdx = 0;
 let colorHistory = []; // {el, prev}
 
