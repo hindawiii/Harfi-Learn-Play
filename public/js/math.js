@@ -223,9 +223,11 @@
     if (!document.getElementById('ar-numbers')) return;
     initTabs();
     addScore(0);
-    renderGroups('ar-groups', arGroup, i => { arGroup = i; renderGroups('ar-groups', arGroup, arguments.callee); renderArabicNumbers(); });
+    const pickAr = i => { arGroup = i; renderGroups('ar-groups', arGroup, pickAr); renderArabicNumbers(); };
+    const pickEn = i => { enGroup = i; renderGroups('en-groups', enGroup, pickEn); renderEnglishNumbers(); };
+    renderGroups('ar-groups', arGroup, pickAr);
     renderArabicNumbers();
-    renderGroups('en-groups', enGroup, i => { enGroup = i; renderGroups('en-groups', enGroup, () => {}); renderEnglishNumbers(); });
+    renderGroups('en-groups', enGroup, pickEn);
     renderEnglishNumbers();
     renderOpsModes();
     newQuestion();

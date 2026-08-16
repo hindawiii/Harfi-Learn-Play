@@ -10,6 +10,7 @@
     { href: '/countries.html',     icon: '🌍', ar: 'الدول',      en: 'Countries' },
     { href: '/stories.html',       icon: '🌙', ar: 'القصص',      en: 'Stories' },
     
+    { href: '/math.html',          icon: '🔢', ar: 'الحساب',     en: 'Math' },
     { href: '/coloring.html',      icon: '🎨', ar: 'التلوين',     en: 'Coloring' },
     { href: '/play.html',          icon: '🎮', ar: 'العب',        en: 'Play' },
     { href: '/parent-report.html', icon: '👨‍👩‍👧', ar: 'الأهل',   en: 'Parents' },
