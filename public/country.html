@@ -74,6 +74,14 @@
   .city.capital-city { background:linear-gradient(135deg,#FFF3E0,#FFE0B2); color:#8D4E00; }
   .city:hover { border-color:#4ECDC4; transform:translateY(-3px); }
   .city .ci { display:block; font-size:22px; margin-bottom:4px; }
+  .reg-search { width:100%; padding:12px 14px; border:2px solid #E0E0E0; border-radius:12px; font-size:15px; margin-bottom:14px; font-family:inherit; }
+  .reg-search:focus { outline:none; border-color:#4ECDC4; }
+  .regions { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+  .region { background:#FFF; border:2px solid #ECEFF1; border-radius:14px; padding:14px; cursor:pointer; transition:.2s; }
+  .region:hover { border-color:#4ECDC4; transform:translateY(-3px); }
+  .region .rgn { font-weight:900; color:#2D3436; font-size:16px; }
+  .region .rgc { font-size:13px; color:#00838F; font-weight:700; margin-top:4px; }
+  .region .rgo { font-size:13px; color:#607D8B; margin-top:6px; }
   .rulers { display:flex; flex-direction:column; gap:10px; }
   .ruler { display:flex; align-items:center; gap:14px; background:#FAFAFA; border-radius:14px; padding:14px; border-right:4px solid #B0BEC5; }
   .ruler.current { background:linear-gradient(135deg,#E8F5E9,#C8E6C9); border-right-color:#43A047; }
@@ -199,6 +207,7 @@
 <script src="/js/countries.js"></script>
 <script src="/js/anthems.js"></script>
 <script src="/js/country-extra.js"></script>
+<script src="/js/country-regions.js"></script>
 <script>
   const params = new URLSearchParams(location.search);
   const id = params.get('id') || 'sa';
@@ -265,6 +274,28 @@
         <div><div class="rname">${r.name}</div><div class="rmeta">${r.title}</div></div>
         <div class="rperiod">${r.period}</div>
       </div>`).join('');
+  }
+
+  // كل المدن والمحافظات
+  const regData = (window.COUNTRY_REGIONS||{})[c.id];
+  function renderRegions(list){
+    document.getElementById('i-regions').innerHTML = list.map(r=>`
+      <div class="region" onclick="speakText('${(r.city||r.name).replace(/'/g,"\\'")}')">
+        <div class="rgn">🗺️ ${r.name}</div>
+        <div class="rgc">🏙️ المدينة/المركز: ${r.city||'—'}</div>
+        <div class="rgo">👤 ${regData.officialTitle}: ${r.official||'—'}</div>
+      </div>`).join('') || '<div style="opacity:.6">لا توجد نتائج مطابقة</div>';
+  }
+  function filterRegions(q){
+    if(!regData) return;
+    const t=(q||'').trim();
+    renderRegions(!t ? regData.items : regData.items.filter(r=>(r.name+' '+(r.city||'')+' '+(r.official||'')).includes(t)));
+  }
+  window.filterRegions = filterRegions;
+  if(regData){
+    document.getElementById('regions-section').style.display='block';
+    document.getElementById('reg-label').textContent = '— ' + regData.label;
+    renderRegions(regData.items);
   }
 
   // وضع عرض النشيد
