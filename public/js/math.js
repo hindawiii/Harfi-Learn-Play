@@ -219,6 +219,49 @@
     }));
   }
 
+  // ---------- multiplication tables ----------
+  const TABLE_COLORS = ['#ef4444','#f97316','#f59e0b','#84cc16','#22c55e','#14b8a6','#0ea5e9','#3b82f6','#8b5cf6','#a855f7','#ec4899','#f43f5e','#6b7280'];
+  let currentTable = 1;
+
+  function renderTablesPicker() {
+    const el = document.getElementById('tables-picker');
+    if (!el) return;
+    el.innerHTML = Array.from({ length: 13 }, (_, i) => `
+      <button class="tk-letter ${i === currentTable ? 'active' : ''}" data-t="${i}" style="min-width:auto;padding:0 14px">جدول ${toArabicDigits(i)}</button>
+    `).join('');
+    el.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => {
+      currentTable = Number(b.dataset.t);
+      renderTablesPicker();
+      renderTable();
+    }));
+  }
+
+  function renderTable() {
+    const box = document.getElementById('tables-grid');
+    const title = document.getElementById('tables-title');
+    if (!box) return;
+    const t = currentTable;
+    const color = TABLE_COLORS[t];
+    if (title) title.textContent = `✖️ جدول ضرب ${AR_NAMES[t]}`;
+    let html = '';
+    for (let i = 0; i <= 12; i++) {
+      const res = t * i;
+      const sayText = `${AR_NAMES[t]} ضرب ${AR_NAMES[i]} يساوي ${res <= 20 ? AR_NAMES[res] : res}`;
+      html += `
+        <div class="tk-card" style="border-color:${color}">
+          <div class="tk-big" style="color:${color};font-size:1.8rem;direction:ltr">
+            ${toArabicDigits(t)} × ${toArabicDigits(i)} = ${toArabicDigits(res)}
+          </div>
+          <button class="btn-read table-say" data-say="${sayText}" style="width:100%;margin-top:8px">🔊 اِسمَع</button>
+        </div>`;
+    }
+    box.innerHTML = html;
+    box.querySelectorAll('.table-say').forEach(b => b.addEventListener('click', () => {
+      say(b.dataset.say, 0.85);
+      addScore(1);
+    }));
+  }
+
   function init() {
     if (!document.getElementById('ar-numbers')) return;
     initTabs();
@@ -231,6 +274,8 @@
     renderEnglishNumbers();
     renderOpsModes();
     newQuestion();
+    renderTablesPicker();
+    renderTable();
   }
 
   document.addEventListener('DOMContentLoaded', init);
