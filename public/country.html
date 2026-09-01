@@ -283,7 +283,7 @@
       <div class="region" onclick="speakText('${(r.city||r.name).replace(/'/g,"\\'")}')">
         <div class="rgn">🗺️ ${r.name}</div>
         <div class="rgc">🏙️ المدينة/المركز: ${r.city||'—'}</div>
-        <div class="rgo">👤 ${regData.officialTitle}: ${r.official||'—'}</div>
+        <div class="rgo">👤 ${regData.officialTitle}: ${r.official ? r.official : '<span style="opacity:.65">غير متاح حالياً</span>'}</div>
       </div>`).join('') || '<div style="opacity:.6">لا توجد نتائج مطابقة</div>';
   }
   function filterRegions(q){
