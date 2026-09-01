@@ -51,12 +51,12 @@
           <div class="tk-big" style="color:${h.color}">${text}</div>
           <div class="tk-name">${h.name}</div>
           <div class="tk-hint">${h.hint}</div>
-          <button class="btn-read" onclick="App.playAndScore('${text}', 0.9)" style="width:100%;margin:8px 0">🔊 اِسمَع النطق</button>
           <div class="speech-buttons">
             <button class="btn-slow" onclick="App.playAndScore('${text}', 0.5)" title="بطيء">🐢</button>
             <button class="btn-normal" onclick="App.playAndScore('${text}', 1.0)" title="عادي">🚶</button>
             <button class="btn-fast" onclick="App.playAndScore('${text}', 1.5)" title="سريع">🚀</button>
           </div>
+          <button class="btn-read" onclick="App.playAndScore('${text}', 0.9)" style="width:100%;margin-top:8px">🔊 اِسمَع النطق</button>
         </div>`;
     }).join('');
   }
