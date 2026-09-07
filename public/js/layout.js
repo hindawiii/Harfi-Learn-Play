@@ -45,7 +45,8 @@
   </nav>`;
 
   // ---------- Luxe bottom navigation (mobile) ----------
-  const BOTTOM_MAIN = ['/arabic.html', '/english.html', '/math.html', '/play.html', '/coloring.html'];
+  const BOTTOM_MAIN = ['/arabic.html', '/english.html', '/math.html', '/play.html', '/coloring.html', '/countries.html', '/stories.html'];
+  const isLanding = path === '/' || path.endsWith('/index.html');
   const moreLabel = isEn ? 'More' : 'المزيد';
 
   const bottomItemHTML = (item) => {
@@ -88,33 +89,33 @@
 
   const bottomNavCSS = `
   @media (max-width: 1023px) {
-    body { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
-    .harfi-a11y-btn { bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
-    .harfi-a11y-panel { bottom: calc(160px + env(safe-area-inset-bottom)) !important; }
-    #speaking-indicator { bottom: calc(100px + env(safe-area-inset-bottom)) !important; }
+    body.has-hbn { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+    body.has-hbn .harfi-a11y-btn { bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
+    body.has-hbn .harfi-a11y-panel { bottom: calc(160px + env(safe-area-inset-bottom)) !important; }
+    body.has-hbn #speaking-indicator { bottom: calc(100px + env(safe-area-inset-bottom)) !important; }
   }
   #harfi-bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 70; transition: transform .35s cubic-bezier(.4,0,.2,1); }
   #harfi-bottom-nav.hbn-hidden { transform: translateY(110%); }
   .hbn-bar {
     display: flex; justify-content: space-around; align-items: stretch;
-    margin: 0 10px calc(10px + env(safe-area-inset-bottom));
+    margin: 0 6px calc(8px + env(safe-area-inset-bottom));
     background: rgba(255,255,255,.72);
     backdrop-filter: blur(24px) saturate(160%);
     border: 1px solid rgba(255,255,255,.65);
     border-radius: 24px;
     box-shadow: 0 12px 32px rgba(45,52,54,.18), 0 2px 8px rgba(45,52,54,.08);
-    padding: 6px;
-    gap: 2px;
+    padding: 5px 4px;
+    gap: 0;
   }
   .hbn-item {
     flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 2px; padding: 8px 2px 7px; border-radius: 18px; border: none; background: transparent;
+    gap: 2px; padding: 7px 1px 6px; border-radius: 16px; border: none; background: transparent;
     font-family: 'Tajawal', sans-serif; cursor: pointer; text-decoration: none;
     color: #636e72; transition: all .25s cubic-bezier(.4,0,.2,1); min-width: 0;
     -webkit-tap-highlight-color: transparent;
   }
-  .hbn-icon { font-size: 20px; line-height: 1.2; transition: transform .25s; }
-  .hbn-label { font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+  .hbn-icon { font-size: 18px; line-height: 1.2; transition: transform .25s; }
+  .hbn-label { font-size: 9px; font-weight: 700; white-space: nowrap; }
   .hbn-item:active .hbn-icon { transform: scale(.85); }
   .hbn-item.active {
     background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
@@ -266,6 +267,8 @@
   }
 
   function buildBottomNav() {
+    if (isLanding) return;
+    document.body.classList.add('has-hbn');
     const wrap = document.createElement('div');
     wrap.innerHTML = bottomNavHTML;
     while (wrap.firstChild) document.body.appendChild(wrap.firstChild);
@@ -297,14 +300,6 @@
       startY = null;
     });
 
-    // Smart hide on scroll down, show on scroll up
-    let lastY = window.scrollY;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (y > lastY + 8 && y > 120) nav.classList.add('hbn-hidden');
-      else if (y < lastY - 8) nav.classList.remove('hbn-hidden');
-      lastY = y;
-    }, { passive: true });
   }
 
   function mount() {
