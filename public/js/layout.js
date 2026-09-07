@@ -41,14 +41,122 @@
       <div class="hidden lg:flex items-center gap-1 flex-wrap justify-center">
         ${linksHTML}
       </div>
-      <button id="harfi-menu-btn" class="lg:hidden text-2xl text-gray-700 shrink-0" aria-label="${menuLabel}">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-    <div id="harfi-mobile-menu" class="lg:hidden hidden border-t border-gray-100 bg-white px-4 py-3">
-      <div class="flex flex-col gap-1">${linksHTML}</div>
     </div>
   </nav>`;
+
+  // ---------- Luxe bottom navigation (mobile) ----------
+  const BOTTOM_MAIN = ['/arabic.html', '/english.html', '/math.html', '/play.html', '/coloring.html'];
+  const moreLabel = isEn ? 'More' : 'المزيد';
+
+  const bottomItemHTML = (item) => {
+    const active = path.endsWith(item.href);
+    const label = isEn ? item.en : item.ar;
+    return `<a href="${item.href}" class="hbn-item ${active ? 'active' : ''}">
+      <span class="hbn-icon">${item.icon}</span>
+      <span class="hbn-label">${label}</span>
+    </a>`;
+  };
+
+  const mainItems = NAV_ITEMS.filter(i => BOTTOM_MAIN.includes(i.href));
+  const moreItems = NAV_ITEMS.filter(i => !BOTTOM_MAIN.includes(i.href));
+
+  const bottomNavHTML = `
+  <div id="harfi-bottom-nav" class="lg:hidden">
+    <div class="hbn-bar">
+      ${mainItems.map(bottomItemHTML).join('')}
+      <button id="hbn-more-btn" class="hbn-item" aria-label="${moreLabel}">
+        <span class="hbn-icon">✦</span>
+        <span class="hbn-label">${moreLabel}</span>
+      </button>
+    </div>
+  </div>
+  <div id="hbn-overlay" class="hbn-overlay"></div>
+  <div id="hbn-sheet" class="hbn-sheet" role="dialog" aria-label="${moreLabel}">
+    <div class="hbn-sheet-handle"></div>
+    <div class="hbn-sheet-title">${isEn ? 'All sections' : 'كل الأقسام'}</div>
+    <div class="hbn-sheet-grid">
+      ${moreItems.map(item => {
+        const label = isEn ? item.en : item.ar;
+        const active = path.endsWith(item.href);
+        return `<a href="${item.href}" class="hbn-sheet-card ${active ? 'active' : ''}">
+          <span class="hbn-sheet-icon">${item.icon}</span>
+          <span>${label}</span>
+        </a>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  const bottomNavCSS = `
+  @media (max-width: 1023px) {
+    body { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+    .harfi-a11y-btn { bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
+    .harfi-a11y-panel { bottom: calc(160px + env(safe-area-inset-bottom)) !important; }
+    #speaking-indicator { bottom: calc(100px + env(safe-area-inset-bottom)) !important; }
+  }
+  #harfi-bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 70; transition: transform .35s cubic-bezier(.4,0,.2,1); }
+  #harfi-bottom-nav.hbn-hidden { transform: translateY(110%); }
+  .hbn-bar {
+    display: flex; justify-content: space-around; align-items: stretch;
+    margin: 0 10px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255,255,255,.65);
+    border-radius: 24px;
+    box-shadow: 0 12px 32px rgba(45,52,54,.18), 0 2px 8px rgba(45,52,54,.08);
+    padding: 6px;
+    gap: 2px;
+  }
+  .hbn-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px; padding: 8px 2px 7px; border-radius: 18px; border: none; background: transparent;
+    font-family: 'Tajawal', sans-serif; cursor: pointer; text-decoration: none;
+    color: #636e72; transition: all .25s cubic-bezier(.4,0,.2,1); min-width: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hbn-icon { font-size: 20px; line-height: 1.2; transition: transform .25s; }
+  .hbn-label { font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+  .hbn-item:active .hbn-icon { transform: scale(.85); }
+  .hbn-item.active {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(255,107,107,.4);
+  }
+  .hbn-item.active .hbn-icon { transform: translateY(-1px) scale(1.08); }
+  body.harfi-dark .hbn-bar { background: rgba(30,41,59,.8) !important; border-color: rgba(255,255,255,.08) !important; }
+  body.harfi-dark .hbn-item { color: #94A3B8; }
+  body.harfi-dark .hbn-item.active { color: #fff; }
+
+  .hbn-overlay {
+    position: fixed; inset: 0; background: rgba(26,26,46,.45); backdrop-filter: blur(4px);
+    z-index: 80; opacity: 0; pointer-events: none; transition: opacity .3s;
+  }
+  .hbn-overlay.open { opacity: 1; pointer-events: auto; }
+  .hbn-sheet {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+    background: rgba(255,255,255,.92); backdrop-filter: blur(28px) saturate(160%);
+    border-radius: 28px 28px 0 0; border-top: 1px solid rgba(255,255,255,.7);
+    box-shadow: 0 -16px 48px rgba(0,0,0,.22);
+    padding: 10px 18px calc(24px + env(safe-area-inset-bottom));
+    transform: translateY(105%); transition: transform .4s cubic-bezier(.32,.72,.24,1);
+    touch-action: none;
+  }
+  .hbn-sheet.open { transform: translateY(0); }
+  .hbn-sheet-handle { width: 44px; height: 5px; border-radius: 999px; background: #D1D5DB; margin: 2px auto 12px; }
+  .hbn-sheet-title { font-weight: 900; font-size: 16px; color: #2D3436; text-align: center; margin-bottom: 14px; }
+  .hbn-sheet-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .hbn-sheet-card {
+    display: flex; align-items: center; gap: 10px; padding: 14px;
+    background: rgba(255,248,225,.8); border: 2px solid transparent; border-radius: 18px;
+    font-weight: 800; font-size: 15px; color: #2D3436; text-decoration: none; transition: all .2s;
+  }
+  .hbn-sheet-card:active { transform: scale(.96); }
+  .hbn-sheet-card.active { border-color: #FF6B6B; background: #fff; box-shadow: 0 6px 16px rgba(255,107,107,.2); }
+  .hbn-sheet-icon { font-size: 24px; }
+  body.harfi-dark .hbn-sheet { background: rgba(15,23,42,.94) !important; }
+  body.harfi-dark .hbn-sheet-title { color: #F1F5F9; }
+  body.harfi-dark .hbn-sheet-card { background: rgba(30,41,59,.9) !important; color: #F1F5F9 !important; }
+  body.harfi-dark .hbn-sheet-handle { background: #475569; }
+  `;
 
   const footerLinks = isEn
     ? [['#','About'], ['#','Privacy'], ['#','Contact']]
@@ -157,22 +265,59 @@
     applySettings(s); refreshActive();
   }
 
+  function buildBottomNav() {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = bottomNavHTML;
+    while (wrap.firstChild) document.body.appendChild(wrap.firstChild);
+
+    const nav = document.getElementById('harfi-bottom-nav');
+    const overlay = document.getElementById('hbn-overlay');
+    const sheet = document.getElementById('hbn-sheet');
+    const moreBtn = document.getElementById('hbn-more-btn');
+    if (!nav || !overlay || !sheet || !moreBtn) return;
+
+    const openSheet = () => { sheet.classList.add('open'); overlay.classList.add('open'); };
+    const closeSheet = () => { sheet.classList.remove('open'); overlay.classList.remove('open'); };
+    moreBtn.addEventListener('click', openSheet);
+    overlay.addEventListener('click', closeSheet);
+
+    // Swipe down to close
+    let startY = null;
+    sheet.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+    sheet.addEventListener('touchmove', (e) => {
+      if (startY === null) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 0) sheet.style.transform = `translateY(${dy}px)`;
+    }, { passive: true });
+    sheet.addEventListener('touchend', (e) => {
+      if (startY === null) return;
+      const dy = e.changedTouches[0].clientY - startY;
+      sheet.style.transform = '';
+      if (dy > 80) closeSheet();
+      startY = null;
+    });
+
+    // Smart hide on scroll down, show on scroll up
+    let lastY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > lastY + 8 && y > 120) nav.classList.add('hbn-hidden');
+      else if (y < lastY - 8) nav.classList.remove('hbn-hidden');
+      lastY = y;
+    }, { passive: true });
+  }
+
   function mount() {
     const navRoot = document.getElementById('nav-root');
     const footerRoot = document.getElementById('footer-root');
     if (navRoot) navRoot.innerHTML = navHTML;
     if (footerRoot) footerRoot.innerHTML = footerHTML;
 
-    const btn = document.getElementById('harfi-menu-btn');
-    const menu = document.getElementById('harfi-mobile-menu');
-    if (btn && menu) {
-      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    }
-
     const style = document.createElement('style');
-    style.textContent = a11yCSS;
+    style.textContent = a11yCSS + bottomNavCSS;
     document.head.appendChild(style);
     buildA11yPanel();
+    buildBottomNav();
   }
 
   if (document.readyState === 'loading') {
