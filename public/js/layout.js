@@ -90,8 +90,6 @@
   const bottomNavCSS = `
   @media (max-width: 1023px) {
     body.has-hbn { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
-    body.has-hbn .harfi-a11y-btn { bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
-    body.has-hbn .harfi-a11y-panel { bottom: calc(160px + env(safe-area-inset-bottom)) !important; }
     body.has-hbn #speaking-indicator { bottom: calc(100px + env(safe-area-inset-bottom)) !important; }
   }
   #harfi-bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 70; transition: transform .35s cubic-bezier(.4,0,.2,1); }
@@ -182,9 +180,9 @@
   const FONT_SIZES = { small: '14px', normal: '16px', large: '20px', xlarge: '24px' };
 
   const a11yCSS = `
-  .harfi-a11y-btn { position: fixed; bottom: 20px; ${isEn ? 'right' : 'left'}: 20px; z-index: 60; width: 52px; height: 52px; border-radius: 50%; background:#FF6B6B; color:#fff; border:none; box-shadow:0 8px 20px rgba(255,107,107,.4); font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .harfi-a11y-btn { position: fixed; top: 20px; left: 20px; z-index: 60; width: 52px; height: 52px; border-radius: 50%; background:#FF6B6B; color:#fff; border:none; box-shadow:0 8px 20px rgba(255,107,107,.4); font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
   .harfi-a11y-btn:hover { background:#FF5252; transform: scale(1.05); }
-  .harfi-a11y-panel { position: fixed; bottom: 84px; ${isEn ? 'right' : 'left'}: 20px; z-index: 60; width: 300px; max-width: calc(100vw - 40px); background:#fff; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,.2); padding: 20px; display:none; }
+  .harfi-a11y-panel { position: fixed; top: 84px; left: 20px; z-index: 60; width: 300px; max-width: calc(100vw - 40px); background:#fff; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,.2); padding: 20px; display:none; }
   .harfi-a11y-panel.open { display: block; }
   .harfi-a11y-panel h3 { font-size:18px; font-weight:900; margin-bottom:14px; color:#2D3436; }
   .harfi-a11y-item { margin-bottom: 14px; }
