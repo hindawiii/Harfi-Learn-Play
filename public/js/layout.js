@@ -265,22 +265,59 @@
     applySettings(s); refreshActive();
   }
 
+  function buildBottomNav() {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = bottomNavHTML;
+    while (wrap.firstChild) document.body.appendChild(wrap.firstChild);
+
+    const nav = document.getElementById('harfi-bottom-nav');
+    const overlay = document.getElementById('hbn-overlay');
+    const sheet = document.getElementById('hbn-sheet');
+    const moreBtn = document.getElementById('hbn-more-btn');
+    if (!nav || !overlay || !sheet || !moreBtn) return;
+
+    const openSheet = () => { sheet.classList.add('open'); overlay.classList.add('open'); };
+    const closeSheet = () => { sheet.classList.remove('open'); overlay.classList.remove('open'); };
+    moreBtn.addEventListener('click', openSheet);
+    overlay.addEventListener('click', closeSheet);
+
+    // Swipe down to close
+    let startY = null;
+    sheet.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+    sheet.addEventListener('touchmove', (e) => {
+      if (startY === null) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 0) sheet.style.transform = `translateY(${dy}px)`;
+    }, { passive: true });
+    sheet.addEventListener('touchend', (e) => {
+      if (startY === null) return;
+      const dy = e.changedTouches[0].clientY - startY;
+      sheet.style.transform = '';
+      if (dy > 80) closeSheet();
+      startY = null;
+    });
+
+    // Smart hide on scroll down, show on scroll up
+    let lastY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > lastY + 8 && y > 120) nav.classList.add('hbn-hidden');
+      else if (y < lastY - 8) nav.classList.remove('hbn-hidden');
+      lastY = y;
+    }, { passive: true });
+  }
+
   function mount() {
     const navRoot = document.getElementById('nav-root');
     const footerRoot = document.getElementById('footer-root');
     if (navRoot) navRoot.innerHTML = navHTML;
     if (footerRoot) footerRoot.innerHTML = footerHTML;
 
-    const btn = document.getElementById('harfi-menu-btn');
-    const menu = document.getElementById('harfi-mobile-menu');
-    if (btn && menu) {
-      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    }
-
     const style = document.createElement('style');
-    style.textContent = a11yCSS;
+    style.textContent = a11yCSS + bottomNavCSS;
     document.head.appendChild(style);
     buildA11yPanel();
+    buildBottomNav();
   }
 
   if (document.readyState === 'loading') {
