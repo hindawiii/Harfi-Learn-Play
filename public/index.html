@@ -104,17 +104,17 @@
   <div class="hero-blob blob-2"></div>
   <div class="relative z-10">
     <div class="text-6xl mb-4 float">📚</div>
-    <h1 class="hero-title mb-3">حرفي</h1>
-    <p class="text-2xl md:text-3xl text-gray-800 mb-3 font-bold">عالمٌ من الحروف والقصص</p>
-    <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">تطبيق تعليمي تفاعلي للأطفال لتعلم العربية والإنجليزية، اكتشاف الدول، قصص قبل النوم، أغاني، تلوين وألعاب — كل ذلك في مكانٍ واحد.</p>
+    <h1 class="hero-title mb-3" data-ar="حرفي" data-en="Harfi">حرفي</h1>
+    <p class="text-2xl md:text-3xl text-gray-800 mb-3 font-bold" data-ar="عالمٌ من الحروف والقصص" data-en="A world of letters and stories">عالمٌ من الحروف والقصص</p>
+    <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto" data-ar="حروف عربية بالتشكيل والأغاني، حروف إنجليزية، حساب وجداول ضرب، 22 دولة عربية بأناشيدها، قصص، تلوين ورسم وألعاب — كل ذلك في مكانٍ واحد." data-en="Arabic letters with diacritics and songs, English letters, math and times tables, 22 Arab countries with anthems, stories, coloring, drawing and games — all in one place.">حروف عربية بالتشكيل والأغاني، حروف إنجليزية، حساب وجداول ضرب، 22 دولة عربية بأناشيدها، قصص، تلوين ورسم وألعاب — كل ذلك في مكانٍ واحد.</p>
     <div class="flex flex-wrap justify-center gap-3 mb-6">
-      <a href="/arabic.html" class="btn-primary">🚀 ابدأ الرحلة</a>
-      <a href="/stories.html" class="btn-ghost">🌙 استمع لقصة</a>
+      <a href="/arabic.html" class="btn-primary" data-href-ar="/arabic.html" data-href-en="/english.html" data-ar="🚀 ابدأ الرحلة" data-en="🚀 Start the journey">🚀 ابدأ الرحلة</a>
+      <a href="/stories.html" class="btn-ghost" data-ar="🌙 استمع لقصة" data-en="🌙 Listen to a story">🌙 استمع لقصة</a>
     </div>
     <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
-      <span>✅ مجاني بالكامل</span>
-      <span>✅ بدون إعلانات</span>
-      <span>✅ آمن للأطفال</span>
+      <span data-ar="✅ مجاني بالكامل" data-en="✅ Completely free">✅ مجاني بالكامل</span>
+      <span data-ar="✅ بدون إعلانات" data-en="✅ No ads">✅ بدون إعلانات</span>
+      <span data-ar="✅ آمن للأطفال" data-en="✅ Kid-safe">✅ آمن للأطفال</span>
     </div>
   </div>
 </section>
@@ -122,10 +122,10 @@
 <!-- STATS -->
 <section class="max-w-5xl mx-auto px-4 py-8">
   <div class="bg-white rounded-3xl shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6 py-8 px-6">
-    <div class="stat"><div class="stat-num">28</div><div class="stat-lbl">حرفاً عربياً</div></div>
-    <div class="stat"><div class="stat-num">26</div><div class="stat-lbl">حرفاً إنجليزياً</div></div>
-    <div class="stat"><div class="stat-num">22</div><div class="stat-lbl">دولة عربية</div></div>
-    <div class="stat"><div class="stat-num">4+</div><div class="stat-lbl">قصص وأغاني</div></div>
+    <div class="stat"><div class="stat-num">28</div><div class="stat-lbl" data-ar="حرفاً عربياً بالتشكيل" data-en="Arabic letters + diacritics">حرفاً عربياً بالتشكيل</div></div>
+    <div class="stat"><div class="stat-num">26</div><div class="stat-lbl" data-ar="حرفاً إنجليزياً بالأغاني" data-en="English letters + songs">حرفاً إنجليزياً بالأغاني</div></div>
+    <div class="stat"><div class="stat-num">22</div><div class="stat-lbl" data-ar="دولة عربية بأناشيدها" data-en="Arab countries + anthems">دولة عربية بأناشيدها</div></div>
+    <div class="stat"><div class="stat-num">13</div><div class="stat-lbl" data-ar="جدول ضرب (0–12)" data-en="Times tables (0–12)">جدول ضرب (0–12)</div></div>
   </div>
 </section>
 
@@ -133,23 +133,23 @@
 <section class="tight bg-fade-1">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-2">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">🎯 اكتشف عالم حرفي</h2>
-      <p class="text-gray-600 text-lg">تسع تجارب تعليمية بين يديك</p>
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="🎯 اكتشف عالم حرفي" data-en="🎯 Discover the world of Harfi">🎯 اكتشف عالم حرفي</h2>
+      <p class="text-gray-600 text-lg" data-ar="تسع تجارب تعليمية بين يديك" data-en="Nine learning experiences at your fingertips">تسع تجارب تعليمية بين يديك</p>
     </div>
     <div class="carousel-wrap">
-      <button class="c-nav prev" onclick="scrollCarousel(-1)" aria-label="السابق">‹</button>
+      <button class="c-nav prev" onclick="scrollCarousel(-1)" aria-label="prev">‹</button>
       <div class="carousel-track" id="carousel-track">
-        <a href="/arabic.html" class="c-card"><span class="ico">🔤</span><h3>الحروف العربية</h3><p>تعلم 28 حرفاً بالنطق والكلمات والجمل</p><span class="badge-free">مجاني</span><span class="btn-card">ابدأ</span></a>
-        <a href="/english.html" class="c-card"><span class="ico">🇬🇧</span><h3>English Letters</h3><p>Learn A-Z with words and sentences</p><span class="badge-free">Free</span><span class="btn-card">Start</span></a>
-        <a href="/countries.html" class="c-card"><span class="ico">🌍</span><h3>الدول العربية</h3><p>اكتشف 22 دولة بأعلامها وعواصمها</p><span class="badge-free">مجاني</span><span class="btn-card">اكتشف</span></a>
-        <a href="/stories.html" class="c-card"><span class="ico">🌙</span><h3>قصص قبل النوم</h3><p>قصص تفاعلية بقارئ صوتي هادئ</p><span class="badge-free">مجاني</span><span class="btn-card">اقرأ</span></a>
-        <a href="/arabic.html#songs" class="c-card"><span class="ico">🎵</span><h3>أغاني الحروف</h3><p>نشيد قصير وممتع لكل حرف</p><span class="badge-free">مجاني</span><span class="btn-card">استمع</span></a>
-        <a href="/coloring.html" class="c-card"><span class="ico">🎨</span><h3>التلوين</h3><p>مشاهد تفاعلية للتلوين الحر</p><span class="badge-free">مجاني</span><span class="btn-card">لوّن</span></a>
-        <a href="/play.html" class="c-card"><span class="ico">🎮</span><h3>العب وتعلم</h3><p>لعبة اختيار الحرف الأول</p><span class="badge-free">مجاني</span><span class="btn-card">العب</span></a>
-        <a href="/parent-report.html" class="c-card"><span class="ico">👨‍👩‍👧</span><h3>تقرير الأهل</h3><p>تابع تقدّم طفلك بسهولة</p><span class="badge-free">مجاني</span><span class="btn-card">شاهد</span></a>
-        <a href="/pro.html" class="c-card"><span class="ico">💎</span><h3>حرفي Pro</h3><p>ميزات إضافية للعائلات</p><span class="badge-pro">قريباً</span><span class="btn-card">اشترك</span></a>
+        <a href="/arabic.html" class="c-card"><span class="ico">🔤</span><h3 data-ar="الحروف العربية" data-en="Arabic Letters">الحروف العربية</h3><p data-ar="28 حرفاً بالنطق والكلمات والتشكيل والأغاني" data-en="28 letters with speech, words, diacritics and songs">28 حرفاً بالنطق والكلمات والتشكيل والأغاني</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="ابدأ" data-en="Start">ابدأ</span></a>
+        <a href="/english.html" class="c-card"><span class="ico">🇬🇧</span><h3 data-ar="الحروف الإنجليزية" data-en="English Letters">الحروف الإنجليزية</h3><p data-ar="من A إلى Z بالكلمات والجمل والأغاني" data-en="A to Z with words, sentences and songs">من A إلى Z بالكلمات والجمل والأغاني</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="ابدأ" data-en="Start">ابدأ</span></a>
+        <a href="/math.html" class="c-card"><span class="ico">🔢</span><h3 data-ar="الحساب والأرقام" data-en="Math & Numbers">الحساب والأرقام</h3><p data-ar="أرقام بالعربية والإنجليزية، جمع وطرح، وجداول الضرب 0–12" data-en="Arabic & English numerals, add, subtract, times tables 0–12">أرقام بالعربية والإنجليزية، جمع وطرح، وجداول الضرب 0–12</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="احسب" data-en="Count">احسب</span></a>
+        <a href="/countries.html" class="c-card"><span class="ico">🌍</span><h3 data-ar="الدول العربية" data-en="Arab Countries">الدول العربية</h3><p data-ar="22 دولة بأعلامها وعواصمها ومدنها وأناشيدها" data-en="22 countries: flags, capitals, cities and anthems">22 دولة بأعلامها وعواصمها ومدنها وأناشيدها</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="اكتشف" data-en="Explore">اكتشف</span></a>
+        <a href="/stories.html" class="c-card"><span class="ico">🌙</span><h3 data-ar="قصص قبل النوم" data-en="Bedtime Stories">قصص قبل النوم</h3><p data-ar="قصص تفاعلية بقارئ صوتي هادئ" data-en="Interactive stories with a calm narrator">قصص تفاعلية بقارئ صوتي هادئ</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="اقرأ" data-en="Read">اقرأ</span></a>
+        <a href="/coloring.html" class="c-card"><span class="ico">🎨</span><h3 data-ar="التلوين والرسم" data-en="Coloring & Drawing">التلوين والرسم</h3><p data-ar="24 لوناً، أشكال وحروف وأرقام، وركن رسم حر" data-en="24 colors, shapes, letters, numbers and free drawing">24 لوناً، أشكال وحروف وأرقام، وركن رسم حر</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="لوّن" data-en="Color">لوّن</span></a>
+        <a href="/play.html" class="c-card"><span class="ico">🎮</span><h3 data-ar="العب وتعلم" data-en="Play & Learn">العب وتعلم</h3><p data-ar="لعبة الحرف الأول ولعبة «نطق ورتّب» بمكافآت" data-en="First-letter game and “Say & Order” with rewards">لعبة الحرف الأول ولعبة «نطق ورتّب» بمكافآت</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="العب" data-en="Play">العب</span></a>
+        <a href="/parent-report.html" class="c-card"><span class="ico">👨‍👩‍👧</span><h3 data-ar="تقرير الأهل" data-en="Parent Report">تقرير الأهل</h3><p data-ar="تابع تقدّم طفلك ونقاط قوته بسهولة" data-en="Track your child’s progress and strengths">تابع تقدّم طفلك ونقاط قوته بسهولة</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="شاهد" data-en="View">شاهد</span></a>
+        <a href="/pro.html" class="c-card"><span class="ico">💎</span><h3 data-ar="حرفي Pro" data-en="Harfi Pro">حرفي Pro</h3><p data-ar="ميزات إضافية للعائلات" data-en="Extra features for families">ميزات إضافية للعائلات</p><span class="badge-pro" data-ar="قريباً" data-en="Soon">قريباً</span><span class="btn-card" data-ar="اشترك" data-en="Join">اشترك</span></a>
       </div>
-      <button class="c-nav next" onclick="scrollCarousel(1)" aria-label="التالي">›</button>
+      <button class="c-nav next" onclick="scrollCarousel(1)" aria-label="next">›</button>
     </div>
     <div class="c-dots" id="carousel-dots"></div>
   </div>
@@ -159,13 +159,13 @@
 <section class="tight bg-fade-3">
   <div class="max-w-5xl mx-auto px-4">
     <div class="text-center mb-6">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">كيف يعمل؟</h2>
-      <p class="text-gray-600 text-lg">ثلاث خطوات بسيطة</p>
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="كيف يعمل؟" data-en="How does it work?">كيف يعمل؟</h2>
+      <p class="text-gray-600 text-lg" data-ar="ثلاث خطوات بسيطة" data-en="Three simple steps">ثلاث خطوات بسيطة</p>
     </div>
     <div class="grid md:grid-cols-3 gap-5">
-      <div class="step"><div class="step-num">1</div><h3 class="text-lg font-black text-gray-800 mb-1">اختر النشاط</h3><p class="text-gray-600 text-sm">حروف، قصة، لعبة أو تلوين</p></div>
-      <div class="step"><div class="step-num">2</div><h3 class="text-lg font-black text-gray-800 mb-1">استمع وكرّر</h3><p class="text-gray-600 text-sm">نطق صوتي واضح بالعربية والإنجليزية</p></div>
-      <div class="step"><div class="step-num">3</div><h3 class="text-lg font-black text-gray-800 mb-1">العب واكتسب النقاط</h3><p class="text-gray-600 text-sm">تقدّم محفوظ تلقائياً</p></div>
+      <div class="step"><div class="step-num">1</div><h3 class="text-lg font-black text-gray-800 mb-1" data-ar="اختر النشاط" data-en="Pick an activity">اختر النشاط</h3><p class="text-gray-600 text-sm" data-ar="حروف، تشكيل، حساب، قصة، لعبة أو تلوين" data-en="Letters, diacritics, math, a story, a game or coloring">حروف، تشكيل، حساب، قصة، لعبة أو تلوين</p></div>
+      <div class="step"><div class="step-num">2</div><h3 class="text-lg font-black text-gray-800 mb-1" data-ar="استمع وكرّر" data-en="Listen and repeat">استمع وكرّر</h3><p class="text-gray-600 text-sm" data-ar="نطق واضح بثلاث سرعات بالعربية والإنجليزية" data-en="Clear speech at three speeds in Arabic and English">نطق واضح بثلاث سرعات بالعربية والإنجليزية</p></div>
+      <div class="step"><div class="step-num">3</div><h3 class="text-lg font-black text-gray-800 mb-1" data-ar="العب واكتسب النقاط" data-en="Play and earn points">العب واكتسب النقاط</h3><p class="text-gray-600 text-sm" data-ar="مكافآت ممتعة وتقدّم محفوظ تلقائياً" data-en="Fun rewards and progress saved automatically">مكافآت ممتعة وتقدّم محفوظ تلقائياً</p></div>
     </div>
   </div>
 </section>
@@ -174,13 +174,13 @@
 <section class="tight bg-fade-4">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-6">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">لماذا حرفي؟</h2>
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="لماذا حرفي؟" data-en="Why Harfi?">لماذا حرفي؟</h2>
     </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🎙️</div><h3 class="font-black text-gray-800 mb-1">نطق ذكي</h3><p class="text-sm text-gray-600">صوت بطيء وسريع لكل عمر</p></div>
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🛡️</div><h3 class="font-black text-gray-800 mb-1">آمن 100%</h3><p class="text-sm text-gray-600">بدون إعلانات ولا تتبّع</p></div>
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">📱</div><h3 class="font-black text-gray-800 mb-1">يعمل بلا نت</h3><p class="text-sm text-gray-600">تطبيق ويب قابل للتثبيت</p></div>
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">💛</div><h3 class="font-black text-gray-800 mb-1">صُنع بحب</h3><p class="text-sm text-gray-600">مصمّم للأطفال العرب</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🎙️</div><h3 class="font-black text-gray-800 mb-1" data-ar="نطق ذكي" data-en="Smart speech">نطق ذكي</h3><p class="text-sm text-gray-600" data-ar="صوت بطيء وعادي وسريع لكل عمر" data-en="Slow, normal and fast voice for every age">صوت بطيء وعادي وسريع لكل عمر</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🌐</div><h3 class="font-black text-gray-800 mb-1" data-ar="لغتان بضغطة" data-en="Two languages, one tap">لغتان بضغطة</h3><p class="text-sm text-gray-600" data-ar="بدّل بين العربية والإنجليزية فوراً" data-en="Switch between Arabic and English instantly">بدّل بين العربية والإنجليزية فوراً</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">♿</div><h3 class="font-black text-gray-800 mb-1" data-ar="إعدادات وصول" data-en="Accessibility built in">إعدادات وصول</h3><p class="text-sm text-gray-600" data-ar="حجم الخط، التباين، الوضع الداكن والحركة" data-en="Text size, contrast, dark mode and motion">حجم الخط، التباين، الوضع الداكن والحركة</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🛡️</div><h3 class="font-black text-gray-800 mb-1" data-ar="آمن 100%" data-en="100% safe">آمن 100%</h3><p class="text-sm text-gray-600" data-ar="بدون إعلانات ولا تتبّع" data-en="No ads, no tracking">بدون إعلانات ولا تتبّع</p></div>
     </div>
   </div>
 </section>
@@ -189,12 +189,12 @@
 <section class="tight bg-fade-5">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-6">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">ماذا يقول الأهل؟</h2>
+      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="ماذا يقول الأهل؟" data-en="What parents say">ماذا يقول الأهل؟</h2>
     </div>
     <div class="grid md:grid-cols-3 gap-5">
-      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع."</p><div class="text-sm font-bold text-gray-800">— أم سارة</div></div>
-      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة."</p><div class="text-sm font-bold text-gray-800">— أبو محمد</div></div>
-      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3">"القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة."</p><div class="text-sm font-bold text-gray-800">— أم يوسف</div></div>
+      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3" data-ar="«ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع.»" data-en="“My daughter learned the letters in two weeks — lovely and fun design.”">«ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع.»</p><div class="text-sm font-bold text-gray-800" data-ar="— أم سارة" data-en="— Sarah’s mum">— أم سارة</div></div>
+      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3" data-ar="«أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة.»" data-en="“Finally a high-quality Arabic app with no annoying ads.”">«أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة.»</p><div class="text-sm font-bold text-gray-800" data-ar="— أبو محمد" data-en="— Mohammed’s dad">— أبو محمد</div></div>
+      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3" data-ar="«القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة.»" data-en="“The stories and songs are beautiful — my kids ask for them nightly.”">«القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة.»</p><div class="text-sm font-bold text-gray-800" data-ar="— أم يوسف" data-en="— Youssef’s mum">— أم يوسف</div></div>
     </div>
   </div>
 </section>
@@ -202,14 +202,15 @@
 <!-- CTA BANNER -->
 <section class="max-w-5xl mx-auto px-4 py-10">
   <div class="cta-banner">
-    <h2 class="text-3xl md:text-4xl font-black mb-3">جاهز لتبدأ الرحلة؟ 🚀</h2>
-    <p class="text-lg opacity-95 mb-6">انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل.</p>
+    <h2 class="text-3xl md:text-4xl font-black mb-3" data-ar="جاهز لتبدأ الرحلة؟ 🚀" data-en="Ready to start the journey? 🚀">جاهز لتبدأ الرحلة؟ 🚀</h2>
+    <p class="text-lg opacity-95 mb-6" data-ar="انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل." data-en="Join thousands of children learning with Harfi — free, no sign-up.">انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل.</p>
     <div class="flex flex-wrap justify-center gap-3">
-      <a href="/arabic.html" class="bg-white text-[#FF6B6B] font-black px-8 py-4 rounded-full text-lg hover:scale-105 transition">ابدأ بالعربية</a>
-      <a href="/english.html" class="bg-white/20 border-2 border-white text-white font-black px-8 py-4 rounded-full text-lg hover:bg-white/30 transition">Start in English</a>
+      <a href="/arabic.html" class="bg-white text-[#FF6B6B] font-black px-8 py-4 rounded-full text-lg hover:scale-105 transition" data-ar="ابدأ بالعربية" data-en="Start in Arabic">ابدأ بالعربية</a>
+      <a href="/english.html" class="bg-white/20 border-2 border-white text-white font-black px-8 py-4 rounded-full text-lg hover:bg-white/30 transition" data-ar="ابدأ بالإنجليزية" data-en="Start in English">ابدأ بالإنجليزية</a>
     </div>
   </div>
 </section>
+
 
 <script>
 (function () {
