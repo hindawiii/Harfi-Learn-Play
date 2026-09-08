@@ -353,6 +353,8 @@
     style.textContent = a11yCSS + bottomNavCSS;
     document.head.appendChild(style);
     buildA11yPanel();
+    buildLangSwitch();
+    applyTranslations();
     buildBottomNav();
   }
 
