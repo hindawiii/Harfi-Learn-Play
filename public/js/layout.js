@@ -1,6 +1,10 @@
 // Unified Navbar + Footer for all Harfi pages
 (function () {
-  const lang = document.documentElement.lang || 'ar';
+  const LANG_KEY = 'harfi_lang';
+  const pageLang = document.documentElement.lang || 'ar';
+  let storedLang = null;
+  try { storedLang = localStorage.getItem(LANG_KEY); } catch { storedLang = null; }
+  const lang = storedLang || pageLang;
   const isEn = lang === 'en';
   const path = location.pathname.replace(/\/$/, '') || '/index.html';
 
@@ -41,8 +45,10 @@
       <div class="hidden lg:flex items-center gap-1 flex-wrap justify-center">
         ${linksHTML}
       </div>
+      <div id="harfi-nav-actions" class="flex items-center gap-2 shrink-0"></div>
     </div>
   </nav>`;
+
 
   // ---------- Luxe bottom navigation (mobile) ----------
   const BOTTOM_MAIN = ['/arabic.html', '/english.html', '/math.html', '/play.html', '/coloring.html', '/countries.html', '/stories.html'];
@@ -180,9 +186,13 @@
   const FONT_SIZES = { small: '14px', normal: '16px', large: '20px', xlarge: '24px' };
 
   const a11yCSS = `
-  .harfi-a11y-btn { position: fixed; top: 20px; left: 20px; z-index: 60; width: 52px; height: 52px; border-radius: 50%; background:#FF6B6B; color:#fff; border:none; box-shadow:0 8px 20px rgba(255,107,107,.4); font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .harfi-a11y-btn { width: 42px; height: 42px; border-radius: 50%; background:#FF6B6B; color:#fff; border:none; box-shadow:0 6px 16px rgba(255,107,107,.35); font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all .2s; }
   .harfi-a11y-btn:hover { background:#FF5252; transform: scale(1.05); }
-  .harfi-a11y-panel { position: fixed; top: 84px; left: 20px; z-index: 60; width: 300px; max-width: calc(100vw - 40px); background:#fff; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,.2); padding: 20px; display:none; }
+  .harfi-lang-btn { height: 42px; padding: 0 14px; border-radius: 999px; background:#fff; border:2px solid #FF6B6B; color:#FF6B6B; font-family:'Tajawal',sans-serif; font-weight:900; font-size:14px; cursor:pointer; display:flex; align-items:center; gap:6px; transition: all .2s; }
+  .harfi-lang-btn:hover { background:#FF6B6B; color:#fff; }
+  .harfi-a11y-panel { position: fixed; top: 74px; inset-inline-end: 16px; z-index: 60; width: 300px; max-width: calc(100vw - 32px); background:#fff; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,.2); padding: 20px; display:none; }
+  body.harfi-dark .harfi-a11y-panel { background:#1E293B; color:#F1F5F9; }
+  body.harfi-dark .harfi-lang-btn { background:#1E293B; }
   .harfi-a11y-panel.open { display: block; }
   .harfi-a11y-panel h3 { font-size:18px; font-weight:900; margin-bottom:14px; color:#2D3436; }
   .harfi-a11y-item { margin-bottom: 14px; }
@@ -260,9 +270,42 @@
       if (!panel.contains(e.target) && !btn.contains(e.target)) panel.classList.remove('open');
     });
 
-    document.body.appendChild(btn); document.body.appendChild(panel);
+    const actions = document.getElementById('harfi-nav-actions') || document.body;
+    actions.appendChild(btn);
+    document.body.appendChild(panel);
     applySettings(s); refreshActive();
   }
+
+  // ---------- Language switch ----------
+  function buildLangSwitch() {
+    const actions = document.getElementById('harfi-nav-actions');
+    if (!actions) return;
+    const btn = document.createElement('button');
+    btn.className = 'harfi-lang-btn';
+    btn.setAttribute('aria-label', isEn ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية');
+    btn.innerHTML = `<span>🌐</span><span>${isEn ? 'ع' : 'EN'}</span>`;
+    btn.addEventListener('click', () => {
+      try { localStorage.setItem(LANG_KEY, isEn ? 'ar' : 'en'); } catch {}
+      location.reload();
+    });
+    actions.insertBefore(btn, actions.firstChild);
+  }
+
+  // Translate any element carrying data-ar / data-en (landing page & shared copy)
+  function applyTranslations() {
+    const nodes = document.querySelectorAll('[data-ar][data-en]');
+    if (!nodes.length) return;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+    nodes.forEach(el => {
+      const val = isEn ? el.dataset.en : el.dataset.ar;
+      if (val != null) el.textContent = val;
+    });
+    document.querySelectorAll('[data-href-ar][data-href-en]').forEach(el => {
+      el.setAttribute('href', isEn ? el.dataset.hrefEn : el.dataset.hrefAr);
+    });
+  }
+
 
   function buildBottomNav() {
     if (isLanding) return;
@@ -310,6 +353,8 @@
     style.textContent = a11yCSS + bottomNavCSS;
     document.head.appendChild(style);
     buildA11yPanel();
+    buildLangSwitch();
+    applyTranslations();
     buildBottomNav();
   }
 
