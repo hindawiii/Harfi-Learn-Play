@@ -270,9 +270,42 @@
       if (!panel.contains(e.target) && !btn.contains(e.target)) panel.classList.remove('open');
     });
 
-    document.body.appendChild(btn); document.body.appendChild(panel);
+    const actions = document.getElementById('harfi-nav-actions') || document.body;
+    actions.appendChild(btn);
+    document.body.appendChild(panel);
     applySettings(s); refreshActive();
   }
+
+  // ---------- Language switch ----------
+  function buildLangSwitch() {
+    const actions = document.getElementById('harfi-nav-actions');
+    if (!actions) return;
+    const btn = document.createElement('button');
+    btn.className = 'harfi-lang-btn';
+    btn.setAttribute('aria-label', isEn ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية');
+    btn.innerHTML = `<span>🌐</span><span>${isEn ? 'ع' : 'EN'}</span>`;
+    btn.addEventListener('click', () => {
+      try { localStorage.setItem(LANG_KEY, isEn ? 'ar' : 'en'); } catch {}
+      location.reload();
+    });
+    actions.insertBefore(btn, actions.firstChild);
+  }
+
+  // Translate any element carrying data-ar / data-en (landing page & shared copy)
+  function applyTranslations() {
+    const nodes = document.querySelectorAll('[data-ar][data-en]');
+    if (!nodes.length) return;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+    nodes.forEach(el => {
+      const val = isEn ? el.dataset.en : el.dataset.ar;
+      if (val != null) el.textContent = val;
+    });
+    document.querySelectorAll('[data-href-ar][data-href-en]').forEach(el => {
+      el.setAttribute('href', isEn ? el.dataset.hrefEn : el.dataset.hrefAr);
+    });
+  }
+
 
   function buildBottomNav() {
     if (isLanding) return;
