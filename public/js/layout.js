@@ -186,9 +186,13 @@
   const FONT_SIZES = { small: '14px', normal: '16px', large: '20px', xlarge: '24px' };
 
   const a11yCSS = `
-  .harfi-a11y-btn { position: fixed; top: 20px; left: 20px; z-index: 60; width: 52px; height: 52px; border-radius: 50%; background:#FF6B6B; color:#fff; border:none; box-shadow:0 8px 20px rgba(255,107,107,.4); font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .harfi-a11y-btn { width: 42px; height: 42px; border-radius: 50%; background:#FF6B6B; color:#fff; border:none; box-shadow:0 6px 16px rgba(255,107,107,.35); font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all .2s; }
   .harfi-a11y-btn:hover { background:#FF5252; transform: scale(1.05); }
-  .harfi-a11y-panel { position: fixed; top: 84px; left: 20px; z-index: 60; width: 300px; max-width: calc(100vw - 40px); background:#fff; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,.2); padding: 20px; display:none; }
+  .harfi-lang-btn { height: 42px; padding: 0 14px; border-radius: 999px; background:#fff; border:2px solid #FF6B6B; color:#FF6B6B; font-family:'Tajawal',sans-serif; font-weight:900; font-size:14px; cursor:pointer; display:flex; align-items:center; gap:6px; transition: all .2s; }
+  .harfi-lang-btn:hover { background:#FF6B6B; color:#fff; }
+  .harfi-a11y-panel { position: fixed; top: 74px; inset-inline-end: 16px; z-index: 60; width: 300px; max-width: calc(100vw - 32px); background:#fff; border-radius:20px; box-shadow:0 20px 50px rgba(0,0,0,.2); padding: 20px; display:none; }
+  body.harfi-dark .harfi-a11y-panel { background:#1E293B; color:#F1F5F9; }
+  body.harfi-dark .harfi-lang-btn { background:#1E293B; }
   .harfi-a11y-panel.open { display: block; }
   .harfi-a11y-panel h3 { font-size:18px; font-weight:900; margin-bottom:14px; color:#2D3436; }
   .harfi-a11y-item { margin-bottom: 14px; }
