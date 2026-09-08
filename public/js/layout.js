@@ -1,6 +1,10 @@
 // Unified Navbar + Footer for all Harfi pages
 (function () {
-  const lang = document.documentElement.lang || 'ar';
+  const LANG_KEY = 'harfi_lang';
+  const pageLang = document.documentElement.lang || 'ar';
+  let storedLang = null;
+  try { storedLang = localStorage.getItem(LANG_KEY); } catch { storedLang = null; }
+  const lang = storedLang || pageLang;
   const isEn = lang === 'en';
   const path = location.pathname.replace(/\/$/, '') || '/index.html';
 
@@ -41,8 +45,10 @@
       <div class="hidden lg:flex items-center gap-1 flex-wrap justify-center">
         ${linksHTML}
       </div>
+      <div id="harfi-nav-actions" class="flex items-center gap-2 shrink-0"></div>
     </div>
   </nav>`;
+
 
   // ---------- Luxe bottom navigation (mobile) ----------
   const BOTTOM_MAIN = ['/arabic.html', '/english.html', '/math.html', '/play.html', '/coloring.html', '/countries.html', '/stories.html'];
