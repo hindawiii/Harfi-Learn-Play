@@ -3,20 +3,47 @@
  * ثلاثة أركان: الأرقام العربية، الأرقام الإنجليزية، عمليات حسابية بسيطة
  */
 (function () {
-  const AR_NAMES = ['صِفْر','واحِد','اِثْنان','ثَلاثَة','أَرْبَعَة','خَمْسَة','سِتَّة','سَبْعَة','ثَمانِيَة','تِسْعَة','عَشَرَة',
-    'أَحَدَ عَشَر','اِثْنا عَشَر','ثَلاثَةَ عَشَر','أَرْبَعَةَ عَشَر','خَمْسَةَ عَشَر','سِتَّةَ عَشَر','سَبْعَةَ عَشَر','ثَمانِيَةَ عَشَر','تِسْعَةَ عَشَر','عِشْرُون'];
-  const EN_NAMES = ['zero','one','two','three','four','five','six','seven','eight','nine','ten',
-    'eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+  // ---------- أسماء الأرقام 0 إلى 100 ----------
+  const AR_ONES = ['صِفْر','واحِد','اِثْنان','ثَلاثَة','أَرْبَعَة','خَمْسَة','سِتَّة','سَبْعَة','ثَمانِيَة','تِسْعَة'];
+  const AR_TEENS = ['عَشَرَة','أَحَدَ عَشَر','اِثْنا عَشَر','ثَلاثَةَ عَشَر','أَرْبَعَةَ عَشَر','خَمْسَةَ عَشَر','سِتَّةَ عَشَر','سَبْعَةَ عَشَر','ثَمانِيَةَ عَشَر','تِسْعَةَ عَشَر'];
+  const AR_TENS = ['','عَشَرَة','عِشْرُون','ثَلاثُون','أَرْبَعُون','خَمْسُون','سِتُّون','سَبْعُون','ثَمانُون','تِسْعُون'];
+  const EN_ONES = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+  const EN_TEENS = ['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  const EN_TENS = ['','ten','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+
+  function arName(n) {
+    if (n === 100) return 'مِئَة';
+    if (n < 10) return AR_ONES[n];
+    if (n < 20) return AR_TEENS[n - 10];
+    const t = Math.floor(n / 10), o = n % 10;
+    return o === 0 ? AR_TENS[t] : `${AR_ONES[o]} وَ${AR_TENS[t]}`;
+  }
+  function enName(n) {
+    if (n === 100) return 'one hundred';
+    if (n < 10) return EN_ONES[n];
+    if (n < 20) return EN_TEENS[n - 10];
+    const t = Math.floor(n / 10), o = n % 10;
+    return o === 0 ? EN_TENS[t] : `${EN_TENS[t]}-${EN_ONES[o]}`;
+  }
+  const AR_NAMES = Array.from({ length: 101 }, (_, i) => arName(i));
+  const EN_NAMES = Array.from({ length: 101 }, (_, i) => enName(i));
   const AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
   const COUNT_EMOJI = ['🍎','⭐','🐤','🎈','🍓','🐟','🌸','🚗','🧸','🍪'];
 
   const GROUPS = [
-    { label: '١ - ٥', en: '1 - 5', from: 1, to: 5 },
-    { label: '٦ - ١٠', en: '6 - 10', from: 6, to: 10 },
-    { label: '١١ - ١٥', en: '11 - 15', from: 11, to: 15 },
-    { label: '١٦ - ٢٠', en: '16 - 20', from: 16, to: 20 },
-    { label: '٠ - ٢٠ (الكل)', en: '0 - 20 (all)', from: 0, to: 20 }
+    { label: '٠ - ١٠', en: '0 - 10', from: 0, to: 10 },
+    { label: '١١ - ٢٠', en: '11 - 20', from: 11, to: 20 },
+    { label: '٢١ - ٣٠', en: '21 - 30', from: 21, to: 30 },
+    { label: '٣١ - ٤٠', en: '31 - 40', from: 31, to: 40 },
+    { label: '٤١ - ٥٠', en: '41 - 50', from: 41, to: 50 },
+    { label: '٥١ - ٦٠', en: '51 - 60', from: 51, to: 60 },
+    { label: '٦١ - ٧٠', en: '61 - 70', from: 61, to: 70 },
+    { label: '٧١ - ٨٠', en: '71 - 80', from: 71, to: 80 },
+    { label: '٨١ - ٩٠', en: '81 - 90', from: 81, to: 90 },
+    { label: '٩١ - ١٠٠', en: '91 - 100', from: 91, to: 100 },
+    { label: '🔟 العشرات', en: 'Tens', tens: true }
   ];
+
 
   const SCORE_KEY = 'harfi_math_score';
   let score = Number(localStorage.getItem(SCORE_KEY) || 0);
@@ -52,9 +79,28 @@
   }
 
   // ---------- numbers ----------
+  function groupNumbers(g) {
+    if (g.tens) return [10,20,30,40,50,60,70,80,90,100];
+    const out = [];
+    for (let n = g.from; n <= g.to; n++) out.push(n);
+    return out;
+  }
+
   function dots(n, emoji) {
     if (n === 0) return '<span class="text-gray-400 text-sm">لا شيء</span>';
-    return `<div style="font-size:18px;line-height:1.5">${emoji.repeat(n)}</div>`;
+    if (n <= 20) {
+      const size = n <= 10 ? 18 : 14;
+      return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n).split('').map(() => '').length ? emoji.repeat(n) : ''}</div>`;
+    }
+    // مجموعات من عشرة
+    const tens = Math.floor(n / 10);
+    const rest = n % 10;
+    let html = '<div class="count-tens">';
+    for (let i = 0; i < tens; i++) html += `<div class="count-ten-box">${emoji.repeat(10)}</div>`;
+    if (rest) html += `<div class="count-ten-box">${emoji.repeat(rest)}</div>`;
+    html += '</div>';
+    html += `<div class="count-note">${toArabicDigits(tens)} × ١٠${rest ? ` + ${toArabicDigits(rest)}` : ''}</div>`;
+    return html;
   }
 
   function renderGroups(containerId, activeIdx, onPick) {
@@ -71,7 +117,7 @@
     const box = document.getElementById('ar-numbers');
     if (!box) return;
     let html = '';
-    for (let n = g.from; n <= g.to; n++) {
+    for (const n of groupNumbers(g)) {
       const emoji = COUNT_EMOJI[n % COUNT_EMOJI.length];
       html += `
         <div class="card">
@@ -95,7 +141,7 @@
     const box = document.getElementById('en-numbers');
     if (!box) return;
     let html = '';
-    for (let n = g.from; n <= g.to; n++) {
+    for (const n of groupNumbers(g)) {
       const emoji = COUNT_EMOJI[n % COUNT_EMOJI.length];
       html += `
         <div class="card">
@@ -113,6 +159,7 @@
     }
     box.innerHTML = html;
     bindNumberCards(box, 'en-US');
+
   }
 
   function bindNumberCards(box, lang) {
