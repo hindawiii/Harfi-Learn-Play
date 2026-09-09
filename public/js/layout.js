@@ -297,6 +297,8 @@
     if (!nodes.length) return;
     document.documentElement.lang = lang;
     document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+    document.body.setAttribute('dir', isEn ? 'ltr' : 'rtl');
+    document.body.style.direction = isEn ? 'ltr' : 'rtl';
     nodes.forEach(el => {
       const val = isEn ? el.dataset.en : el.dataset.ar;
       if (val != null) el.textContent = val;
