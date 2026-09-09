@@ -295,3 +295,35 @@ body {
 .tk-big{font-size:3rem;font-weight:900;line-height:1.4}
 .tk-name{font-weight:700;color:#374151;margin-top:4px}
 .tk-hint{font-size:.85rem;color:#6b7280;margin-bottom:8px}
+
+/* ===== احتواء الرموز التوضيحية داخل البطاقة ===== */
+.letter-example, .emoji { max-width: 100%; overflow: hidden; }
+.count-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  max-width: 100%;
+  line-height: 1.1;
+}
+.count-grid span { display: inline-block; }
+.count-tens {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 100%;
+}
+.count-ten-box {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  padding: 4px;
+  border: 2px dashed rgba(255,107,107,.35);
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1;
+}
+.count-note { font-size: 12px; color: #6b7280; margin-top: 4px; }
+.card { overflow: hidden; }
+
+/* استجابة فورية عند لمس أقسام الشريط */
+.hbn-item:active, .nav-link:active { transform: scale(0.94); opacity: .85; }
+.hbn-item, .nav-link { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
