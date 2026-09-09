@@ -79,9 +79,28 @@
   }
 
   // ---------- numbers ----------
+  function groupNumbers(g) {
+    if (g.tens) return [10,20,30,40,50,60,70,80,90,100];
+    const out = [];
+    for (let n = g.from; n <= g.to; n++) out.push(n);
+    return out;
+  }
+
   function dots(n, emoji) {
     if (n === 0) return '<span class="text-gray-400 text-sm">لا شيء</span>';
-    return `<div style="font-size:18px;line-height:1.5">${emoji.repeat(n)}</div>`;
+    if (n <= 20) {
+      const size = n <= 10 ? 18 : 14;
+      return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n).split('').map(() => '').length ? emoji.repeat(n) : ''}</div>`;
+    }
+    // مجموعات من عشرة
+    const tens = Math.floor(n / 10);
+    const rest = n % 10;
+    let html = '<div class="count-tens">';
+    for (let i = 0; i < tens; i++) html += `<div class="count-ten-box">${emoji.repeat(10)}</div>`;
+    if (rest) html += `<div class="count-ten-box">${emoji.repeat(rest)}</div>`;
+    html += '</div>';
+    html += `<div class="count-note">${toArabicDigits(tens)} × ١٠${rest ? ` + ${toArabicDigits(rest)}` : ''}</div>`;
+    return html;
   }
 
   function renderGroups(containerId, activeIdx, onPick) {
@@ -98,7 +117,7 @@
     const box = document.getElementById('ar-numbers');
     if (!box) return;
     let html = '';
-    for (let n = g.from; n <= g.to; n++) {
+    for (const n of groupNumbers(g)) {
       const emoji = COUNT_EMOJI[n % COUNT_EMOJI.length];
       html += `
         <div class="card">
@@ -122,7 +141,7 @@
     const box = document.getElementById('en-numbers');
     if (!box) return;
     let html = '';
-    for (let n = g.from; n <= g.to; n++) {
+    for (const n of groupNumbers(g)) {
       const emoji = COUNT_EMOJI[n % COUNT_EMOJI.length];
       html += `
         <div class="card">
@@ -140,6 +159,7 @@
     }
     box.innerHTML = html;
     bindNumberCards(box, 'en-US');
+
   }
 
   function bindNumberCards(box, lang) {
