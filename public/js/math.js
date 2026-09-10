@@ -90,8 +90,9 @@
     if (n === 0) return '<span class="text-gray-400 text-sm">لا شيء</span>';
     if (n <= 20) {
       const size = n <= 10 ? 18 : 14;
-      return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n).split('').map(() => '').length ? emoji.repeat(n) : ''}</div>`;
+      return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n)}</div>`;
     }
+
     // مجموعات من عشرة
     const tens = Math.floor(n / 10);
     const rest = n % 10;
