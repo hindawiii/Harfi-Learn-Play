@@ -310,7 +310,7 @@
     let html = '';
     for (let i = 0; i <= 12; i++) {
       const res = t * i;
-      const sayText = `${AR_NAMES[t]} ضرب ${AR_NAMES[i]} يساوي ${res <= 20 ? AR_NAMES[res] : res}`;
+      const sayText = `${AR_NAMES[t]} ضرب ${AR_NAMES[i]} يساوي ${res <= 100 ? AR_NAMES[res] : res}`;
       html += `
         <div class="tk-card" style="border-color:${color}">
           <div class="tk-big" style="color:${color};font-size:1.8rem;direction:ltr">
