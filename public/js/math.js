@@ -174,15 +174,31 @@
     box.querySelectorAll('[data-count]').forEach(b => {
       b.addEventListener('click', async () => {
         const n = Number(b.dataset.count);
+        if (SpeechSystem._busy) { SpeechSystem.stop(); return; }
+        SpeechSystem.stop();
+        SpeechSystem._busy = true;
+        const token = SpeechSystem._token;
         b.disabled = true;
-        for (let i = 1; i <= Math.max(n, 1); i++) {
-          say(names[i > n ? n : i], 0.85, lang);
-          await new Promise(r => setTimeout(r, 850));
+        const card = b.closest('.card');
+        if (card) card.classList.add('speaking');
+        // فوق العشرين: العد بالعشرات ثم الرقم كاملاً
+        const seq = n === 0 ? [0] : (n <= 20
+          ? Array.from({ length: n }, (_, i) => i + 1)
+          : [...Array.from({ length: Math.floor(n / 10) }, (_, i) => (i + 1) * 10), ...(n % 10 ? [n] : [])]);
+        for (const v of seq) {
+          if (token !== SpeechSystem._token) break;
+          await SpeechSystem.speakLetter(names[v], 0.85, lang, token);
+          await new Promise(r => setTimeout(r, 180));
+        }
+        if (token === SpeechSystem._token) {
+          SpeechSystem._busy = false;
+          addScore(2);
         }
         b.disabled = false;
-        addScore(2);
+        if (card) card.classList.remove('speaking');
       });
     });
+
   }
 
   // ---------- operations ----------
