@@ -205,7 +205,7 @@ function renderShapes(){
   const grid = document.getElementById('shapes-grid');
   grid.innerHTML = list.map((s,i)=>`
     <div class="shape-thumb ${i===0?'active':''}" data-idx="${SHAPES.indexOf(s)}">
-      <svg viewBox="0 0 400 400">${s.svg}</svg>
+      <svg viewBox="0 0 400 400">${uniqSvg(s.svg)}</svg>
       <div class="lbl">${s.name}</div>
     </div>
   `).join('');
@@ -219,18 +219,24 @@ function renderShapes(){
   if (list.length) loadShape(SHAPES.indexOf(list[0]));
 }
 
+const SKIP = new Set(['defs','clipPath','text','g']);
 function loadShape(idx){
   currentShapeIdx = idx;
   colorHistory = [];
   const svg = document.getElementById('coloring-svg');
-  svg.innerHTML = SHAPES[idx].svg;
+  svg.innerHTML = uniqSvg(SHAPES[idx].svg);
   svg.querySelectorAll('*').forEach(el=>{
+    const tag = el.tagName;
+    if (SKIP.has(tag) || el.closest('defs')) return;
+    if (el.getAttribute('fill') === 'none') return;
+    el.style.cursor = 'pointer';
     el.addEventListener('click',()=>{
       colorHistory.push({el, prev: el.getAttribute('fill') || '#fff'});
       el.setAttribute('fill', currentColor);
     });
   });
 }
+
 
 function undoColor(){
   const last = colorHistory.pop();
