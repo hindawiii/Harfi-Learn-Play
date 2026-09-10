@@ -90,8 +90,9 @@
     if (n === 0) return '<span class="text-gray-400 text-sm">لا شيء</span>';
     if (n <= 20) {
       const size = n <= 10 ? 18 : 14;
-      return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n).split('').map(() => '').length ? emoji.repeat(n) : ''}</div>`;
+      return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n)}</div>`;
     }
+
     // مجموعات من عشرة
     const tens = Math.floor(n / 10);
     const rest = n % 10;
@@ -173,15 +174,31 @@
     box.querySelectorAll('[data-count]').forEach(b => {
       b.addEventListener('click', async () => {
         const n = Number(b.dataset.count);
+        if (SpeechSystem._busy) { SpeechSystem.stop(); return; }
+        SpeechSystem.stop();
+        SpeechSystem._busy = true;
+        const token = SpeechSystem._token;
         b.disabled = true;
-        for (let i = 1; i <= Math.max(n, 1); i++) {
-          say(names[i > n ? n : i], 0.85, lang);
-          await new Promise(r => setTimeout(r, 850));
+        const card = b.closest('.card');
+        if (card) card.classList.add('speaking');
+        // فوق العشرين: العد بالعشرات ثم الرقم كاملاً
+        const seq = n === 0 ? [0] : (n <= 20
+          ? Array.from({ length: n }, (_, i) => i + 1)
+          : [...Array.from({ length: Math.floor(n / 10) }, (_, i) => (i + 1) * 10), ...(n % 10 ? [n] : [])]);
+        for (const v of seq) {
+          if (token !== SpeechSystem._token) break;
+          await SpeechSystem.speakLetter(names[v], 0.85, lang, token);
+          await new Promise(r => setTimeout(r, 180));
+        }
+        if (token === SpeechSystem._token) {
+          SpeechSystem._busy = false;
+          addScore(2);
         }
         b.disabled = false;
-        addScore(2);
+        if (card) card.classList.remove('speaking');
       });
     });
+
   }
 
   // ---------- operations ----------
@@ -293,7 +310,7 @@
     let html = '';
     for (let i = 0; i <= 12; i++) {
       const res = t * i;
-      const sayText = `${AR_NAMES[t]} ضرب ${AR_NAMES[i]} يساوي ${res <= 20 ? AR_NAMES[res] : res}`;
+      const sayText = `${AR_NAMES[t]} ضرب ${AR_NAMES[i]} يساوي ${res <= 100 ? AR_NAMES[res] : res}`;
       html += `
         <div class="tk-card" style="border-color:${color}">
           <div class="tk-big" style="color:${color};font-size:1.8rem;direction:ltr">

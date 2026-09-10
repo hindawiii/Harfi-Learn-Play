@@ -73,6 +73,8 @@
       <button class="shape-cat" data-cat="animal">🐪 حيوانات</button>
       <button class="shape-cat" data-cat="object">🏠 أشياء</button>
       <button class="shape-cat" data-cat="nature">🌳 طبيعة</button>
+      <button class="shape-cat" data-cat="food">🍎 طعام</button>
+
     </div>
 
 
@@ -147,6 +149,8 @@
 
 <div id="footer-root"></div>
 <script src="/js/layout.js"></script>
+<script src="/js/coloring-shapes.js"></script>
+
 <script>
 /* ================ 24-COLOR PALETTE ================ */
 const COLORS = [
@@ -157,50 +161,28 @@ const COLORS = [
 ];
 
 /* ================ COLORING SHAPES ================ */
-// Each shape: category + inner SVG markup (viewBox 0 0 400 400). All paths fill #fff by default.
-const SHAPES = [
+// مكتبة رسومات احترافية متعددة الأجزاء من /js/coloring-shapes.js
+const SHAPES = (window.HARFI_SHAPES || []).slice();
 
-
-
-  // Animals
-  { cat:'animal', name:'سمكة', svg:`<ellipse cx="180" cy="200" rx="120" ry="70" fill="#fff"/><polygon points="290,200 370,140 370,260" fill="#fff"/><circle cx="130" cy="180" r="12" fill="#fff"/><path d="M120 220 Q 150 240 190 220" fill="#fff"/>` },
-  { cat:'animal', name:'قطة', svg:`<circle cx="200" cy="220" r="90" fill="#fff"/><polygon points="130,160 110,80 180,140" fill="#fff"/><polygon points="270,160 290,80 220,140" fill="#fff"/><circle cx="170" cy="210" r="10" fill="#fff"/><circle cx="230" cy="210" r="10" fill="#fff"/><path d="M180 250 Q 200 270 220 250" fill="#fff"/>` },
-  { cat:'animal', name:'أرنب', svg:`<ellipse cx="200" cy="260" rx="80" ry="70" fill="#fff"/><ellipse cx="160" cy="140" rx="20" ry="60" fill="#fff"/><ellipse cx="240" cy="140" rx="20" ry="60" fill="#fff"/><circle cx="180" cy="250" r="8" fill="#fff"/><circle cx="220" cy="250" r="8" fill="#fff"/>` },
-  { cat:'animal', name:'دجاجة', svg:`<ellipse cx="200" cy="240" rx="90" ry="70" fill="#fff"/><circle cx="200" cy="150" r="45" fill="#fff"/><polygon points="230,145 260,155 230,165" fill="#fff"/><path d="M180 105 L190 80 M210 105 L220 80" fill="#fff"/><circle cx="205" cy="145" r="6" fill="#fff"/>` },
-  { cat:'animal', name:'فراشة', svg:`<ellipse cx="140" cy="180" rx="70" ry="60" fill="#fff"/><ellipse cx="260" cy="180" rx="70" ry="60" fill="#fff"/><ellipse cx="150" cy="280" rx="55" ry="45" fill="#fff"/><ellipse cx="250" cy="280" rx="55" ry="45" fill="#fff"/><ellipse cx="200" cy="220" rx="12" ry="70" fill="#fff"/>` },
-
-  // Objects
-  { cat:'object', name:'بيت', svg:`<rect x="100" y="200" width="200" height="160" fill="#fff"/><polygon points="80,200 200,90 320,200" fill="#fff"/><rect x="180" y="260" width="50" height="100" fill="#fff"/><rect x="120" y="230" width="40" height="40" fill="#fff"/><rect x="240" y="230" width="40" height="40" fill="#fff"/>` },
-  { cat:'object', name:'سيارة', svg:`<rect x="80" y="200" width="240" height="80" rx="18" fill="#fff"/><path d="M120 200 L150 140 L250 140 L280 200 Z" fill="#fff"/><circle cx="140" cy="290" r="28" fill="#fff"/><circle cx="260" cy="290" r="28" fill="#fff"/>` },
-  { cat:'object', name:'كوب', svg:`<path d="M130 130 L130 300 Q130 340 170 340 L230 340 Q270 340 270 300 L270 130 Z" fill="#fff"/><path d="M270 180 Q320 180 320 230 Q320 280 270 280" fill="#fff"/>` },
-  { cat:'object', name:'كتاب', svg:`<path d="M80 120 L200 140 L320 120 L320 320 L200 340 L80 320 Z" fill="#fff"/><path d="M200 140 L200 340" fill="#fff"/>` },
-  { cat:'object', name:'قلب', svg:`<path d="M200 340 L100 220 Q60 170 110 130 Q160 100 200 160 Q240 100 290 130 Q340 170 300 220 Z" fill="#fff"/>` },
-  { cat:'object', name:'نجمة', svg:`<polygon points="200,80 232,170 328,170 250,225 280,320 200,265 120,320 150,225 72,170 168,170" fill="#fff"/>` },
-
-  // Nature
-  { cat:'nature', name:'وردة', svg:`<circle cx="200" cy="170" r="35" fill="#fff"/><ellipse cx="200" cy="110" rx="30" ry="45" fill="#fff"/><ellipse cx="200" cy="230" rx="30" ry="45" fill="#fff"/><ellipse cx="140" cy="170" rx="45" ry="30" fill="#fff"/><ellipse cx="260" cy="170" rx="45" ry="30" fill="#fff"/><rect x="192" y="200" width="16" height="150" fill="#fff"/><ellipse cx="160" cy="270" rx="35" ry="15" fill="#fff" transform="rotate(-30 160 270)"/><ellipse cx="240" cy="310" rx="35" ry="15" fill="#fff" transform="rotate(30 240 310)"/>` },
-  { cat:'nature', name:'شمس', svg:`<circle cx="200" cy="200" r="70" fill="#fff"/><g fill="#fff"><rect x="192" y="60" width="16" height="50"/><rect x="192" y="290" width="16" height="50"/><rect x="60" y="192" width="50" height="16"/><rect x="290" y="192" width="50" height="16"/><rect x="90" y="90" width="16" height="50" transform="rotate(-45 98 115)"/><rect x="294" y="90" width="16" height="50" transform="rotate(45 302 115)"/><rect x="90" y="260" width="16" height="50" transform="rotate(45 98 285)"/><rect x="294" y="260" width="16" height="50" transform="rotate(-45 302 285)"/></g>` },
-  { cat:'nature', name:'شجرة', svg:`<rect x="180" y="240" width="40" height="120" fill="#fff"/><circle cx="200" cy="180" r="90" fill="#fff"/>` },
-  { cat:'nature', name:'سحابة', svg:`<path d="M120 240 Q80 240 80 200 Q80 160 130 160 Q140 110 200 110 Q260 110 270 160 Q320 160 320 200 Q320 240 280 240 Z" fill="#fff"/>` },
-  { cat:'nature', name:'قمر', svg:`<path d="M260 90 Q160 90 160 200 Q160 310 260 310 Q180 260 180 200 Q180 140 260 90 Z" fill="#fff"/><circle cx="330" cy="140" r="6" fill="#fff"/><circle cx="310" cy="220" r="4" fill="#fff"/><circle cx="340" cy="260" r="5" fill="#fff"/>` },
-  { cat:'nature', name:'جبل', svg:`<polygon points="60,320 160,150 220,240 280,120 360,320" fill="#fff"/><polygon points="140,180 160,150 180,180 165,195" fill="#fff"/>` },
-];
-
-/* ===== Generated letters & numbers (colorable glyphs) ===== */
-function glyphSvg(ch, fontSize){
-  return `<text x="200" y="200" dominant-baseline="central" text-anchor="middle" font-family="Tajawal, Arial, sans-serif" font-weight="900" font-size="${fontSize}" fill="#fff">${ch}</text>`;
-}
+/* ===== حروف وأرقام قابلة للتلوين (أجزاء مستقلة) ===== */
+const glyphSvg = (ch, size) => window.harfiGlyphSvg(ch, size);
 const AR_LETTERS = ['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','هـ','و','ي'];
 const EN_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩','١٠'];
 const EN_DIGITS = ['0','1','2','3','4','5','6','7','8','9','10'];
 
-AR_LETTERS.forEach(ch => SHAPES.push({ cat:'arletter', name:ch, svg: glyphSvg(ch, 260) }));
-EN_LETTERS.forEach(ch => SHAPES.push({ cat:'enletter', name:ch, svg: glyphSvg(ch, 260) }));
-AR_DIGITS.forEach(ch => SHAPES.push({ cat:'arnum', name:ch, svg: glyphSvg(ch, ch.length>1?200:280) }));
-EN_DIGITS.forEach(ch => SHAPES.push({ cat:'ennum', name:ch, svg: glyphSvg(ch, ch.length>1?200:280) }));
+AR_LETTERS.forEach(ch => SHAPES.push({ cat:'arletter', name:ch, svg: glyphSvg(ch, 230) }));
+EN_LETTERS.forEach(ch => SHAPES.push({ cat:'enletter', name:ch, svg: glyphSvg(ch, 230) }));
+AR_DIGITS.forEach(ch => SHAPES.push({ cat:'arnum', name:ch, svg: glyphSvg(ch, ch.length>1?180:250) }));
+EN_DIGITS.forEach(ch => SHAPES.push({ cat:'ennum', name:ch, svg: glyphSvg(ch, ch.length>1?180:250) }));
 
-/* ================ STATE ================ */
+// معرفات فريدة لكل نسخة من الرسم (حتى لا تتعارض clipPath بين المصغرات واللوحة)
+let uniqCounter = 0;
+function uniqSvg(markup){
+  const suffix = '-u' + (++uniqCounter);
+  return markup.replace(/clip-[a-z0-9]+/g, m => m + suffix);
+}
+
 let currentColor = COLORS[0];
 let currentCat = 'arletter';
 
@@ -225,7 +207,7 @@ function renderShapes(){
   const grid = document.getElementById('shapes-grid');
   grid.innerHTML = list.map((s,i)=>`
     <div class="shape-thumb ${i===0?'active':''}" data-idx="${SHAPES.indexOf(s)}">
-      <svg viewBox="0 0 400 400">${s.svg}</svg>
+      <svg viewBox="0 0 400 400">${uniqSvg(s.svg)}</svg>
       <div class="lbl">${s.name}</div>
     </div>
   `).join('');
@@ -239,12 +221,17 @@ function renderShapes(){
   if (list.length) loadShape(SHAPES.indexOf(list[0]));
 }
 
+const SKIP = new Set(['defs','clipPath','text','g']);
 function loadShape(idx){
   currentShapeIdx = idx;
   colorHistory = [];
   const svg = document.getElementById('coloring-svg');
-  svg.innerHTML = SHAPES[idx].svg;
+  svg.innerHTML = uniqSvg(SHAPES[idx].svg);
   svg.querySelectorAll('*').forEach(el=>{
+    const tag = el.tagName;
+    if (SKIP.has(tag) || el.closest('defs')) return;
+    if (el.getAttribute('fill') === 'none') return;
+    el.style.cursor = 'pointer';
     el.addEventListener('click',()=>{
       colorHistory.push({el, prev: el.getAttribute('fill') || '#fff'});
       el.setAttribute('fill', currentColor);
@@ -252,14 +239,20 @@ function loadShape(idx){
   });
 }
 
+
 function undoColor(){
   const last = colorHistory.pop();
   if (last) last.el.setAttribute('fill', last.prev);
 }
 function resetColoring(){
   colorHistory = [];
-  document.querySelectorAll('#coloring-svg *').forEach(el=>el.setAttribute('fill','#fff'));
+  document.querySelectorAll('#coloring-svg *').forEach(el=>{
+    if (SKIP.has(el.tagName) || el.closest('defs')) return;
+    if (el.getAttribute('fill') === 'none') return;
+    el.setAttribute('fill','#fff');
+  });
 }
+
 function downloadColoring(){
   const svg = document.getElementById('coloring-svg');
   const clone = svg.cloneNode(true);
