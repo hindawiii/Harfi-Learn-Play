@@ -244,8 +244,13 @@ function undoColor(){
 }
 function resetColoring(){
   colorHistory = [];
-  document.querySelectorAll('#coloring-svg *').forEach(el=>el.setAttribute('fill','#fff'));
+  document.querySelectorAll('#coloring-svg *').forEach(el=>{
+    if (SKIP.has(el.tagName) || el.closest('defs')) return;
+    if (el.getAttribute('fill') === 'none') return;
+    el.setAttribute('fill','#fff');
+  });
 }
+
 function downloadColoring(){
   const svg = document.getElementById('coloring-svg');
   const clone = svg.cloneNode(true);
