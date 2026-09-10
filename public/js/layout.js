@@ -343,6 +343,33 @@
       startY = null;
     });
 
+    setupFastNav();
+  }
+
+  // ---------- تسريع التنقل: تحميل مسبق + استجابة فورية ----------
+  function setupFastNav() {
+    const prefetched = new Set();
+    const prefetch = (href) => {
+      if (!href || prefetched.has(href) || href.startsWith('#')) return;
+      prefetched.add(href);
+      const l = document.createElement('link');
+      l.rel = 'prefetch';
+      l.href = href;
+      document.head.appendChild(l);
+    };
+    const links = () => document.querySelectorAll('.hbn-item[href], .hbn-sheet-card[href], .nav-link[href]');
+    links().forEach(a => {
+      ['pointerenter', 'touchstart', 'focus'].forEach(ev =>
+        a.addEventListener(ev, () => prefetch(a.getAttribute('href')), { passive: true, once: true })
+      );
+      a.addEventListener('click', () => {
+        try { if (typeof SpeechSystem !== 'undefined') SpeechSystem.stop(); } catch {}
+        a.classList.add('hbn-loading');
+      });
+    });
+    // تحميل مسبق هادئ لأقرب الأقسام بعد استقرار الصفحة
+    const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1200));
+    idle(() => document.querySelectorAll('.hbn-item[href]').forEach(a => prefetch(a.getAttribute('href'))));
   }
 
   function mount() {
@@ -358,7 +385,43 @@
     buildLangSwitch();
     applyTranslations();
     buildBottomNav();
+    if (isLanding) setupFastNav();
+    registerServiceWorker();
   }
+
+  // ---------- العمل بدون إنترنت ----------
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    const host = location.hostname;
+    const inIframe = window.self !== window.top;
+    const previewHost = /^(id-preview--|preview--)/.test(host)
+      || /(^|\.)lovableproject\.com$/.test(host)
+      || /(^|\.)lovableproject-dev\.com$/.test(host)
+      || /(^|\.)beta\.lovable\.dev$/.test(host);
+    const off = new URLSearchParams(location.search).get('sw') === 'off';
+    if (inIframe || previewHost || off) {
+      navigator.serviceWorker.getRegistrations?.().then(rs =>
+        rs.forEach(r => { if (r.active && r.active.scriptURL.endsWith('/sw.js')) r.unregister(); })
+      );
+      return;
+    }
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      if (!localStorage.getItem('harfi_offline_ready')) {
+        navigator.serviceWorker.ready.then(() => {
+          localStorage.setItem('harfi_offline_ready', '1');
+          const t = document.createElement('div');
+          t.className = 'voice-warning';
+          t.style.background = '#DCFCE7';
+          t.style.color = '#166534';
+          t.textContent = isEn ? '✅ Harfi is ready to work offline' : '✅ التطبيق جاهز للعمل بدون إنترنت';
+          document.body.appendChild(t);
+          setTimeout(() => t.remove(), 5000);
+        });
+      }
+      reg.update?.();
+    }).catch(() => {});
+  }
+
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mount);
