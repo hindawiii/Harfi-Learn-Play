@@ -214,28 +214,16 @@
    * إطار + خلفية + الحرف مقسوم إلى ثلاث شرائح قابلة للتلوين + نجوم زينة.
    */
   window.harfiGlyphSvg = function (ch, fontSize) {
-    const id = 'clip-' + Math.random().toString(36).slice(2, 9);
     return `
-      <defs>
-        <clipPath id="${id}">
-          <text x="200" y="205" dominant-baseline="central" text-anchor="middle"
-                font-family="Tajawal, Arial, sans-serif" font-weight="900" font-size="${fontSize}">${ch}</text>
-        </clipPath>
-      </defs>
       <rect x="26" y="26" width="348" height="348" rx="40" fill="#fff"/>
-      <rect x="52" y="52" width="296" height="296" rx="28" fill="#fff"/>
-      <g clip-path="url(#${id})" stroke="none">
-        <rect x="20" y="20" width="360" height="120" fill="#fff"/>
-        <rect x="20" y="140" width="360" height="120" fill="#fff"/>
-        <rect x="20" y="260" width="360" height="130" fill="#fff"/>
-      </g>
-      <text x="200" y="205" dominant-baseline="central" text-anchor="middle"
+      <rect x="56" y="56" width="288" height="288" rx="28" fill="#fff"/>
+      <circle cx="72" cy="72" r="13" fill="#fff"/>
+      <circle cx="328" cy="72" r="13" fill="#fff"/>
+      <circle cx="72" cy="328" r="13" fill="#fff"/>
+      <circle cx="328" cy="328" r="13" fill="#fff"/>
+      <text x="200" y="208" dominant-baseline="central" text-anchor="middle"
             font-family="Tajawal, Arial, sans-serif" font-weight="900" font-size="${fontSize}"
-            fill="none" stroke="#2D3436" stroke-width="4" pointer-events="none">${ch}</text>
-      <circle cx="72" cy="72" r="12" fill="#fff"/>
-      <circle cx="328" cy="72" r="12" fill="#fff"/>
-      <circle cx="72" cy="328" r="12" fill="#fff"/>
-      <circle cx="328" cy="328" r="12" fill="#fff"/>
+            fill="#fff" stroke="#2D3436" stroke-width="5" paint-order="stroke">${ch}</text>
     `;
   };
 })();
