@@ -37,6 +37,11 @@
     cursor:pointer;transition:fill .15s;stroke:#2D3436;stroke-width:3;stroke-linejoin:round
   }
   #coloring-svg *:hover{opacity:.85}
+  #coloring-svg g[clip-path] *{stroke:none}
+  #coloring-svg [fill="none"]{fill:none}
+  .shape-thumb svg *{stroke:#2D3436;stroke-width:6;stroke-linejoin:round}
+  .shape-thumb svg g[clip-path] *{stroke:none}
+
 
   #draw-canvas{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);touch-action:none;cursor:crosshair;max-width:100%;height:auto;display:block;margin:0 auto}
   .tool-btn{padding:10px 16px;border-radius:12px;background:#fff;color:#495057;font-weight:700;border:2px solid #E9ECEF;cursor:pointer;min-height:44px;font-size:14px}

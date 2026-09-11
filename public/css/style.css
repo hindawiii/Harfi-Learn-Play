@@ -327,3 +327,12 @@ body {
 /* استجابة فورية عند لمس أقسام الشريط */
 .hbn-item:active, .nav-link:active { transform: scale(0.94); opacity: .85; }
 .hbn-item, .nav-link { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+/* عرض مختصر للأعداد الكبيرة */
+.count-pack {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #FFF3E0; border: 2px dashed rgba(255,107,107,.4);
+  border-radius: 999px; padding: 4px 10px; font-weight: 900; font-size: 14px;
+}
+.count-rest { font-size: 14px; line-height: 1.2; max-width: 100%; }
+.letters-grid { align-items: start; }

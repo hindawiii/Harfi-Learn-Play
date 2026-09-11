@@ -93,15 +93,16 @@
       return `<div class="count-grid" style="font-size:${size}px">${emoji.repeat(n)}</div>`;
     }
 
-    // مجموعات من عشرة
+    // فوق العشرين: عرض مختصر واضح (حزم من عشرة + الباقي)
     const tens = Math.floor(n / 10);
     const rest = n % 10;
     let html = '<div class="count-tens">';
-    for (let i = 0; i < tens; i++) html += `<div class="count-ten-box">${emoji.repeat(10)}</div>`;
-    if (rest) html += `<div class="count-ten-box">${emoji.repeat(rest)}</div>`;
+    html += `<span class="count-pack">🔟 × ${toArabicDigits(tens)}</span>`;
+    if (rest) html += `<span class="count-rest">${emoji.repeat(rest)}</span>`;
     html += '</div>';
-    html += `<div class="count-note">${toArabicDigits(tens)} × ١٠${rest ? ` + ${toArabicDigits(rest)}` : ''}</div>`;
+    html += `<div class="count-note">${toArabicDigits(tens)} × ١٠${rest ? ` + ${toArabicDigits(rest)}` : ''} = ${toArabicDigits(n)}</div>`;
     return html;
+
   }
 
   function renderGroups(containerId, activeIdx, onPick) {
