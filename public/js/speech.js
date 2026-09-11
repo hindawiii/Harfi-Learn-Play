@@ -182,7 +182,6 @@ function readWithHighlight(text, element) {
     if (!element.dataset.original) element.dataset.original = element.innerHTML;
     element.innerHTML = loadingLabel;
   }
-  if (card) card.classList.add('speaking');
 
   const done = () => {
     if (isBtn) {
@@ -194,10 +193,14 @@ function readWithHighlight(text, element) {
   };
 
   if (container) {
-    SpeechSystem.readWithHighlight(text, container, 0.8, lang).then(done).catch(done);
+    const p = SpeechSystem.readWithHighlight(text, container, 0.8, lang);
+    if (card) card.classList.add('speaking'); // بعد إلغاء أي نطق سابق حتى لا تُزال العلامة
+    p.then(done).catch(done);
   } else {
     SpeechSystem.speak(text, 0.8, lang);
+    if (card) card.classList.add('speaking');
     setTimeout(done, Math.min(text.length * 400, 6000));
+
   }
 }
 
