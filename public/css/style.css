@@ -129,7 +129,9 @@ body {
 
 /* Speaking state on cards */
 .card, .word-card, .sentence-row { position: relative; }
-.card.speaking, .word-card.speaking, .sentence-row.speaking {
+.tk-card, .fam-card { position: relative; }
+#speaking-indicator { display: none !important; }
+.card.speaking, .word-card.speaking, .sentence-row.speaking, .tk-card.speaking, .fam-card.speaking {
   box-shadow: 0 0 0 3px var(--accent);
   animation: cardPulse 1s infinite;
 }
@@ -336,3 +338,19 @@ body {
 }
 .count-rest { font-size: 14px; line-height: 1.2; max-width: 100%; }
 .letters-grid { align-items: start; }
+
+/* ركن العائلة */
+.fam-cats { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:16px; }
+.fam-cat { padding:8px 16px; border-radius:999px; background:#fff; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,.06); border:2px solid transparent; cursor:pointer; }
+.fam-cat.active { background:var(--primary); color:#fff; }
+.fam-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px; }
+.fam-card { background:#fff; border-radius:22px; padding:16px 12px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.07); overflow:hidden; }
+.fam-emoji { font-size:46px; line-height:1.1; }
+.fam-word { font-size:1.6rem; font-weight:900; color:#333; margin:6px 0 2px; }
+.fam-sub { font-size:.85rem; color:#777; min-height:1.2em; }
+.fam-sentence { font-size:.95rem; color:#555; margin:6px 0 10px; }
+.fam-tree { display:flex; flex-direction:column; align-items:center; gap:10px; margin:24px auto; max-width:560px; background:rgba(255,255,255,.6); border-radius:24px; padding:16px; }
+.fam-row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.fam-node { background:#fff; border-radius:16px; padding:8px 12px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.fam-node.me { background:var(--accent); }
+@media (prefers-reduced-motion: reduce){ .card.speaking,.fam-card.speaking,.tk-card.speaking{animation:none} }
