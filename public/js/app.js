@@ -184,6 +184,57 @@ const sentencesByLetter_en = {
   "Z": [{text:"Zebras have black and white stripes."},{text:"We visited the zoo."}]
 };
 
+
+/* ================= ركن العائلة ================= */
+// [عربي, إنجليزي, رمز, جملة عربية, جملة إنجليزية]
+const familyCategories = [
+  { ar:'الأسرة الصغيرة', en:'My Family', items:[
+    ['أَب','Father','👨','هٰذَا أَبِي.','This is my father.'],
+    ['أُمّ','Mother','👩','هٰذِهِ أُمِّي.','This is my mother.'],
+    ['بَابَا','Dad','🧔','بَابَا يُحِبُّنِي.','Dad loves me.'],
+    ['مَامَا','Mom','👩‍🦱','مَامَا تُحِبُّنِي.','Mom loves me.'],
+    ['اِبْن','Son','👦','هٰذَا اِبْنِي.','This is my son.'],
+    ['اِبْنَة','Daughter','👧','هٰذِهِ اِبْنَتِي.','This is my daughter.'],
+    ['أَخ','Brother','🧒','أَخِي يَلْعَبُ مَعِي.','My brother plays with me.'],
+    ['أُخْت','Sister','👧🏻','أُخْتِي تَقْرَأُ.','My sister reads.'],
+    ['طِفْل رَضِيع','Baby','👶','الطِّفْلُ نَائِمٌ.','The baby is sleeping.'],
+    ['تَوْأَم','Twins','👯','هُمَا تَوْأَمٌ.','They are twins.']]},
+  { ar:'الأجداد', en:'Grandparents', items:[
+    ['جَدّ','Grandfather','👴','جَدِّي حَكِيمٌ.','My grandfather is wise.'],
+    ['جَدَّة','Grandmother','👵','جَدَّتِي تَحْكِي قِصَّةً.','My grandmother tells a story.'],
+    ['جَدِّي لِأَبِي','Paternal grandfather','👴🏽','جَدِّي أَبُو أَبِي.',"Dad's father."],
+    ['جَدَّتِي لِأَبِي','Paternal grandmother','👵🏽','جَدَّتِي أُمُّ أَبِي.',"Dad's mother."],
+    ['جَدِّي لِأُمِّي','Maternal grandfather','👴🏻','جَدِّي أَبُو أُمِّي.',"Mom's father."],
+    ['جَدَّتِي لِأُمِّي','Maternal grandmother','👵🏻','جَدَّتِي أُمُّ أُمِّي.',"Mom's mother."],
+    ['حَفِيد','Grandson','👦🏽','الحَفِيدُ يَزُورُ جَدَّهُ.','The grandson visits his grandpa.'],
+    ['حَفِيدَة','Granddaughter','👧🏽','الحَفِيدَةُ تُحِبُّ جَدَّتَهَا.','The granddaughter loves her grandma.']]},
+  { ar:'الأعمام والأخوال', en:'Uncles & Aunts', items:[
+    ['عَمّ','Uncle (father\'s brother)','👨🏻','عَمِّي أَخُو أَبِي.',"Dad's brother."],
+    ['عَمَّة','Aunt (father\'s sister)','👩🏻','عَمَّتِي أُخْتُ أَبِي.',"Dad's sister."],
+    ['خَال','Uncle (mother\'s brother)','👨🏽','خَالِي أَخُو أُمِّي.',"Mom's brother."],
+    ['خَالَة','Aunt (mother\'s sister)','👩🏽','خَالَتِي أُخْتُ أُمِّي.',"Mom's sister."],
+    ['اِبْنُ العَمّ','Cousin (boy)','🧑','اِبْنُ عَمِّي صَدِيقِي.','My cousin is my friend.'],
+    ['بِنْتُ العَمّ','Cousin (girl)','👧🏼','بِنْتُ عَمِّي تَرْسُمُ.','My cousin draws.'],
+    ['اِبْنُ الخَال','Cousin (mother\'s side, boy)','🧑🏽','اِبْنُ خَالِي يَجْرِي.','My cousin runs.'],
+    ['بِنْتُ الخَال','Cousin (mother\'s side, girl)','👧🏾','بِنْتُ خَالِي تُغَنِّي.','My cousin sings.']]},
+  { ar:'أبناء الإخوة', en:'Nephews & Nieces', items:[
+    ['اِبْنُ الأَخ','Nephew (brother\'s son)','👦🏻','اِبْنُ أَخِي صَغِيرٌ.','My nephew is small.'],
+    ['بِنْتُ الأَخ','Niece (brother\'s daughter)','👧🏻','بِنْتُ أَخِي جَمِيلَةٌ.','My niece is pretty.'],
+    ['اِبْنُ الأُخْت','Nephew (sister\'s son)','👦🏾','اِبْنُ أُخْتِي ذَكِيٌّ.','My nephew is smart.'],
+    ['بِنْتُ الأُخْت','Niece (sister\'s daughter)','👧🏾','بِنْتُ أُخْتِي تَضْحَكُ.','My niece laughs.']]},
+  { ar:'الأصهار والأنساب', en:'In-laws', items:[
+    ['زَوْج','Husband','🤵','الزَّوْجُ يُسَاعِدُ زَوْجَتَهُ.','The husband helps his wife.'],
+    ['زَوْجَة','Wife','👰','الزَّوْجَةُ تَبْتَسِمُ.','The wife smiles.'],
+    ['حَمُو','Father-in-law','👨‍🦳','الحَمُو أَبُو الزَّوْجِ.',"Spouse's father."],
+    ['حَمَاة','Mother-in-law','👩‍🦳','الحَمَاةُ أُمُّ الزَّوْجِ.',"Spouse's mother."],
+    ['صِهْر','Son-in-law','🤵🏽','الصِّهْرُ زَوْجُ البِنْتِ.',"Daughter's husband."],
+    ['كَنَّة','Daughter-in-law','👰🏽','الكَنَّةُ زَوْجَةُ الاِبْنِ.',"Son's wife."]]},
+  { ar:'كلمات العائلة', en:'Family Words', items:[
+    ['عَائِلَة','Family','👨‍👩‍👧‍👦','أُحِبُّ عَائِلَتِي.','I love my family.'],
+    ['بَيْت','Home','🏡','بَيْتُنَا دَافِئٌ.','Our home is warm.'],
+    ['أَقَارِب','Relatives','🧑‍🤝‍🧑','نَزُورُ الأَقَارِبَ.','We visit relatives.'],
+    ['وَالِدَان','Parents','👫','أُطِيعُ وَالِدَيَّ.','I obey my parents.']]}
+];
 /* ================= App ================= */
 const LANG = (typeof window !== 'undefined' && window.HARFI_LANG === 'en') ? 'en' : 'ar';
 const DATA = LANG === 'en'
@@ -202,6 +253,7 @@ const App = {
     this.renderLetters();
     this.renderWords();
     this.renderSentences();
+    this.renderFamily();
     this.updateScore();
   },
 
@@ -301,6 +353,36 @@ const App = {
         </div>
       `;
     }).join('');
+  },
+
+  famCat: 0,
+  renderFamily() {
+    const box = document.getElementById('family-container');
+    if (!box) return;
+    const en = LANG === 'en';
+    const cat = familyCategories[this.famCat];
+    const q = s => s.replace(/'/g, "\\'");
+    const tree = [[en?'Grandpa':'جَدّ',en?'Grandma':'جَدَّة'],[en?'Father':'أَب',en?'Mother':'أُمّ'],[en?'Me':'أَنَا',en?'Brother':'أَخ',en?'Sister':'أُخْت']];
+    box.innerHTML = `
+      <div class="fam-cats">${familyCategories.map((c,i)=>`<button class="fam-cat ${i===this.famCat?'active':''}" data-i="${i}">${en?c.en:c.ar}</button>`).join('')}</div>
+      <div class="fam-grid">${cat.items.map(([ar,e,emo,sa,se])=>{
+        const word = en ? e.replace(/ \(.*\)/,'') : ar; const sent = en ? se : sa;
+        return `<div class="fam-card">
+          <div class="fam-emoji">${emo}</div>
+          <div class="fam-word" ${en?'dir="ltr"':''}>${word}</div>
+          <div class="fam-sub" ${en?'':'dir="ltr"'}>${en?ar:e}</div>
+          <div class="fam-sentence" ${en?'dir="ltr"':''}>${sent}</div>
+          <div class="speech-buttons">
+            <button class="btn-slow" onclick="App.playAndScore('${q(word)}', 0.5)">🐢</button>
+            <button class="btn-normal" onclick="App.playAndScore('${q(word)}', 1.0)">🚶</button>
+            <button class="btn-fast" onclick="App.playAndScore('${q(sent)}', 0.9)">💬</button>
+          </div>
+          <button class="btn-read" onclick="readWithHighlight('${q(word)}', this)">${T.readBtn}</button>
+        </div>`;}).join('')}</div>
+      <div class="fam-tree"><h3 class="font-bold">${en?'🌳 My Family Tree':'🌳 شَجَرَةُ عَائِلَتِي'}</h3>
+        ${tree.map(r=>`<div class="fam-row">${r.map(n=>`<span class="fam-node ${/أَنَا|Me/.test(n)?'me':''}" onclick="speak('${n}',0.9)">${n}</span>`).join('')}</div>`).join('<div>⬇️</div>')}
+      </div>`;
+    box.querySelectorAll('.fam-cat').forEach(b => b.addEventListener('click', () => { SpeechSystem.stop(); this.famCat = Number(b.dataset.i); this.renderFamily(); }));
   },
 
   playAndScore(text, rate) {
