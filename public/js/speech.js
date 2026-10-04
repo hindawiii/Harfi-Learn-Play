@@ -38,8 +38,12 @@ const SpeechSystem = {
     const voice = this.getVoice(lang);
     if (voice) utterance.voice = voice;
 
-    showSpeakingIndicator(text);
-    const done = () => { if (token === this._token) hideSpeakingIndicator(); };
+    const btn = document.activeElement;
+    const card = btn && btn.closest ? btn.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card') : null;
+    if (card) card.classList.add('speaking');
+    let guard;
+    const done = () => { clearTimeout(guard); if (card) card.classList.remove('speaking'); };
+    guard = setTimeout(done, Math.min(1500 + text.length * 350 / rate, 12000));
     utterance.onend = done;
     utterance.onerror = done;
     window.speechSynthesis.speak(utterance);
@@ -107,13 +111,16 @@ const SpeechSystem = {
       utterance.lang = lang;
       utterance.rate = rate;
       utterance.pitch = 1.2;
-      utterance.onend = resolve;
-      utterance.onerror = resolve;
+      let t;
+      const fin = () => { clearTimeout(t); resolve(); };
+      utterance.onend = fin;
+      utterance.onerror = fin;
       const voice = this.getVoice(lang);
       if (voice) utterance.voice = voice;
+      try { window.speechSynthesis.resume(); } catch {}
       window.speechSynthesis.speak(utterance);
-      // شبكة أمان: بعض المتصفحات لا تُطلق onend
-      setTimeout(resolve, 4000);
+      // شبكة أمان: بعض المتصفحات لا تُطلق onend فيتجمد التظليل
+      t = setTimeout(fin, Math.min(1200 + String(letter).length * 260 / (rate || 1), 6000));
     });
   },
 
@@ -139,25 +146,10 @@ function showVoiceWarning() {
   setTimeout(() => warning.remove(), 6000);
 }
 
-/** شارة واحدة ثابتة: تُنشأ مرة ويُحدَّث نصها فقط */
-function showSpeakingIndicator(text) {
-  let indicator = document.getElementById('speaking-indicator');
-  if (!indicator) {
-    indicator = document.createElement('div');
-    indicator.id = 'speaking-indicator';
-    indicator.innerHTML = `
-      <span class="si-text"></span>
-      <div class="sound-waves"><span></span><span></span><span></span></div>
-    `;
-    document.body.appendChild(indicator);
-  }
-  const label = indicator.querySelector('.si-text');
-  if (label) label.textContent = `🔊 ${text}`;
-}
-
+/** لا شارة عائمة: التأثير داخل البطاقة فقط (مثل قسم الحساب) */
+function showSpeakingIndicator() {}
 function hideSpeakingIndicator() {
-  const indicator = document.getElementById('speaking-indicator');
-  if (indicator) indicator.remove();
+  const old = document.getElementById('speaking-indicator'); if (old) old.remove();
 }
 
 function currentLang() {
@@ -167,8 +159,8 @@ function currentLang() {
 function speak(text, rate = 1.0, lang) { SpeechSystem.speak(text, rate, lang || currentLang()); }
 
 function readWithHighlight(text, element) {
-  const card = element && (element.closest('.card') || element.closest('.word-card') || element.closest('.sentence-row') || element.closest('.tk-card'));
-  const container = card ? (card.querySelector('.letter-big') || card.querySelector('.word-text') || card.querySelector('.sentence-text') || card.querySelector('.tk-big')) : null;
+  const card = element && (element.closest('.card') || element.closest('.word-card') || element.closest('.sentence-row') || element.closest('.tk-card') || element.closest('.fam-card'));
+  const container = card ? (card.querySelector('.letter-big') || card.querySelector('.word-text') || card.querySelector('.sentence-text') || card.querySelector('.tk-big') || card.querySelector('.fam-word')) : null;
   const lang = currentLang();
   const readLabel = lang.startsWith('en') ? '📖 Read with me' : '📖 اقرأ معي';
   const loadingLabel = lang.startsWith('en') ? '⏳ Reading...' : '⏳ جاري القراءة...';
@@ -207,6 +199,13 @@ function readWithHighlight(text, element) {
 // إيقاف النطق عند مغادرة الصفحة أو إخفائها
 document.addEventListener('visibilitychange', () => { if (document.hidden) SpeechSystem.stop(); });
 window.addEventListener('pagehide', () => SpeechSystem.stop());
+document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.tab, .tk-letter')) SpeechSystem.stop(); }, true);
+// تنظيف احتياطي: إن لم يكن هناك صوت فعلي أزل بقايا التظليل
+setInterval(() => {
+  if (!('speechSynthesis' in window) || window.speechSynthesis.speaking || SpeechSystem._busy) return;
+  document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
+  document.querySelectorAll('.btn-read.loading').forEach(b => { b.disabled = false; b.classList.remove('loading'); if (b.dataset.original) b.innerHTML = b.dataset.original; });
+}, 2500);
 
 if ('speechSynthesis' in window) {
   window.speechSynthesis.getVoices();
