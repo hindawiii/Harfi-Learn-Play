@@ -1,216 +1,211 @@
-/**
- * نظام النطق الصوتي - حرفي
- * - شارة نطق واحدة ثابتة (بدون وميض)
- * - تظليل الحروف داخل البطاقة المضغوطة فقط
- * - قفل تزامن يمنع تداخل النطق
- */
+/** حرفي: جلسة واحدة تمتلك الصوت والتأثير والمؤقتات والتنظيف. */
 const SpeechSystem = {
   _busy: false,
   _token: 0,
-
+  _session: null,
   isSupported() { return 'speechSynthesis' in window; },
-
   getVoice(lang) {
-    const voices = window.speechSynthesis.getVoices();
-    const target = (lang || (window.HARFI_LANG === 'en' ? 'en-US' : 'ar-SA')).toLowerCase().split('-')[0];
-    return voices.find(v => v.lang.toLowerCase().startsWith(target));
+    const target = (lang || currentLang()).toLowerCase().split('-')[0];
+    return window.speechSynthesis.getVoices().find(v => v.lang.toLowerCase().startsWith(target));
   },
   getArabicVoice(lang) { return this.getVoice(lang); },
-
-  /** يوقف أي نطق جارٍ ويبطل أي تسلسل قراءة قيد التنفيذ */
   stop() {
+    const session = this._session;
+    this._session = null;
     this._token++;
     this._busy = false;
-    try { window.speechSynthesis.cancel(); } catch {}
+    if (session) {
+      session.cancelled = true;
+      session.pending?.(false);
+      session.waiting?.();
+      session.cleanup();
+    }
+    try { window.speechSynthesis?.cancel(); } catch {}
     hideSpeakingIndicator();
-    document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
+    document.querySelectorAll('.speaking, .highlight, .speaking-full').forEach(el =>
+      el.classList.remove('speaking', 'highlight', 'speaking-full'));
   },
-
-  speak(text, rate = 1.0, lang = 'ar-SA') {
-    if (!this.isSupported()) { this.showFallbackMessage(); return; }
+  _begin(element, container) {
     this.stop();
-    const token = this._token;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = rate;
-    utterance.pitch = 1.2;
-    utterance.volume = 1.0;
-    const voice = this.getVoice(lang);
-    if (voice) utterance.voice = voice;
-
-    const btn = document.activeElement;
-    const card = btn && btn.closest ? btn.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card') : null;
-    if (card) card.classList.add('speaking');
-    let guard;
-    const done = () => { clearTimeout(guard); if (card) card.classList.remove('speaking'); };
-    guard = setTimeout(done, Math.min(1500 + text.length * 350 / rate, 12000));
-    utterance.onend = done;
-    utterance.onerror = done;
-    window.speechSynthesis.speak(utterance);
-  },
-
-  /** تهجئة النص داخل عنصر محدد (البطاقة نفسها) */
-  async readWithHighlight(text, containerElement, rate = 0.8, lang = 'ar-SA') {
-    if (!this.isSupported()) { this.showFallbackMessage(); return; }
-    if (this._busy) return;
-    this.stop();
-    this._busy = true;
-    const token = this._token;
-
-    const original = containerElement ? containerElement.innerHTML : '';
-    const letters = Array.from(text);
-    let spans = [];
-    if (containerElement) {
-      containerElement.innerHTML = '';
-      letters.forEach(ch => {
-        const s = document.createElement('span');
-        s.className = 'char';
-        s.textContent = ch;
-        containerElement.appendChild(s);
-        spans.push(s);
-      });
-    }
-
-    const delay = ms => new Promise(r => setTimeout(r, ms));
-    showSpeakingIndicator(text);
-
-    try {
-      for (let i = 0; i < letters.length; i++) {
-        if (token !== this._token) return;
-        if (i > 0 && spans[i - 1]) spans[i - 1].classList.remove('highlight');
-        if (spans[i]) spans[i].classList.add('highlight');
-        if (letters[i].trim()) await this.speakLetter(letters[i], rate, lang, token);
-        await delay(320 / rate);
-      }
-      if (token !== this._token) return;
-      spans.forEach(s => s.classList.remove('highlight'));
-
-      if (letters.length > 1) {
-        await delay(250);
-        if (token !== this._token) return;
-        if (containerElement) containerElement.classList.add('speaking-full');
-        await this.speakLetter(text, Math.min(rate + 0.1, 1), lang, token);
-        if (containerElement) containerElement.classList.remove('speaking-full');
-      }
-    } finally {
-      if (token === this._token) {
-        this._busy = false;
-        hideSpeakingIndicator();
-        if (containerElement) {
-          containerElement.classList.remove('speaking-full');
-          containerElement.innerHTML = original;
+    if (!this.isSupported()) { this.showFallbackMessage(); return null; }
+    if (window.HARFI_SOUND_OFF) return null;
+    const card = container?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card')
+      || element?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card');
+    const button = element?.classList.contains('btn-read') || element?.hasAttribute('data-count') ? element : null;
+    const originalText = container?.innerHTML;
+    const originalButton = button?.innerHTML;
+    const originalDisabled = button?.disabled;
+    let cleaned = false;
+    const session = {
+      token: this._token, cancelled: false, card, pending: null, waiting: null,
+      cleanup: () => {
+        if (cleaned) return;
+        cleaned = true;
+        card?.classList.remove('speaking');
+        if (container) {
+          container.classList.remove('speaking-full');
+          container.innerHTML = originalText;
         }
-      }
+        if (button) {
+          button.disabled = originalDisabled;
+          button.classList.remove('loading');
+          button.innerHTML = originalButton;
+        }
+      },
+    };
+    this._session = session;
+    this._busy = true;
+    if (button) {
+      button.disabled = true;
+      button.classList.add('loading');
+      if (container) button.textContent = currentLang().startsWith('en') ? '⏳ Reading...' : '⏳ جاري القراءة...';
     }
+    return session;
   },
-
-  speakLetter(letter, rate, lang, token) {
-    return new Promise((resolve) => {
-      if (token != null && token !== this._token) return resolve();
-      const utterance = new SpeechSynthesisUtterance(letter);
+  _finish(session) {
+    // Old promises must never restore text or buttons owned by a newer session.
+    if (this._session !== session) return;
+    session.cleanup();
+    this._session = null;
+    this._busy = false;
+  },
+  _wait(session, ms) {
+    return new Promise(resolve => {
+      const done = () => { clearTimeout(timer); session.waiting = null; resolve(); };
+      const timer = setTimeout(done, ms);
+      session.waiting = done;
+    });
+  },
+  _utterance(session, text, rate, lang, effect) {
+    return new Promise(resolve => {
+      if (this._session !== session || session.cancelled) return resolve(false);
+      const utterance = new SpeechSynthesisUtterance(String(text));
       utterance.lang = lang;
       utterance.rate = rate;
       utterance.pitch = 1.2;
-      let t;
-      const fin = () => { clearTimeout(t); resolve(); };
-      utterance.onend = fin;
-      utterance.onerror = fin;
       const voice = this.getVoice(lang);
       if (voice) utterance.voice = voice;
-      try { window.speechSynthesis.resume(); } catch {}
-      window.speechSynthesis.speak(utterance);
-      // شبكة أمان: بعض المتصفحات لا تُطلق onend فيتجمد التظليل
-      t = setTimeout(fin, Math.min(1200 + String(letter).length * 260 / (rate || 1), 6000));
+      let settled = false, started = false, idleChecks = 0;
+      const startedAt = Date.now();
+      // Watchdog is a last resort, not a replacement for the real end event.
+      const deadline = Math.max(30000, String(text).length * 1500 / Math.max(rate, 0.1));
+      const finish = success => {
+        if (settled) return;
+        settled = true;
+        clearInterval(watchdog);
+        utterance.onstart = utterance.onend = utterance.onerror = utterance.onboundary = null;
+        session.pending = null;
+        if (this._session === session) {
+          session.card?.classList.remove('speaking');
+          effect?.classList.remove('highlight', 'speaking-full');
+        }
+        resolve(success);
+      };
+      const watchdog = setInterval(() => {
+        if (this._session !== session) return finish(false);
+        const synth = window.speechSynthesis;
+        if (started && !synth.speaking && !synth.pending && !synth.paused) idleChecks++;
+        else idleChecks = 0;
+        if (idleChecks >= 2 || Date.now() - startedAt >= deadline) {
+          // Abort the whole sequence; never queue another sound after a stalled one.
+          this.stop();
+        }
+      }, 250);
+      session.pending = finish;
+      utterance.onstart = () => {
+        if (this._session !== session || settled) return;
+        started = true;
+        session.card?.classList.add('speaking');
+        effect?.classList.add(effect.classList.contains('char') ? 'highlight' : 'speaking-full');
+      };
+      utterance.onend = () => finish(true);
+      utterance.onerror = () => finish(false);
+      try {
+        window.speechSynthesis.resume();
+        window.speechSynthesis.speak(utterance);
+      } catch { finish(false); }
     });
   },
-
+  async speak(text, rate = 1, lang = 'ar-SA', element) {
+    const session = this._begin(element || document.activeElement);
+    if (!session) return false;
+    try { return await this._utterance(session, text, rate, lang); }
+    finally { this._finish(session); }
+  },
+  async readWithHighlight(text, container, rate = 0.8, lang = 'ar-SA', element) {
+    const session = this._begin(element, container);
+    if (!session) return false;
+    const letters = typeof Intl.Segmenter === 'function'
+      ? Array.from(new Intl.Segmenter(lang, { granularity: 'grapheme' }).segment(text), part => part.segment)
+      : Array.from(text.normalize('NFC')).reduce((parts, ch) => {
+          if (/\p{Mark}/u.test(ch) && parts.length) parts[parts.length - 1] += ch;
+          else parts.push(ch);
+          return parts;
+        }, []);
+    const spans = letters.map(ch => {
+      const span = document.createElement('span');
+      span.className = 'char'; span.textContent = ch;
+      return span;
+    });
+    if (container) container.replaceChildren(...spans);
+    try {
+      for (let i = 0; i < letters.length; i++) {
+        if (this._session !== session) return false;
+        if (!letters[i].trim()) continue;
+        if (!await this._utterance(session, letters[i], rate, lang, spans[i])) return false;
+        if (i < letters.length - 1) await this._wait(session, 320 / rate);
+      }
+      if (letters.length > 1 && this._session === session) {
+        await this._wait(session, 250);
+        if (!await this._utterance(session, text, Math.min(rate + 0.1, 1), lang, container)) return false;
+      }
+      return this._session === session;
+    } finally { this._finish(session); }
+  },
+  async readSequence(texts, element, rate = 0.85, lang = 'ar-SA') {
+    const session = this._begin(element);
+    if (!session) return false;
+    try {
+      for (let i = 0; i < texts.length; i++) {
+        if (!await this._utterance(session, texts[i], rate, lang)) return false;
+        if (i < texts.length - 1) await this._wait(session, 180);
+      }
+      return this._session === session;
+    } finally { this._finish(session); }
+  },
   showFallbackMessage() {
-    alert('❌ متصفحك لا يدعم النطق الصوتي\n\nاستخدم:\n• Chrome على Android\n• Safari على iPhone\n• Chrome على الكمبيوتر');
-  }
+    alert('❌ متصفحك لا يدعم النطق الصوتي\n\nاستخدم Chrome أو Safari');
+  },
 };
-
 function checkArabicVoice() {
-  const voices = window.speechSynthesis.getVoices();
-  const wantEn = window.HARFI_LANG === 'en';
-  const found = voices.find(v => wantEn ? v.lang.toLowerCase().startsWith('en') : v.lang.includes('ar'));
-  if (!found) showVoiceWarning();
-  return found;
+  const voice = SpeechSystem.getVoice(currentLang());
+  if (!voice) showVoiceWarning();
+  return voice;
 }
-
 function showVoiceWarning() {
   if (document.querySelector('.voice-warning')) return;
   const warning = document.createElement('div');
   warning.className = 'voice-warning';
-  warning.textContent = '⚠️ لتفعيل النطق: ثبّت صوتاً عربياً من إعدادات النطق في جهازك، أو استخدم Chrome / Safari';
+  warning.textContent = '⚠️ لتفعيل النطق: ثبّت صوتاً مناسباً من إعدادات النطق في جهازك، أو استخدم Chrome / Safari';
   document.body.appendChild(warning);
   setTimeout(() => warning.remove(), 6000);
 }
-
-/** لا شارة عائمة: التأثير داخل البطاقة فقط (مثل قسم الحساب) */
 function showSpeakingIndicator() {}
-function hideSpeakingIndicator() {
-  const old = document.getElementById('speaking-indicator'); if (old) old.remove();
-}
-
-function currentLang() {
-  return (window.HARFI_LANG === 'en') ? 'en-US' : 'ar-SA';
-}
-
-function speak(text, rate = 1.0, lang) { SpeechSystem.speak(text, rate, lang || currentLang()); }
-
+function hideSpeakingIndicator() { document.getElementById('speaking-indicator')?.remove(); }
+function currentLang() { return window.HARFI_LANG === 'en' ? 'en-US' : 'ar-SA'; }
+function speak(text, rate = 1, lang, element) { return SpeechSystem.speak(text, rate, lang || currentLang(), element); }
 function readWithHighlight(text, element) {
-  const card = element && (element.closest('.card') || element.closest('.word-card') || element.closest('.sentence-row') || element.closest('.tk-card') || element.closest('.fam-card'));
-  const container = card ? (card.querySelector('.letter-big') || card.querySelector('.word-text') || card.querySelector('.sentence-text') || card.querySelector('.tk-big') || card.querySelector('.fam-word')) : null;
-  const lang = currentLang();
-  const readLabel = lang.startsWith('en') ? '📖 Read with me' : '📖 اقرأ معي';
-  const loadingLabel = lang.startsWith('en') ? '⏳ Reading...' : '⏳ جاري القراءة...';
-
-  if (SpeechSystem._busy) { SpeechSystem.stop(); return; }
-
-  const isBtn = element && element.classList.contains('btn-read');
-  if (isBtn) {
-    element.disabled = true;
-    element.classList.add('loading');
-    if (!element.dataset.original) element.dataset.original = element.innerHTML;
-    element.innerHTML = loadingLabel;
-  }
-
-  const done = () => {
-    if (isBtn) {
-      element.disabled = false;
-      element.classList.remove('loading');
-      element.innerHTML = element.dataset.original || readLabel;
-    }
-    if (card) card.classList.remove('speaking');
-  };
-
-  if (container) {
-    const p = SpeechSystem.readWithHighlight(text, container, 0.8, lang);
-    if (card) card.classList.add('speaking'); // بعد إلغاء أي نطق سابق حتى لا تُزال العلامة
-    p.then(done).catch(done);
-  } else {
-    SpeechSystem.speak(text, 0.8, lang);
-    if (card) card.classList.add('speaking');
-    setTimeout(done, Math.min(text.length * 400, 6000));
-
-  }
+  const card = element?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card');
+  const container = card?.querySelector('.letter-big, .word-text, .sentence-text, .tk-big, .fam-word');
+  return SpeechSystem.readWithHighlight(text, container, 0.8, currentLang(), element);
 }
-
-// إيقاف النطق عند مغادرة الصفحة أو إخفائها
 document.addEventListener('visibilitychange', () => { if (document.hidden) SpeechSystem.stop(); });
 window.addEventListener('pagehide', () => SpeechSystem.stop());
-document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.tab, .tk-letter')) SpeechSystem.stop(); }, true);
-// تنظيف احتياطي: إن لم يكن هناك صوت فعلي أزل بقايا التظليل
-setInterval(() => {
-  if (!('speechSynthesis' in window) || window.speechSynthesis.speaking || SpeechSystem._busy) return;
-  document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
-  document.querySelectorAll('.btn-read.loading').forEach(b => { b.disabled = false; b.classList.remove('loading'); if (b.dataset.original) b.innerHTML = b.dataset.original; });
-}, 2500);
-
-if ('speechSynthesis' in window) {
+window.addEventListener('pageshow', () => SpeechSystem.stop());
+document.addEventListener('click', e => {
+  if (e.target.closest?.('.tab, .tk-letter, .fam-cat, .mode-btn, .corner-tab, .shape-cat, a[href]')) SpeechSystem.stop();
+}, true);
+if (SpeechSystem.isSupported()) {
   window.speechSynthesis.getVoices();
-  window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-    checkArabicVoice();
-  };
+  window.speechSynthesis.onvoiceschanged = () => checkArabicVoice();
 }

@@ -6,6 +6,8 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "حرفي - تعلم الحروف العربية" },
       { name: "description", content: "حرفي: تطبيق تفاعلي لتعلم الحروف والكلمات والجمل العربية بالنطق الصوتي." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { property: "og:title", content: "حرفي - تعلم الحروف العربية" },
       { property: "og:description", content: "تعلم العربية بطريقة تفاعلية وممتعة." },
     ],
