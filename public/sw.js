@@ -1,5 +1,5 @@
 /* حرفي - خدمة العمل بدون إنترنت */
-const VERSION = 'harfi-v2';
+const VERSION = 'harfi-v3';
 const PRECACHE = `${VERSION}-precache`;
 const RUNTIME = `${VERSION}-runtime`;
 

@@ -72,6 +72,7 @@ const STORIES = [
 
 let current = null;
 let pageIndex = 0;
+let autoReadTimer;
 
 function renderList() {
   const grid = document.getElementById('stories-grid');
@@ -98,13 +99,14 @@ function openStory(i) {
 }
 
 function closeStory() {
-  window.speechSynthesis?.cancel();
+  stopSpeak();
   current = null;
   document.getElementById('reader').classList.add('hidden');
   document.getElementById('stories-list').classList.remove('hidden');
 }
 
 function renderPage() {
+  stopSpeak();
   const p = current.pages[pageIndex];
   const total = current.pages.length;
   document.getElementById('reader').innerHTML = `
@@ -148,15 +150,22 @@ function renderPage() {
     </div>
   `;
   // Auto-read on page change
-  setTimeout(speakPage, 400);
+  autoReadTimer = setTimeout(() => { autoReadTimer = null; speakPage(); }, 400);
 }
 
 function speakPage() {
-  if (!current) return;
+  clearTimeout(autoReadTimer);
+  if (!current || document.hidden) return;
   if (typeof speak === 'function') speak(current.pages[pageIndex].text, 0.85, 'ar-SA');
 }
 
-function stopSpeak() { window.speechSynthesis?.cancel(); }
+function stopSpeak() {
+  clearTimeout(autoReadTimer);
+  autoReadTimer = null;
+  SpeechSystem.stop();
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) stopSpeak(); });
+window.addEventListener('pagehide', stopSpeak);
 
 function nextPage() {
   if (pageIndex < current.pages.length - 1) { pageIndex++; renderPage(); }
