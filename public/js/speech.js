@@ -3,6 +3,7 @@ const SpeechSystem = {
   _busy: false,
   _token: 0,
   _session: null,
+  _triggerElement: null,
   isSupported() { return 'speechSynthesis' in window; },
   getVoice(lang) {
     const target = (lang || currentLang()).toLowerCase().split('-')[0];
@@ -29,8 +30,8 @@ const SpeechSystem = {
     this.stop();
     if (!this.isSupported()) { this.showFallbackMessage(); return null; }
     if (window.HARFI_SOUND_OFF) return null;
-    const card = container?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card')
-      || element?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card');
+    const card = container?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card, .song-card')
+      || element?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card, .song-card');
     const button = element?.classList.contains('btn-read') || element?.hasAttribute('data-count') ? element : null;
     const originalText = container?.innerHTML;
     const originalButton = button?.innerHTML;
@@ -70,6 +71,7 @@ const SpeechSystem = {
     this._busy = false;
   },
   _wait(session, ms) {
+    if (this._session !== session) return Promise.resolve();
     return new Promise(resolve => {
       const done = () => { clearTimeout(timer); session.waiting = null; resolve(); };
       const timer = setTimeout(done, ms);
@@ -127,7 +129,7 @@ const SpeechSystem = {
     });
   },
   async speak(text, rate = 1, lang = 'ar-SA', element) {
-    const session = this._begin(element || document.activeElement);
+    const session = this._begin(element || this._triggerElement || document.activeElement);
     if (!session) return false;
     try { return await this._utterance(session, text, rate, lang); }
     finally { this._finish(session); }
@@ -203,6 +205,8 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) Speec
 window.addEventListener('pagehide', () => SpeechSystem.stop());
 window.addEventListener('pageshow', () => SpeechSystem.stop());
 document.addEventListener('click', e => {
+  SpeechSystem._triggerElement = e.target;
+  queueMicrotask(() => { SpeechSystem._triggerElement = null; });
   if (e.target.closest?.('.tab, .tk-letter, .fam-cat, .mode-btn, .corner-tab, .shape-cat, a[href]')) SpeechSystem.stop();
 }, true);
 if (SpeechSystem.isSupported()) {

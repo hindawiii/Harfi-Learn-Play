@@ -131,7 +131,7 @@ body {
 .card, .word-card, .sentence-row { position: relative; }
 .tk-card, .fam-card { position: relative; }
 #speaking-indicator { display: none !important; }
-.card.speaking, .word-card.speaking, .sentence-row.speaking, .tk-card.speaking, .fam-card.speaking {
+.card.speaking, .word-card.speaking, .sentence-row.speaking, .tk-card.speaking, .fam-card.speaking, .song-card.speaking {
   box-shadow: 0 0 0 3px var(--accent);
   animation: cardPulse 1s infinite;
 }
@@ -197,7 +197,7 @@ body {
 
 
 .char {
-  transition: background-color 0.3s, color 0.3s;
+  transition: none;
   padding: 2px 4px;
   border-radius: 4px;
   display: inline-block;
@@ -285,7 +285,8 @@ body {
   margin: 2px 0 6px;
 }
 
-.speaking-full { color: #FF6B6B; transition: color .2s; }
+.speaking-full { color: var(--primary); transition: none; }
+.card.speaking, .word-card.speaking, .sentence-row.speaking, .tk-card.speaking, .fam-card.speaking, .song-card.speaking { transition: none; }
 
 /* ===== ركن الحروف بالتشكيل ===== */
 .tk-picker{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:8px}
