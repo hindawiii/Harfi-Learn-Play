@@ -65,7 +65,7 @@ async def main():
     assert await page.evaluate('__sounds.at(-1).text')=='أَ'
     # End first letter; no highlight during the inter-letter silence.
     await page.evaluate('__end()')
-    await clean()
+    assert await page.locator('.speaking, .highlight, .speaking-full').count()==0
     await page.evaluate('SpeechSystem.stop()')
     await page.wait_for_timeout(500)
     assert await page.evaluate('__sounds.length')==1
@@ -95,7 +95,7 @@ async def main():
     await page.locator('[data-count="3"]').click()
     assert await page.evaluate('__sounds.at(-1).text')=='واحِد'
     await page.evaluate('__end()')
-    await clean()
+    assert await page.locator('.speaking, .highlight, .speaking-full').count()==0
     await page.wait_for_timeout(220)
     assert await page.evaluate('__sounds.at(-1).text')=='اِثْنان'
     await page.locator('.tab').nth(1).click()
