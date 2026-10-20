@@ -12,6 +12,15 @@ const WORDS = [
 
 let score = 0, streak = 0, current = null, mode = 'match';
 let target = [], placed = [];
+let questionTimer, speechTimer;
+function cancelGameTimers() {
+  clearTimeout(questionTimer);
+  clearTimeout(speechTimer);
+}
+function leaveGame() { cancelGameTimers(); SpeechSystem.stop(); }
+document.addEventListener('visibilitychange', () => { if (document.hidden) leaveGame(); });
+window.addEventListener('pagehide', leaveGame);
+document.addEventListener('click', e => { if (e.target.closest?.('a[href]')) leaveGame(); }, true);
 
 function loadScore() {
   try { return JSON.parse(localStorage.getItem('harfi_play') || '{}'); }
@@ -50,10 +59,15 @@ function setMode(m) {
 }
 
 function newQuestion() {
+  cancelGameTimers();
+  SpeechSystem.stop();
   current = pick(WORDS);
   if (mode === 'match') renderMatch();
   else renderOrder();
-  setTimeout(() => speak(current.w, 0.9, 'ar-SA'), 300);
+  const word = current.w;
+  speechTimer = setTimeout(() => {
+    if (!document.hidden) speak(word, 0.9, 'ar-SA');
+  }, 300);
 }
 
 /* ---------- اللعبة 1: طابق الحرف الأول ---------- */
@@ -82,6 +96,7 @@ function renderMatch() {
 }
 
 function answer(letter, btn) {
+  clearTimeout(speechTimer);
   const fb = document.getElementById('feedback');
   document.querySelectorAll('.opt').forEach(b => b.disabled = true);
   if (letter === current.l) {
@@ -99,11 +114,13 @@ function answer(letter, btn) {
   }
   updateHUD();
   saveScore();
-  setTimeout(newQuestion, 1500);
+  questionTimer = setTimeout(newQuestion, 1500);
 }
 
 /* ---------- اللعبة 2: نطق ورتّب ---------- */
 function renderOrder() {
+  cancelGameTimers();
+  SpeechSystem.stop();
   target = Array.from(current.w);
   placed = [];
   let pool = shuffle(target);
@@ -181,13 +198,13 @@ function checkOrder() {
     speak(current.w, 0.9, 'ar-SA');
     reward(slots[Math.floor(slots.length / 2)]);
     updateHUD(); saveScore();
-    setTimeout(newQuestion, 2200);
+    questionTimer = setTimeout(newQuestion, 2200);
   } else {
     streak = 0;
     slots.forEach(s => s.classList.add('!bg-red-200', '!border-red-400'));
     fb.innerHTML = `<span class="text-red-500">❌ الترتيب الصحيح: ${current.w}</span>`;
     updateHUD(); saveScore();
-    setTimeout(renderOrder, 1800);
+    questionTimer = setTimeout(renderOrder, 1800);
   }
 }
 

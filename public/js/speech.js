@@ -29,8 +29,8 @@ const SpeechSystem = {
     this.stop();
     if (!this.isSupported()) { this.showFallbackMessage(); return null; }
     if (window.HARFI_SOUND_OFF) return null;
-    const card = container?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card')
-      || element?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card');
+    const card = container?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card, .song-card')
+      || element?.closest('.card, .word-card, .sentence-row, .tk-card, .fam-card, .song-card');
     const button = element?.classList.contains('btn-read') || element?.hasAttribute('data-count') ? element : null;
     const originalText = container?.innerHTML;
     const originalButton = button?.innerHTML;
@@ -70,6 +70,7 @@ const SpeechSystem = {
     this._busy = false;
   },
   _wait(session, ms) {
+    if (this._session !== session) return Promise.resolve();
     return new Promise(resolve => {
       const done = () => { clearTimeout(timer); session.waiting = null; resolve(); };
       const timer = setTimeout(done, ms);
