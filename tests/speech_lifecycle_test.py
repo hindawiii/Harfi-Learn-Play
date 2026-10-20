@@ -61,6 +61,20 @@ async def main():
       await clean()
     await open_page('arabic.html')
     await page.locator('[data-target="tab-words"]').click()
+    # Complete a whole vowelized word, including its final whole-word reading.
+    word_button=page.locator('.word-card .btn-read').first
+    word_original=await page.locator('.word-text').first.inner_html()
+    await word_button.click()
+    for i in range(3):
+      assert await page.locator('.highlight').count()==1
+      await page.evaluate('__end()')
+      assert await page.locator('.highlight').count()==0
+      await page.wait_for_timeout(450 if i<2 else 280)
+    assert await page.locator('.speaking-full').count()==1
+    await page.evaluate('__end()')
+    await clean()
+    assert await page.locator('.word-text').first.inner_html()==word_original
+    await page.evaluate('__sounds=[]')
     await page.locator('.word-card .btn-read').first.click()
     assert await page.evaluate('__sounds.at(-1).text')=='أَ'
     # End first letter; no highlight during the inter-letter silence.
@@ -103,6 +117,25 @@ async def main():
     await page.wait_for_timeout(300)
     assert await page.evaluate('__sounds.length')==2
     assert await page.locator('[data-count="3"]').first.is_enabled()
+    # Complete count 3; the last number must release the button immediately.
+    await page.locator('.tab').first.click()
+    await page.locator('#ar-numbers [data-count="3"]').click()
+    for i in range(3):
+      await page.evaluate('__end()')
+      if i<2: await page.wait_for_timeout(220)
+    await clean()
+    assert await page.locator('#ar-numbers [data-count="3"]').is_enabled()
+    await open_page('arabic.html')
+    await page.locator('[data-target="tab-tashkeel"]').click()
+    await page.locator('#tashkeel-forms .btn-read').first.click()
+    assert await page.locator('.tk-card.speaking').count()==1
+    await page.evaluate('__end()')
+    await clean()
+    await page.locator('[data-target="tab-songs"]').click()
+    await page.locator('.song-card').first.click()
+    assert await page.locator('.song-card.speaking').count()==1
+    await page.evaluate('__end()')
+    await clean()
     await open_page('stories.html')
     await page.locator('#stories-grid button').first.click()
     await page.get_by_role('button',name='⏸ إيقاف').click()
@@ -124,6 +157,11 @@ async def main():
     await page.evaluate('__end()')
     await clean()
     await page.screenshot(path='/tmp/browser/speech/finished.png')
+    await page.set_viewport_size({'width':390,'height':844})
+    await page.locator('#letters-grid .btn-read').first.click()
+    await page.evaluate('__end()')
+    await clean()
+    await page.screenshot(path='/tmp/browser/speech/mobile-finished.png')
     print('PASS: Arabic/English completion, cancellation, error, rapid replacement, tab/family changes, silence, missing end, stuck flag, mute, unsupported browser, counting, story stop/close, game timers; no page errors. Audio events simulated; audible phone output remains unverified.')
     await browser.close()
 
