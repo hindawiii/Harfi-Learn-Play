@@ -92,7 +92,7 @@ async def main():
     await page.locator('.word-card .btn-read').first.click()
     await clean()
     await open_page('math.html')
-    await page.locator('[data-count="3"]').click()
+    await page.locator('#ar-numbers [data-count="3"]').click()
     assert await page.evaluate('__sounds.at(-1).text')=='واحِد'
     await page.evaluate('__end()')
     assert await page.locator('.speaking, .highlight, .speaking-full').count()==0
