@@ -166,6 +166,7 @@ function stopSpeak() {
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden) stopSpeak(); });
 window.addEventListener('pagehide', stopSpeak);
+document.addEventListener('click', e => { if (e.target.closest?.('a[href]')) stopSpeak(); }, true);
 
 function nextPage() {
   if (pageIndex < current.pages.length - 1) { pageIndex++; renderPage(); }
