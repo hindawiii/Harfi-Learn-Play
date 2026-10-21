@@ -194,14 +194,16 @@
     x.font = `900 ${fs}px Tajawal, Arial, sans-serif`;
     const wdt = x.measureText(ch).width;
     if (wdt > 640) { fs = fs * 640 / wdt; x.font = `900 ${fs}px Tajawal, Arial, sans-serif`; }
-    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+    const m = x.measureText(ch), up = m.actualBoundingBoxAscent || fs * 0.7, dn = m.actualBoundingBoxDescent || 0;
+    const y = H / 2 + (up - dn) / 2;
     x.lineJoin = 'round'; x.lineWidth = 10; x.strokeStyle = '#2D3436';
-    x.strokeText(ch, W / 2, H / 2 + 20); x.fillStyle = '#fff'; x.fillText(ch, W / 2, H / 2 + 20);
+    x.strokeText(ch, W / 2, y); x.fillStyle = '#fff'; x.fillText(ch, W / 2, y);
     return c;
   };
   HarfiColor.svgSource = function (inner) {
     return new Promise(res => {
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="${W}" height="${H}"><style>*{stroke:#2D3436;stroke-width:3;stroke-linejoin:round}</style><rect width="400" height="400" fill="#fff" stroke="none"/>${inner}</svg>`;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="${W}" height="${H}"><style>*{stroke:#2D3436;stroke-width:3;stroke-linejoin:round}</style>${inner}</svg>`;
       const img = new Image();
       img.onload = () => { const c = mk(), x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(img, 0, 0, W, H); res(c); };
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
