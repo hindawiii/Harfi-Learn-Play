@@ -88,7 +88,23 @@
 
     <!-- Canvas -->
     <div class="bg-gray-50 rounded-2xl p-4 flex justify-center mb-4">
-      <svg id="coloring-svg" viewBox="0 0 400 400" style="width:100%;max-width:460px;height:auto"></svg>
+      <canvas id="coloring-canvas" aria-label="لوحة التلوين" style="width:100%;max-width:520px;height:auto;border-radius:14px;cursor:crosshair;background:#fff"></canvas>
+    </div>
+    <p class="text-center text-xs text-gray-500 mb-3">ابدأ التلوين داخل أي جزء، وستبقى الفرشاة داخله ✨</p>
+
+    <!-- Tools -->
+    <div class="flex flex-wrap justify-center gap-2 mb-3" id="color-tools">
+      <button class="tool-btn" data-tool="pen">✏️ قلم</button>
+      <button class="tool-btn active" data-tool="brush">🖌️ فرشاة</button>
+      <button class="tool-btn" data-tool="soft">☁️ ناعمة</button>
+      <button class="tool-btn" data-tool="crayon">🖍️ شمع</button>
+      <button class="tool-btn" data-tool="marker">🖊️ ماركر</button>
+      <button class="tool-btn" data-tool="fill">🪣 تعبئة</button>
+      <button class="tool-btn" data-tool="eraser">🧽 ممحاة</button>
+    </div>
+    <div class="flex flex-wrap justify-center gap-6 mb-4 text-sm font-bold text-gray-600">
+      <label>الحجم <input id="cl-size" type="range" min="6" max="70" value="22"></label>
+      <label>الشفافية <input id="cl-alpha" type="range" min="15" max="100" value="100"></label>
     </div>
 
     <!-- Palette -->
@@ -97,10 +113,10 @@
       <div id="palette-color" class="flex flex-wrap justify-center gap-2"></div>
     </div>
 
-    <!-- Tools -->
     <div class="flex flex-wrap justify-center gap-2 mt-4">
       <button class="tool-btn" onclick="undoColor()">↩️ تراجع</button>
-      <button class="tool-btn" onclick="resetColoring()">🔄 إعادة</button>
+      <button class="tool-btn" onclick="redoColor()">↪️ إعادة</button>
+      <button class="tool-btn" onclick="resetColoring()">🗑️ مسح الألوان</button>
       <button class="tool-btn" onclick="downloadColoring()">💾 حفظ صورة</button>
     </div>
   </section>
