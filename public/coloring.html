@@ -415,7 +415,7 @@ document.querySelectorAll('.shape-cat').forEach(b=>{
 
 /* ================ INIT ================ */
 document.addEventListener('DOMContentLoaded', ()=>{
-  renderPalette('palette-color', c=>currentColor=c);
+  renderPalette('palette-color', c=>{ currentColor=c; getPainter().color=c; });
   renderPalette('palette-draw', c=>drawColor=c);
   // Set black active in draw palette
   const dp = document.getElementById('palette-draw');
