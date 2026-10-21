@@ -209,18 +209,9 @@
 
   window.HARFI_SHAPES = S;
 
-  /**
-   * حروف وأرقام متعددة الأجزاء:
-   * إطار + خلفية + الحرف مقسوم إلى ثلاث شرائح قابلة للتلوين + نجوم زينة.
-   */
+  /** مصغّر الحرف/الرقم: الحرف وحده دون إطار زخرفي. */
   window.harfiGlyphSvg = function (ch, fontSize) {
     return `
-      <rect x="26" y="26" width="348" height="348" rx="40" fill="#fff"/>
-      <rect x="56" y="56" width="288" height="288" rx="28" fill="#fff"/>
-      <circle cx="72" cy="72" r="13" fill="#fff"/>
-      <circle cx="328" cy="72" r="13" fill="#fff"/>
-      <circle cx="72" cy="328" r="13" fill="#fff"/>
-      <circle cx="328" cy="328" r="13" fill="#fff"/>
       <text x="200" y="208" dominant-baseline="central" text-anchor="middle"
             font-family="Tajawal, Arial, sans-serif" font-weight="900" font-size="${fontSize}"
             fill="#fff" stroke="#2D3436" stroke-width="5" paint-order="stroke">${ch}</text>

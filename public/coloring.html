@@ -88,7 +88,23 @@
 
     <!-- Canvas -->
     <div class="bg-gray-50 rounded-2xl p-4 flex justify-center mb-4">
-      <svg id="coloring-svg" viewBox="0 0 400 400" style="width:100%;max-width:460px;height:auto"></svg>
+      <canvas id="coloring-canvas" aria-label="لوحة التلوين" style="width:100%;max-width:520px;height:auto;border-radius:14px;cursor:crosshair;background:#fff"></canvas>
+    </div>
+    <p class="text-center text-xs text-gray-500 mb-3">ابدأ التلوين داخل أي جزء، وستبقى الفرشاة داخله ✨</p>
+
+    <!-- Tools -->
+    <div class="flex flex-wrap justify-center gap-2 mb-3" id="color-tools">
+      <button class="tool-btn" data-tool="pen">✏️ قلم</button>
+      <button class="tool-btn active" data-tool="brush">🖌️ فرشاة</button>
+      <button class="tool-btn" data-tool="soft">☁️ ناعمة</button>
+      <button class="tool-btn" data-tool="crayon">🖍️ شمع</button>
+      <button class="tool-btn" data-tool="marker">🖊️ ماركر</button>
+      <button class="tool-btn" data-tool="fill">🪣 تعبئة</button>
+      <button class="tool-btn" data-tool="eraser">🧽 ممحاة</button>
+    </div>
+    <div class="flex flex-wrap justify-center gap-6 mb-4 text-sm font-bold text-gray-600">
+      <label>الحجم <input id="cl-size" type="range" min="6" max="70" value="22"></label>
+      <label>الشفافية <input id="cl-alpha" type="range" min="15" max="100" value="100"></label>
     </div>
 
     <!-- Palette -->
@@ -97,10 +113,10 @@
       <div id="palette-color" class="flex flex-wrap justify-center gap-2"></div>
     </div>
 
-    <!-- Tools -->
     <div class="flex flex-wrap justify-center gap-2 mt-4">
       <button class="tool-btn" onclick="undoColor()">↩️ تراجع</button>
-      <button class="tool-btn" onclick="resetColoring()">🔄 إعادة</button>
+      <button class="tool-btn" onclick="redoColor()">↪️ إعادة</button>
+      <button class="tool-btn" onclick="resetColoring()">🗑️ مسح الألوان</button>
       <button class="tool-btn" onclick="downloadColoring()">💾 حفظ صورة</button>
     </div>
   </section>
@@ -155,6 +171,7 @@
 <div id="footer-root"></div>
 <script src="/js/layout.js"></script>
 <script src="/js/coloring-shapes.js"></script>
+<script src="/js/color-engine.js"></script>
 
 <script>
 /* ================ 24-COLOR PALETTE ================ */
@@ -226,60 +243,39 @@ function renderShapes(){
   if (list.length) loadShape(SHAPES.indexOf(list[0]));
 }
 
-const SKIP = new Set(['defs','clipPath','text','g']);
-function loadShape(idx){
+let painter = null, loadToken = 0;
+function getPainter(){
+  if (!painter) painter = new HarfiColor(document.getElementById('coloring-canvas'));
+  return painter;
+}
+async function loadShape(idx){
   currentShapeIdx = idx;
-  colorHistory = [];
-  const svg = document.getElementById('coloring-svg');
-  svg.innerHTML = uniqSvg(SHAPES[idx].svg);
-  svg.querySelectorAll('*').forEach(el=>{
-    const tag = el.tagName;
-    if (SKIP.has(tag) || el.closest('defs')) return;
-    if (el.getAttribute('fill') === 'none') return;
-    el.style.cursor = 'pointer';
-    el.addEventListener('click',()=>{
-      colorHistory.push({el, prev: el.getAttribute('fill') || '#fff'});
-      el.setAttribute('fill', currentColor);
-    });
-  });
+  const s = SHAPES[idx], token = ++loadToken;
+  const glyph = ['arletter','enletter','arnum','ennum'].includes(s.cat);
+  const src = glyph ? await HarfiColor.glyphSource(s.name) : await HarfiColor.svgSource(s.svg);
+  if (token !== loadToken) return;
+  const p = getPainter();
+  p.color = currentColor;
+  p.loadSource(src);
 }
-
-
-function undoColor(){
-  const last = colorHistory.pop();
-  if (last) last.el.setAttribute('fill', last.prev);
-}
-function resetColoring(){
-  colorHistory = [];
-  document.querySelectorAll('#coloring-svg *').forEach(el=>{
-    if (SKIP.has(el.tagName) || el.closest('defs')) return;
-    if (el.getAttribute('fill') === 'none') return;
-    el.setAttribute('fill','#fff');
-  });
-}
-
+function undoColor(){ getPainter().undoStep(); }
+function redoColor(){ getPainter().redoStep(); }
+function resetColoring(){ getPainter().clear(); }
 function downloadColoring(){
-  const svg = document.getElementById('coloring-svg');
-  const clone = svg.cloneNode(true);
-  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
-  const data = new XMLSerializer().serializeToString(clone);
-  const svgBlob = new Blob([data], {type:'image/svg+xml;charset=utf-8'});
-  const url = URL.createObjectURL(svgBlob);
-  const img = new Image();
-  img.onload = ()=>{
-    const canvas = document.createElement('canvas');
-    canvas.width = 800; canvas.height = 800;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,800,800);
-    ctx.drawImage(img,0,0,800,800);
-    const a = document.createElement('a');
-    a.href = canvas.toDataURL('image/png');
-    a.download = 'harfi-coloring-' + SHAPES[currentShapeIdx].name + '.png';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-  img.src = url;
+  const a = document.createElement('a');
+  a.href = getPainter().toPNG();
+  a.download = 'harfi-coloring-' + SHAPES[currentShapeIdx].name + '.png';
+  a.click();
 }
+document.querySelectorAll('#color-tools .tool-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#color-tools .tool-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    getPainter().tool = b.dataset.tool;
+  });
+});
+document.getElementById('cl-size').addEventListener('input', e=>getPainter().size = +e.target.value);
+document.getElementById('cl-alpha').addEventListener('input', e=>getPainter().alpha = e.target.value/100);
 
 /* ================ DRAW CORNER ================ */
 let drawColor = COLORS[18]; // black default
@@ -419,7 +415,7 @@ document.querySelectorAll('.shape-cat').forEach(b=>{
 
 /* ================ INIT ================ */
 document.addEventListener('DOMContentLoaded', ()=>{
-  renderPalette('palette-color', c=>currentColor=c);
+  renderPalette('palette-color', c=>{ currentColor=c; getPainter().color=c; });
   renderPalette('palette-draw', c=>drawColor=c);
   // Set black active in draw palette
   const dp = document.getElementById('palette-draw');

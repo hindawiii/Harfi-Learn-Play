@@ -1,5 +1,5 @@
 /* حرفي - خدمة العمل بدون إنترنت */
-const VERSION = 'harfi-v3';
+const VERSION = 'harfi-v4';
 const PRECACHE = `${VERSION}-precache`;
 const RUNTIME = `${VERSION}-runtime`;
 
@@ -29,7 +29,7 @@ const PRECACHE_URLS = [
   '/js/country-extra.js',
   '/js/country-regions.js',
   '/js/anthems.js',
-  '/js/coloring-shapes.js',
+  '/js/coloring-shapes.js', '/js/color-engine.js',
   '/manifest.json',
   '/favicon.ico'
 ];
