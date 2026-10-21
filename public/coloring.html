@@ -242,60 +242,39 @@ function renderShapes(){
   if (list.length) loadShape(SHAPES.indexOf(list[0]));
 }
 
-const SKIP = new Set(['defs','clipPath','text','g']);
-function loadShape(idx){
+let painter = null, loadToken = 0;
+function getPainter(){
+  if (!painter) painter = new HarfiColor(document.getElementById('coloring-canvas'));
+  return painter;
+}
+async function loadShape(idx){
   currentShapeIdx = idx;
-  colorHistory = [];
-  const svg = document.getElementById('coloring-svg');
-  svg.innerHTML = uniqSvg(SHAPES[idx].svg);
-  svg.querySelectorAll('*').forEach(el=>{
-    const tag = el.tagName;
-    if (SKIP.has(tag) || el.closest('defs')) return;
-    if (el.getAttribute('fill') === 'none') return;
-    el.style.cursor = 'pointer';
-    el.addEventListener('click',()=>{
-      colorHistory.push({el, prev: el.getAttribute('fill') || '#fff'});
-      el.setAttribute('fill', currentColor);
-    });
-  });
+  const s = SHAPES[idx], token = ++loadToken;
+  const glyph = ['arletter','enletter','arnum','ennum'].includes(s.cat);
+  const src = glyph ? await HarfiColor.glyphSource(s.name) : await HarfiColor.svgSource(s.svg);
+  if (token !== loadToken) return;
+  const p = getPainter();
+  p.color = currentColor;
+  p.loadSource(src);
 }
-
-
-function undoColor(){
-  const last = colorHistory.pop();
-  if (last) last.el.setAttribute('fill', last.prev);
-}
-function resetColoring(){
-  colorHistory = [];
-  document.querySelectorAll('#coloring-svg *').forEach(el=>{
-    if (SKIP.has(el.tagName) || el.closest('defs')) return;
-    if (el.getAttribute('fill') === 'none') return;
-    el.setAttribute('fill','#fff');
-  });
-}
-
+function undoColor(){ getPainter().undoStep(); }
+function redoColor(){ getPainter().redoStep(); }
+function resetColoring(){ getPainter().clear(); }
 function downloadColoring(){
-  const svg = document.getElementById('coloring-svg');
-  const clone = svg.cloneNode(true);
-  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
-  const data = new XMLSerializer().serializeToString(clone);
-  const svgBlob = new Blob([data], {type:'image/svg+xml;charset=utf-8'});
-  const url = URL.createObjectURL(svgBlob);
-  const img = new Image();
-  img.onload = ()=>{
-    const canvas = document.createElement('canvas');
-    canvas.width = 800; canvas.height = 800;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,800,800);
-    ctx.drawImage(img,0,0,800,800);
-    const a = document.createElement('a');
-    a.href = canvas.toDataURL('image/png');
-    a.download = 'harfi-coloring-' + SHAPES[currentShapeIdx].name + '.png';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-  img.src = url;
+  const a = document.createElement('a');
+  a.href = getPainter().toPNG();
+  a.download = 'harfi-coloring-' + SHAPES[currentShapeIdx].name + '.png';
+  a.click();
 }
+document.querySelectorAll('#color-tools .tool-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#color-tools .tool-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    getPainter().tool = b.dataset.tool;
+  });
+});
+document.getElementById('cl-size').addEventListener('input', e=>getPainter().size = +e.target.value);
+document.getElementById('cl-alpha').addEventListener('input', e=>getPainter().alpha = e.target.value/100);
 
 /* ================ DRAW CORNER ================ */
 let drawColor = COLORS[18]; // black default
