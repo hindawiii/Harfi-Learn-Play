@@ -29,7 +29,7 @@ const PRECACHE_URLS = [
   '/js/country-extra.js',
   '/js/country-regions.js',
   '/js/anthems.js',
-  '/js/coloring-shapes.js', '/js/color-engine.js',
+  '/js/coloring-shapes.js','/js/coloring-shapes-2.js', '/js/color-engine.js',
   '/manifest.json',
   '/favicon.ico'
 ];
