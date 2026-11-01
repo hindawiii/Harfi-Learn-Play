@@ -42,7 +42,7 @@
 
   /** يتعرف على: خط، دائرة، بيضاوي، مثلث، مربع، مستطيل. يعيد null إن لم يكن واثقًا. */
   function recognize(pts) {
-    if (pts.length < 6) return null;
+    if (pts.length < 2) return null;
     const L = pathLen(pts);
     let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
     pts.forEach(p => { x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x); y1 = Math.max(y1, p.y); });
@@ -50,7 +50,7 @@
     if (diag < 30) return null;
     const s = pts[0], e = pts[pts.length - 1];
     const closed = dist(s, e) < Math.max(25, 0.22 * diag);
-    if (!closed) {
+    if (!closed || pts.length < 6) {
       if (dist(s, e) / L > 0.93) return { type: 'line', a: s, b: e };
       return null;
     }
@@ -58,9 +58,17 @@
     let err = 0;
     pts.forEach(p => { err += Math.abs(Math.hypot((p.x - cx) / rx, (p.y - cy) / ry) - 1); });
     err /= pts.length;
-    const ring = pts.concat([pts[0]]);
-    let v = dp(ring, 0.07 * diag);
-    if (v.length > 2 && dist(v[0], v[v.length - 1]) < 0.15 * diag) v = v.slice(0, -1);
+    // مسار مغلق: نقسمه عند أبعد نقطة عن البداية ثم نبسّط كل نصف
+    let far = 0; pts.forEach((p, i) => { if (dist(p, s) > dist(pts[far], s)) far = i; });
+    const eps = 0.07 * diag;
+    let v = dp(pts.slice(0, far + 1), eps).slice(0, -1).concat(dp(pts.slice(far).concat([pts[0]]), eps).slice(0, -1));
+    // إزالة رؤوس شبه مستقيمة (زاوية قريبة من 180)
+    v = v.filter((p, i) => {
+      const a = v[(i - 1 + v.length) % v.length], b = v[(i + 1) % v.length];
+      const a1 = Math.atan2(a.y - p.y, a.x - p.x), a2 = Math.atan2(b.y - p.y, b.x - p.x);
+      let ang = Math.abs(a1 - a2); if (ang > Math.PI) ang = 2 * Math.PI - ang;
+      return ang < 2.6;
+    });
     // دمج الرؤوس المتقاربة جدًا
     v = v.filter((p, i) => i === 0 || dist(p, v[i - 1]) > 0.12 * diag);
     const ratio = Math.min(w, h) / Math.max(w, h);
