@@ -38,7 +38,7 @@ async def main():
         await pg.click('[data-emoji="🦁"]'); await pg.click('text=➕ أكبر'); await pg.click('text=🔄 تدوير')
         st = await pg.evaluate("drawer.items.at(-1)")
         assert st['kind']=='sticker' and st['scale']>1 and st['rot']==15, st
-        n = await pg.evaluate("drawer.items.length"); await pg.click('text=↩️ تراجع')
+        n = await pg.evaluate("drawer.items.length"); await pg.click('#corner-draw >> text=↩️ تراجع')
         assert await pg.evaluate("drawer.items.at(-1).scale")==1 and await pg.evaluate("drawer.items.length")==n
         await pg.locator('#corner-draw').screenshot(path='/tmp/browser/d3/draw.png')
         assert not errs, errs
