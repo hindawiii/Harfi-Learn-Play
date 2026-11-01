@@ -4,6 +4,6 @@
 - [ ] Stage 1: Real-device audible verification (requires user testing on a phone with installed voices).
 - [x] Stage 2a: Constrained free-coloring engine (pen, soft, crayon, marker, fill, eraser, size, opacity, undo/redo, save) on all letters, digits and drawings.
 - [x] Stage 2b: 24 new illustrations added (animals, vehicles, nature, food, space, homes).
-- [ ] Stage 3: Stickers and assisted drawing (awaits separate permission).
+- [x] Stage 3: Stickers (36), stroke smoothing, optional shape assist, restore original; tested by tests/draw_assist_test.py.
 - [ ] Stage 4: Complete free bilingual experience (awaits separate permission).
 - [ ] Stage 5: Expanded vocabulary and games (awaits separate permission and human language review).
