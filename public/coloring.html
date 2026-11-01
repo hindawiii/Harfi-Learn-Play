@@ -43,6 +43,8 @@
   .shape-thumb svg g[clip-path] *{stroke:none}
 
 
+  .sticker-btn{font-size:26px;width:46px;height:46px;border-radius:12px;background:#F8F9FA;border:none;cursor:pointer}
+  .sticker-btn:active{transform:scale(.9)}
   #draw-canvas{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);touch-action:none;cursor:crosshair;max-width:100%;height:auto;display:block;margin:0 auto}
   .tool-btn{padding:10px 16px;border-radius:12px;background:#fff;color:#495057;font-weight:700;border:2px solid #E9ECEF;cursor:pointer;min-height:44px;font-size:14px}
   .tool-btn.active{background:#4ECDC4;color:#fff;border-color:#4ECDC4}
@@ -160,12 +162,33 @@
       </div>
     </div>
 
+    <!-- Helpers -->
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+      <button id="opt-smooth" class="tool-btn active" aria-pressed="true">〰️ تنعيم الخطوط</button>
+      <button id="opt-shape" class="tool-btn" aria-pressed="false">🔷 مساعد الأشكال</button>
+      <button class="tool-btn" onclick="drawer.restoreLastOriginal()">✋ أعد رسمي الأصلي</button>
+    </div>
+    <p class="text-xs text-gray-500 text-center mt-2">مساعد الأشكال يرتّب الخط والدائرة والبيضاوي والمثلث والمربع والمستطيل، ويمكن رسم عدة أشكال متداخلة.</p>
+
+    <!-- Stickers -->
+    <div class="mt-4 text-center">
+      <div class="text-sm font-bold text-gray-600 mb-2">🌟 ملصقات — اضغط لإضافتها، واسحبها لتحريكها</div>
+      <div id="sticker-tray" class="flex flex-wrap justify-center gap-1"><button class="sticker-btn" data-emoji="🐱" aria-label="ملصق 🐱">🐱</button><button class="sticker-btn" data-emoji="🐶" aria-label="ملصق 🐶">🐶</button><button class="sticker-btn" data-emoji="🐰" aria-label="ملصق 🐰">🐰</button><button class="sticker-btn" data-emoji="🦁" aria-label="ملصق 🦁">🦁</button><button class="sticker-btn" data-emoji="🐘" aria-label="ملصق 🐘">🐘</button><button class="sticker-btn" data-emoji="🦒" aria-label="ملصق 🦒">🦒</button><button class="sticker-btn" data-emoji="🐢" aria-label="ملصق 🐢">🐢</button><button class="sticker-btn" data-emoji="🦉" aria-label="ملصق 🦉">🦉</button><button class="sticker-btn" data-emoji="🐟" aria-label="ملصق 🐟">🐟</button><button class="sticker-btn" data-emoji="🦋" aria-label="ملصق 🦋">🦋</button><button class="sticker-btn" data-emoji="🐝" aria-label="ملصق 🐝">🐝</button><button class="sticker-btn" data-emoji="🐞" aria-label="ملصق 🐞">🐞</button><button class="sticker-btn" data-emoji="⭐" aria-label="ملصق ⭐">⭐</button><button class="sticker-btn" data-emoji="🌟" aria-label="ملصق 🌟">🌟</button><button class="sticker-btn" data-emoji="✨" aria-label="ملصق ✨">✨</button><button class="sticker-btn" data-emoji="🌙" aria-label="ملصق 🌙">🌙</button><button class="sticker-btn" data-emoji="☀️" aria-label="ملصق ☀️">☀️</button><button class="sticker-btn" data-emoji="🌈" aria-label="ملصق 🌈">🌈</button><button class="sticker-btn" data-emoji="☁️" aria-label="ملصق ☁️">☁️</button><button class="sticker-btn" data-emoji="❤️" aria-label="ملصق ❤️">❤️</button><button class="sticker-btn" data-emoji="🌸" aria-label="ملصق 🌸">🌸</button><button class="sticker-btn" data-emoji="🌻" aria-label="ملصق 🌻">🌻</button><button class="sticker-btn" data-emoji="🌳" aria-label="ملصق 🌳">🌳</button><button class="sticker-btn" data-emoji="🌴" aria-label="ملصق 🌴">🌴</button><button class="sticker-btn" data-emoji="🍀" aria-label="ملصق 🍀">🍀</button><button class="sticker-btn" data-emoji="🍎" aria-label="ملصق 🍎">🍎</button><button class="sticker-btn" data-emoji="🍓" aria-label="ملصق 🍓">🍓</button><button class="sticker-btn" data-emoji="🍉" aria-label="ملصق 🍉">🍉</button><button class="sticker-btn" data-emoji="🚗" aria-label="ملصق 🚗">🚗</button><button class="sticker-btn" data-emoji="🚂" aria-label="ملصق 🚂">🚂</button><button class="sticker-btn" data-emoji="✈️" aria-label="ملصق ✈️">✈️</button><button class="sticker-btn" data-emoji="🚀" aria-label="ملصق 🚀">🚀</button><button class="sticker-btn" data-emoji="🚲" aria-label="ملصق 🚲">🚲</button><button class="sticker-btn" data-emoji="⛵" aria-label="ملصق ⛵">⛵</button><button class="sticker-btn" data-emoji="🎈" aria-label="ملصق 🎈">🎈</button><button class="sticker-btn" data-emoji="👑" aria-label="ملصق 👑">👑</button></div>
+      <div id="sticker-actions" class="flex flex-wrap justify-center gap-2 mt-2" hidden>
+        <button class="tool-btn" onclick="drawer.transformSelected('bigger')">➕ أكبر</button>
+        <button class="tool-btn" onclick="drawer.transformSelected('smaller')">➖ أصغر</button>
+        <button class="tool-btn" onclick="drawer.transformSelected('rotate')">🔄 تدوير</button>
+        <button class="tool-btn" onclick="drawer.transformSelected('delete')">🗑️ حذف الملصق</button>
+      </div>
+    </div>
+
     <!-- Tools -->
     <div class="flex flex-wrap justify-center gap-2 mt-4">
       <button id="tool-brush" class="tool-btn active" onclick="setTool('brush')">🖌️ فرشاة</button>
       <button id="tool-eraser" class="tool-btn" onclick="setTool('eraser')">🧽 مطاط</button>
-      <button class="tool-btn" onclick="undoDraw()">↩️ تراجع</button>
-      <button class="tool-btn" onclick="clearCanvas()">🗑️ مسح الكل</button>
+      <button class="tool-btn" onclick="drawer.undo()">↩️ تراجع</button>
+      <button class="tool-btn" onclick="drawer.redo()">↪️ إعادة</button>
+      <button class="tool-btn" onclick="drawer.clear()">🗑️ مسح الكل</button>
       <button class="tool-btn" onclick="downloadDrawing()">💾 حفظ صورة</button>
     </div>
   </section>
@@ -175,6 +198,7 @@
 <script src="/js/layout.js"></script>
 <script src="/js/coloring-shapes.js"></script>
 <script src="/js/coloring-shapes-2.js"></script>
+<script src="/js/draw-engine.js"></script>
 <script src="/js/color-engine.js"></script>
 
 <script>
@@ -282,80 +306,34 @@ document.getElementById('cl-size').addEventListener('input', e=>getPainter().siz
 document.getElementById('cl-alpha').addEventListener('input', e=>getPainter().alpha = e.target.value/100);
 
 /* ================ DRAW CORNER ================ */
-let drawColor = COLORS[18]; // black default
-let brushSize = 8;
-let tool = 'brush';
-let drawing = false;
-let lastX = 0, lastY = 0;
-let drawSnapshots = [];
-
 const canvas = document.getElementById('draw-canvas');
-const dctx = canvas.getContext('2d');
-
-function initDrawCanvas(){
-  dctx.fillStyle = '#fff';
-  dctx.fillRect(0,0,canvas.width,canvas.height);
-  pushSnapshot();
-}
-function pushSnapshot(){
-  try { drawSnapshots.push(canvas.toDataURL()); if (drawSnapshots.length>30) drawSnapshots.shift(); } catch(e){}
-}
-function undoDraw(){
-  if (drawSnapshots.length<=1) return;
-  drawSnapshots.pop();
-  const img = new Image();
-  img.onload = ()=>{ dctx.clearRect(0,0,canvas.width,canvas.height); dctx.drawImage(img,0,0); };
-  img.src = drawSnapshots[drawSnapshots.length-1];
-}
-function clearCanvas(){
-  dctx.fillStyle = '#fff';
-  dctx.fillRect(0,0,canvas.width,canvas.height);
-  pushSnapshot();
-}
+const drawer = new HarfiDraw(canvas);
+const dctx = drawer.bgCtx;
+let drawColor = COLORS[18];
 function setTool(t){
-  tool = t;
+  drawer.tool = t;
   document.getElementById('tool-brush').classList.toggle('active', t==='brush');
   document.getElementById('tool-eraser').classList.toggle('active', t==='eraser');
 }
+function clearCanvas(){ drawer.clear(); }
+function initDrawCanvas(){ drawer.render(); }
 function downloadDrawing(){
-  const a = document.createElement('a');
-  a.href = canvas.toDataURL('image/png');
-  a.download = 'harfi-drawing.png';
-  a.click();
+  const a = document.createElement('a'); a.href = drawer.toPNG(); a.download = 'harfi-drawing.png'; a.click();
 }
-
-function getPos(e){
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const p = e.touches ? e.touches[0] : e;
-  return { x:(p.clientX - rect.left)*scaleX, y:(p.clientY - rect.top)*scaleY };
-}
-function startDraw(e){ e.preventDefault(); drawing = true; const p = getPos(e); lastX=p.x; lastY=p.y; }
-function moveDraw(e){
-  if(!drawing) return; e.preventDefault();
-  const p = getPos(e);
-  dctx.strokeStyle = tool==='eraser' ? '#ffffff' : drawColor;
-  dctx.lineWidth = tool==='eraser' ? brushSize*2 : brushSize;
-  dctx.lineCap = 'round'; dctx.lineJoin = 'round';
-  dctx.beginPath(); dctx.moveTo(lastX,lastY); dctx.lineTo(p.x,p.y); dctx.stroke();
-  lastX = p.x; lastY = p.y;
-}
-function endDraw(e){ if(!drawing) return; drawing=false; pushSnapshot(); }
-
-canvas.addEventListener('mousedown', startDraw);
-canvas.addEventListener('mousemove', moveDraw);
-canvas.addEventListener('mouseup', endDraw);
-canvas.addEventListener('mouseleave', endDraw);
-canvas.addEventListener('touchstart', startDraw, {passive:false});
-canvas.addEventListener('touchmove', moveDraw, {passive:false});
-canvas.addEventListener('touchend', endDraw);
-
+drawer.onChange = d => {
+  const st = d.items[d.selected];
+  document.getElementById('sticker-actions').hidden = !(st && st.kind==='sticker');
+};
+document.querySelectorAll('.sticker-btn').forEach(b=>b.addEventListener('click',()=>drawer.addSticker(b.dataset.emoji)));
+[['opt-smooth','smoothOn'],['opt-shape','shapeOn']].forEach(([id,key])=>{
+  const b=document.getElementById(id);
+  b.addEventListener('click',()=>{ drawer[key]=!drawer[key]; b.classList.toggle('active',drawer[key]); b.setAttribute('aria-pressed',drawer[key]); });
+});
 document.querySelectorAll('.brush-btn').forEach(b=>{
   b.addEventListener('click',()=>{
     document.querySelectorAll('.brush-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    brushSize = parseInt(b.dataset.size,10);
+    drawer.size = parseInt(b.dataset.size,10);
   });
 });
 
@@ -395,7 +373,7 @@ function loadTemplate(name){
     dctx.beginPath(); dctx.rect(cx+50, cy+10, 50, 50); dctx.stroke();
   }
   dctx.restore();
-  pushSnapshot();
+  drawer.render();
 }
 
 /* ================ TABS ================ */
@@ -420,11 +398,11 @@ document.querySelectorAll('.shape-cat').forEach(b=>{
 /* ================ INIT ================ */
 document.addEventListener('DOMContentLoaded', ()=>{
   renderPalette('palette-color', c=>{ currentColor=c; getPainter().color=c; });
-  renderPalette('palette-draw', c=>drawColor=c);
+  renderPalette('palette-draw', c=>{ drawColor=c; drawer.color=c; });
   // Set black active in draw palette
   const dp = document.getElementById('palette-draw');
   dp.querySelectorAll('.swatch').forEach((s,i)=>s.classList.toggle('active', i===18));
-  drawColor = COLORS[18];
+  drawColor = COLORS[18]; drawer.color = drawColor;
   renderShapes();
   initDrawCanvas();
 });
