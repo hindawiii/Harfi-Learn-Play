@@ -121,7 +121,7 @@ function renderPage() {
 
       <div class="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-8 md:p-12 text-center text-white">
         <div class="text-8xl md:text-9xl mb-8">${p.emoji}</div>
-        <p class="text-2xl md:text-3xl leading-relaxed font-bold mb-8">${p.text}</p>
+        <p data-no-i18n dir="rtl" lang="ar" class="text-2xl md:text-3xl leading-relaxed font-bold mb-8">${p.text}</p>
 
         <div class="flex flex-wrap justify-center gap-3 mb-8">
           <button onclick="speakPage()" class="bg-[#FF6B6B] hover:bg-[#e85555] text-white px-6 py-3 rounded-full font-bold">
