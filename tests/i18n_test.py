@@ -1,7 +1,7 @@
 """Interface language is independent of lesson language and works without an account."""
 import asyncio
 from playwright.async_api import async_playwright
-PAGES = ["index","arabic","english","countries","stories","math","coloring","play","parent-report","pro"]
+PAGES = ["country.html?id=sa","index","arabic","english","countries","stories","math","coloring","play","parent-report","pro"]
 LEFT = """()=>{const LESSON=window.HARFI_LESSON_SEL||'[data-no-i18n],.word-text,.sentence-text,.letter-big,.letter-small,.letter-name,.tk-big,.tk-name,.char,.fam-word,.fam-sentence,.song-card,script,style';
 const out=new Set();const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
 while(n=w.nextNode()){const t=n.nodeValue.trim();const el=n.parentElement;if(!t||!/[\\u0600-\\u06FF]{2}/.test(t)||el.closest(LESSON))continue;if(!el.offsetParent&&getComputedStyle(el).position!=='fixed')continue;out.add(t)}return [...out]}"""
@@ -12,7 +12,7 @@ async def main():
         await pg.goto("http://localhost:8080/index.html"); await pg.evaluate("localStorage.setItem('harfi_lang','en')")
         report = {}
         for name in PAGES:
-            await pg.goto(f"http://localhost:8080/{name}.html"); await pg.wait_for_timeout(900)
+            await pg.goto(f"http://localhost:8080/{name}" if "?" in name else f"http://localhost:8080/{name}.html"); await pg.wait_for_timeout(900)
             assert await pg.evaluate("document.documentElement.dir")=='ltr', name
             left=set(await pg.evaluate(LEFT))
             for t in (await pg.locator('[data-tab],[data-corner]').all())[:8]:
