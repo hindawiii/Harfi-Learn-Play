@@ -5,5 +5,5 @@
 - [x] Stage 2a: Constrained free-coloring engine (pen, soft, crayon, marker, fill, eraser, size, opacity, undo/redo, save) on all letters, digits and drawings.
 - [x] Stage 2b: 24 new illustrations added (animals, vehicles, nature, food, space, homes).
 - [x] Stage 3: Stickers (36), stroke smoothing, optional shape assist, restore original; tested by tests/draw_assist_test.py.
-- [ ] Stage 4: Complete free bilingual experience (awaits separate permission).
+- [x] Stage 4: Interface language independent of lesson language on all pages; tested by tests/i18n_test.py. Country facts, names of rulers/landmarks and story text remain Arabic pending reviewed translation.
 - [ ] Stage 5: Expanded vocabulary and games (awaits separate permission and human language review).
