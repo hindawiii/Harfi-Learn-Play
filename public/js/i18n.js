@@ -179,7 +179,11 @@
       const el = node.parentElement;
       if (!el || el.closest(LESSON)) return;
       const out = translate(node.nodeValue, el);
-      if (out != null) node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), out);
+      if (out == null) return;
+      node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), out);
+      // نص الزر يأخذ اتجاه لغة الواجهة حتى داخل بطاقات الدرس
+      const want = ui === 'en' ? 'ltr' : 'rtl', host = el.closest('[dir]');
+      if (host && host.getAttribute('dir') !== want && host !== document.body && host !== document.documentElement) el.setAttribute('dir', want);
     });
     const els = root.querySelectorAll ? root.querySelectorAll('[aria-label],[placeholder],[title]') : [];
     els.forEach(el => {
