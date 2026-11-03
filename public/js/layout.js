@@ -4,7 +4,7 @@
   const pageLang = document.documentElement.lang || 'ar';
   let storedLang = null;
   try { storedLang = localStorage.getItem(LANG_KEY); } catch { storedLang = null; }
-  const lang = storedLang || pageLang;
+  const lang = storedLang || 'ar'; // لغة الواجهة مستقلة عن لغة الدرس
   const isEn = lang === 'en';
   const path = location.pathname.replace(/\/$/, '') || '/index.html';
 

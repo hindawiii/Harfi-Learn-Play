@@ -105,6 +105,12 @@
     'هل النسخة المجانية ستبقى مجانية؟': 'Will the free version stay free?', 'بالتأكيد. كل ما هو موجود اليوم سيبقى مجاناً للأبد. Pro يضيف مزايا إضافية فقط.': 'Absolutely. Everything available today stays free forever. Pro only adds extras.', 'هل يمكنني الإلغاء في أي وقت؟': 'Can I cancel at any time?', 'نعم، الإلغاء فوري بنقرة واحدة ودون أي رسوم إضافية.': 'Yes, cancel instantly with one tap and no extra fees.',
     'هل تدعمون العائلات الكبيرة؟': 'Do you support big families?', 'نعم، Pro يدعم حتى 4 حسابات أطفال مستقلة بتقدّم منفصل لكل طفل.': 'Yes, Pro supports up to 4 separate child profiles, each with its own progress.', 'هل هناك إعلانات في Pro؟': 'Are there ads in Pro?', 'لا، صفر إعلانات. تجربة نظيفة تماماً لأطفالكم.': 'No, zero ads. A completely clean experience for your children.',
     'جاهز للانضمام؟': 'Ready to join?', 'اِحصل على خصم 30% حصري عند إطلاق Pro': 'Get an exclusive 30% discount when Pro launches', 'بريدك الإلكتروني': 'Your email',
+    /* صفحة الدولة: العناوين فقط؛ الأسماء والمعلومات تبقى بلغتها حتى تُراجع ترجمتها */
+    'استمع للاسم': 'Hear the name', 'استمع للتحية': 'Hear the greeting', 'عودة للدول': 'Back to countries', 'العاصمة': 'Capital', 'العملة': 'Currency', 'اللغة': 'Language', 'المساحة': 'Area', 'القارة': 'Continent',
+    '👋 التحية المحلية': '👋 Local greeting', '💡 معلومة ممتعة': '💡 Fun fact', '🏛️ أشهر المعالم': '🏛️ Famous landmarks', '📘 نبذة مختصرة': '📘 In brief', '🏙️ المدن الرئيسية': '🏙️ Main cities', '(العاصمة)': '(capital)',
+    '🗺️ كل المدن والمحافظات': '🗺️ All cities and provinces', '👑 الحكّام وفترات الحكم': '👑 Rulers and their reigns', 'ملك': 'King', 'المؤسس': 'Founder', '🎵 النشيد الوطني:': '🎵 National anthem:', 'الشاعر': 'Poet', 'الملحن': 'Composer', 'سنة الاعتماد': 'Year adopted',
+    '🎼 مع اللحن': '🎼 With music', '🗣️ بدون لحن (قراءة)': '🗣️ Without music (reading)', 'استمع للنص': 'Hear the words', 'إيقاف': 'Stop', '🌟 اكتشف دولاً أخرى': '🌟 Explore other countries', 'غير متاح حالياً': 'Not available right now',
+    'الريال السعودي': 'Saudi riyal',
   };
   const CAPITALS = { 'الرياض': 'Riyadh', 'القاهرة': 'Cairo', 'أبو ظبي': 'Abu Dhabi', 'الرباط': 'Rabat', 'الجزائر': 'Algiers', 'تونس': 'Tunis', 'طرابلس': 'Tripoli', 'الخرطوم': 'Khartoum', 'بغداد': 'Baghdad', 'دمشق': 'Damascus', 'بيروت': 'Beirut', 'عمّان': 'Amman', 'القدس': 'Jerusalem', 'صنعاء': "Sana'a", 'مسقط': 'Muscat', 'مدينة الكويت': 'Kuwait City', 'المنامة': 'Manama', 'الدوحة': 'Doha', 'نواكشوط': 'Nouakchott', 'مقديشو': 'Mogadishu', 'جيبوتي': 'Djibouti', 'موروني': 'Moroni' };
 
@@ -124,6 +130,12 @@
     [/^📚 أكمِل الحروف العربية \((\d+) حرف متبقّي\)$/, (m, n) => `📚 Finish the Arabic letters (${n} left)`],
     [/^📚 تدرّب أكثر على الإنجليزية \((\d+) حرف متبقّي\)$/, (m, n) => `📚 Practise more English (${n} letters left)`],
     [/^🔥 انضم ([\d,]+) شخصاً حتى الآن$/, (m, n) => `🔥 ${n} people have joined so far`],
+    [/^العاصمة: (.+)$/, (m, c) => `Capital: ${CAPITALS[c] || c}`],
+    [/^— المناطق الإدارية \((\d+) منطقة\)$/, (m, n) => `— Administrative regions (${n})`],
+    [/^🏙️ المدينة\/المركز: (.+)$/, (m, c) => `🏙️ Main city: ${CAPITALS[c] || c}`],
+    [/^👤 أمير المنطقة: (.+)$/, (m, c) => `👤 Regional governor: ${c}`],
+    [/^(\d[\d,]*) كم²$/, (m, n) => `${n} km²`],
+    [/^(\d{4}) — الآن$/, (m, y) => `${y} — present`],
     [/^(.+) 🔊$/, (m, w) => null], // كلمة السؤال في اللعبة: محتوى درس
   ];
 
@@ -167,7 +179,11 @@
       const el = node.parentElement;
       if (!el || el.closest(LESSON)) return;
       const out = translate(node.nodeValue, el);
-      if (out != null) node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), out);
+      if (out == null) return;
+      node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), out);
+      // نص الزر يأخذ اتجاه لغة الواجهة حتى داخل بطاقات الدرس
+      const want = ui === 'en' ? 'ltr' : 'rtl', host = el.closest('[dir]');
+      if (host && host.getAttribute('dir') !== want && host !== document.body && host !== document.documentElement) el.setAttribute('dir', want);
     });
     const els = root.querySelectorAll ? root.querySelectorAll('[aria-label],[placeholder],[title]') : [];
     els.forEach(el => {

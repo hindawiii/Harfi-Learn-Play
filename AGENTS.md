@@ -13,3 +13,4 @@
 - All learning sections delegate speech and cancellation to SpeechSystem sessions; sessions own timers and synchronous cleanup so stale callbacks cannot mutate newer playback.
 - Sequential counting uses the shared readSequence API rather than accessing speech session internals, ensuring the same cancellation and completion rules everywhere.
 - The drawing corner keeps strokes and stickers as separate items in public/js/draw-engine.js and flattens only on export, so undo, restore-original and sticker editing stay possible.
+- Interface translation lives in public/js/i18n.js (prepared dictionary + patterns, applied via MutationObserver); lesson content is excluded by selector and keeps its own direction, so interface language never changes what is taught or spoken.
