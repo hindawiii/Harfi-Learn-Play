@@ -1,5 +1,5 @@
 /* حرفي - خدمة العمل بدون إنترنت */
-const VERSION = 'harfi-v6';
+const VERSION = 'harfi-v7';
 const PRECACHE = `${VERSION}-precache`;
 const RUNTIME = `${VERSION}-runtime`;
 
@@ -20,7 +20,7 @@ const PRECACHE_URLS = [
   '/js/speech.js',
   '/js/app.js',
   '/js/math.js',
-  '/js/play.js',
+  '/js/word-bank.js','/js/play.js',
   '/js/rewards.js',
   '/js/stories.js',
   '/js/songs.js',

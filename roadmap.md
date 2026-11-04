@@ -6,4 +6,5 @@
 - [x] Stage 2b: 24 new illustrations added (animals, vehicles, nature, food, space, homes).
 - [x] Stage 3: Stickers (36), stroke smoothing, optional shape assist, restore original; tested by tests/draw_assist_test.py.
 - [x] Stage 4: Interface language independent of lesson language on all pages; tested by tests/i18n_test.py. Country facts, names of rulers/landmarks and story text remain Arabic pending reviewed translation.
-- [ ] Stage 5: Expanded vocabulary and games (awaits separate permission and human language review).
+- [x] Stage 5: Word bank (304 words, 13 categories) + picture-choice and memory games with category filter.
+- [ ] Stage 5 review: native-speaker review of word bank wording and pictures (needs user).
