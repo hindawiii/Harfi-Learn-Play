@@ -1,14 +1,9 @@
 // ألعاب حرفي: (1) طابق الحرف الأول  (2) نطق ورتّب
 const LETTERS = ['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
-const WORDS = [
-  { w:'أسد', l:'أ' },{ w:'بطة', l:'ب' },{ w:'تفاح', l:'ت' },{ w:'ثعلب', l:'ث' },
-  { w:'جمل', l:'ج' },{ w:'حصان', l:'ح' },{ w:'خروف', l:'خ' },{ w:'دب', l:'د' },
-  { w:'ذئب', l:'ذ' },{ w:'رمان', l:'ر' },{ w:'زرافة', l:'ز' },{ w:'سمكة', l:'س' },
-  { w:'شمس', l:'ش' },{ w:'صقر', l:'ص' },{ w:'ضفدع', l:'ض' },{ w:'طائر', l:'ط' },
-  { w:'ظبي', l:'ظ' },{ w:'عصفور', l:'ع' },{ w:'غزال', l:'غ' },{ w:'فيل', l:'ف' },
-  { w:'قط', l:'ق' },{ w:'كلب', l:'ك' },{ w:'ليمون', l:'ل' },{ w:'موز', l:'م' },
-  { w:'نحلة', l:'ن' },{ w:'هدهد', l:'ه' },{ w:'وردة', l:'و' },{ w:'يمامة', l:'ي' },
-];
+let category = 'all';
+function pool() { return WORD_BANK.filter(x => category === 'all' || x.c === category); }
+function setCategory(c) { category = c; newQuestion(); }
+
 
 let score = 0, streak = 0, current = null, mode = 'match';
 let target = [], placed = [];
@@ -54,15 +49,21 @@ function setMode(m) {
     b.classList.toggle('text-gray-700', !on);
   });
   document.getElementById('game-hint').textContent =
-    m === 'match' ? 'استمع للكلمة، واختر الحرف الأول ✨' : 'استمع للكلمة، ثم رتّب حروفها بالترتيب الصحيح ✨';
+    ({ match:'استمع للكلمة، واختر الحرف الأول ✨', order:'استمع للكلمة، ثم رتّب حروفها بالترتيب الصحيح ✨',
+       picture:'استمع للكلمة، واختر الصورة المناسبة ✨', memory:'اقلب البطاقات وطابق الكلمة مع صورتها ✨' })[m];
   newQuestion();
 }
 
 function newQuestion() {
   cancelGameTimers();
   SpeechSystem.stop();
-  current = pick(WORDS);
+  let list = pool();
+  if (mode === 'order') list = list.filter(x => !x.w.includes(' ') && x.w.length <= 6);
+  if (!list.length) list = WORD_BANK;
+  current = pick(list);
+  if (mode === 'memory') { renderMemory(); return; }
   if (mode === 'match') renderMatch();
+  else if (mode === 'picture') renderPicture();
   else renderOrder();
   const word = current.w;
   speechTimer = setTimeout(() => {
@@ -208,6 +209,67 @@ function checkOrder() {
   }
 }
 
+/* ---------- اللعبة 3: اختر الصورة ---------- */
+function renderPicture() {
+  const others = shuffle(pool().filter(x => x.e !== current.e)).slice(0, 3);
+  const opts = shuffle([current, ...others]);
+  document.getElementById('game').innerHTML = `
+    <div class="text-center mb-6">
+      <div class="text-sm text-gray-600 mb-1">أين صورة:</div>
+      <button onclick="speak('${current.w}',1,'ar-SA')" class="text-5xl md:text-6xl font-black text-[#FF6B6B]" data-no-i18n>${current.w} 🔊</button>
+    </div>
+    <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+      ${opts.map(o => `<button onclick="answerPicture(this, ${o === current})" class="opt bg-white rounded-2xl p-5 text-6xl shadow-lg border-4 border-transparent active:scale-95" data-ok="${o === current}">${o.e}</button>`).join('')}
+    </div>
+    <div id="feedback" class="text-center mt-6 text-2xl font-black min-h-[40px]"></div>`;
+}
+function answerPicture(btn, ok) {
+  clearTimeout(speechTimer);
+  document.querySelectorAll('.opt').forEach(b => { b.disabled = true; if (b.dataset.ok === 'true') b.classList.add('!bg-green-400','!border-green-600'); });
+  const fb = document.getElementById('feedback');
+  if (ok) { score++; streak++; fb.innerHTML = '<span class="text-green-500">✅ أحسنت! +1</span>'; reward(btn); }
+  else { streak = 0; btn.classList.add('!bg-red-300','!border-red-500'); fb.innerHTML = '<span class="text-red-500">❌ حاول مرة أخرى</span>'; }
+  updateHUD(); saveScore();
+  questionTimer = setTimeout(newQuestion, 1500);
+}
+
+/* ---------- اللعبة 4: الذاكرة ---------- */
+let memOpen = [], memDone = 0, memPairs = [];
+function renderMemory() {
+  const uniq = []; const seen = new Set();
+  for (const x of shuffle(pool())) { if (!seen.has(x.e)) { seen.add(x.e); uniq.push(x); } if (uniq.length === 4) break; }
+  memPairs = uniq; memOpen = []; memDone = 0;
+  const cards = shuffle(uniq.flatMap((x, i) => [{ i, t: x.e, word: false }, { i, t: x.w, word: true }]));
+  document.getElementById('game').innerHTML = `
+    <div class="grid grid-cols-4 gap-2 max-w-md mx-auto" dir="rtl">
+      ${cards.map(c => `<button class="mem-card h-20 md:h-24 rounded-2xl bg-[#4ECDC4] text-white shadow-lg font-black ${c.word ? 'text-lg' : 'text-4xl'}" data-i="${c.i}" data-t="${c.t}" data-no-i18n onclick="flipMem(this)">❓</button>`).join('')}
+    </div>
+    <div id="feedback" class="text-center mt-6 text-2xl font-black min-h-[40px]"></div>`;
+}
+function flipMem(btn) {
+  if (memOpen.length >= 2 || btn.dataset.open) return;
+  btn.dataset.open = '1'; btn.textContent = btn.dataset.t;
+  btn.classList.replace('bg-[#4ECDC4]', 'bg-white'); btn.classList.replace('text-white', 'text-gray-800');
+  speak(memPairs[+btn.dataset.i].w, 0.9, 'ar-SA');
+  memOpen.push(btn);
+  if (memOpen.length < 2) return;
+  const [a, b] = memOpen;
+  if (a.dataset.i === b.dataset.i) {
+    a.classList.add('!bg-green-300'); b.classList.add('!bg-green-300'); memOpen = [];
+    score++; streak++; memDone++; reward(b); updateHUD(); saveScore();
+    if (memDone === memPairs.length) {
+      document.getElementById('feedback').innerHTML = '<span class="text-green-600">🎉 ممتاز! أنهيت اللوح</span>';
+      questionTimer = setTimeout(newQuestion, 2000);
+    }
+  } else {
+    streak = 0; updateHUD();
+    questionTimer = setTimeout(() => {
+      [a, b].forEach(x => { delete x.dataset.open; x.textContent = '❓'; x.classList.replace('bg-white', 'bg-[#4ECDC4]'); x.classList.replace('text-gray-800', 'text-white'); });
+      memOpen = [];
+    }, 900);
+  }
+}
+
 /* ---------- عام ---------- */
 function updateHUD() {
   document.getElementById('score').textContent = score;
@@ -224,4 +286,9 @@ function reset() {
 document.addEventListener('DOMContentLoaded', () => {
   updateHUD();
   setMode('match');
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.getElementById('cat');
+  for (const [k, v] of Object.entries(WORD_CATEGORIES)) sel.add(new Option(`${v.icon} ${v.name}`, k));
+  document.getElementById('bank-count').textContent = `${WORD_BANK.length} كلمة`;
 });
