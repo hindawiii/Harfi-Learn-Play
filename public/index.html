@@ -43,54 +43,108 @@
   .feat p { font-size: 14px; color: #6B7280; }
   .feat .tag { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #F3F4F6; color: #374151; }
 
+  .sec-title { font-size: clamp(26px, 5vw, 38px); font-weight: 900; color: #2D3436; margin-bottom: 6px; }
+  .sec-sub { color: #6B7280; font-size: 16px; }
+
   /* Stats */
-  .stat { text-align: center; }
-  .stat-num { font-size: 44px; font-weight: 900; color: #FF6B6B; line-height: 1; }
-  .stat-lbl { font-size: 14px; color: #6B7280; margin-top: 4px; font-weight: 700; }
+  .stats-card { background: #fff; border-radius: 28px; padding: 22px; box-shadow: 0 6px 24px rgba(0,0,0,.05); }
+  .stat { text-align: center; padding: 6px; }
+  .stat-num { font-size: 40px; font-weight: 900; color: #FF6B6B; line-height: 1; font-family: 'Fredoka','Tajawal',sans-serif; }
+  .stat-lbl { font-size: 13px; color: #6B7280; margin-top: 4px; font-weight: 700; }
+
+  /* Mascot */
+  .mascot { width: 140px; height: 140px; margin: 0 auto 8px; display: block; animation: float 4s ease-in-out infinite; }
+  .mascot .arm { transform-origin: 30px 92px; animation: wave 1.6s ease-in-out infinite; }
+  .mascot .eye { animation: blink 4s infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes wave { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-25deg)} }
+  @keyframes blink { 0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.1)} }
+
+  /* Sliders (manual only) */
+  .slider-wrap { position: relative; padding: 8px 0; }
+  .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 18px 8%; -webkit-overflow-scrolling: touch; scrollbar-width: none; cursor: grab; overscroll-behavior-x: contain; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .slider-ctrl { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 6px; }
+  .c-card { flex: 0 0 min(340px, 84%); background: #fff; border-radius: 28px; padding: 22px; scroll-snap-align: center; text-decoration: none; color: inherit; box-shadow: 0 6px 20px rgba(0,0,0,.06); display: flex; flex-direction: column; border: 3px solid transparent; transition: transform .25s, box-shadow .25s, border-color .25s; user-select: none; }
+  .c-card.active { border-color: var(--c); box-shadow: 0 18px 40px rgba(0,0,0,.12); transform: translateY(-4px); }
+  .c-head { display: flex; justify-content: space-between; align-items: flex-start; background: var(--tint); border-radius: 20px; padding: 14px 16px; margin-bottom: 14px; }
+  .c-card .ico { font-size: 52px; line-height: 1; }
+  .c-card h3 { font-size: 21px; font-weight: 900; color: #2D3436; margin-bottom: 4px; }
+  .c-card p { font-size: 14px; color: #6B7280; margin-bottom: 12px; }
+  .c-corners-lbl { font-size: 12px; font-weight: 800; color: var(--c); margin-bottom: 6px; }
+  .c-corners { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .c-corners li { font-size: 12px; font-weight: 700; background: var(--tint); color: #374151; padding: 5px 10px; border-radius: 999px; }
+  .c-actions { margin-top: auto; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+  .btn-sample { background: var(--tint); color: var(--c); font-weight: 800; font-size: 14px; padding: 10px 16px; border-radius: 999px; min-height: 44px; }
+  .btn-card { background: var(--c); color: #fff; padding: 10px 22px; border-radius: 999px; font-weight: 800; font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; margin-inline-start: auto; }
+  .badge-free { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: #fff; color: #0B7A3B; }
+  .badge-pro { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: #fff; color: #8A6D00; }
+  .c-nav { width: 46px; height: 46px; border-radius: 50%; background: #fff; border: 2px solid #FF6B6B; color: #FF6B6B; font-size: 26px; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,.08); flex: none; }
+  .c-nav:active, .c-nav:hover { background: #FF6B6B; color: #fff; }
+  .c-dots { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; max-width: 60%; }
+  .c-dots .dot { width: 9px; height: 9px; border-radius: 50%; background: #ddd; transition: all .25s; border: none; padding: 0; }
+  .c-dots .dot.active { background: #FF6B6B; width: 24px; border-radius: 5px; }
+
+  /* Bento */
+  .bento { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; grid-auto-flow: dense; }
+  @media (min-width: 768px) { .bento { grid-template-columns: repeat(4, 1fr); } }
+  .b { background: var(--bg); color: var(--fg); border-radius: 28px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; justify-content: flex-end; min-height: 150px; transition: transform .2s; }
+  a.b:hover { transform: translateY(-4px); }
+  .b-ico { font-size: 34px; margin-bottom: auto; padding-bottom: 10px; }
+  .b h3 { font-weight: 900; font-size: 17px; margin-bottom: 4px; }
+  .b p { font-size: 13px; opacity: .85; }
+  .b-big { grid-column: span 2; grid-row: span 2; min-height: 260px; }
+  .b-big .b-ico { font-size: 56px; }
+  .b-big h3 { font-size: 24px; }
+  .b-big p { font-size: 15px; }
+  .b-tall { grid-row: span 2; }
+  .b-wide { grid-column: span 2; }
 
   /* Steps */
-  .step { background: #fff; border-radius: 20px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,.05); text-align: center; }
-  .step-num { width: 52px; height: 52px; border-radius: 50%; background: #FFD93D; color: #2D3436; font-weight: 900; font-size: 22px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+  .steps { display: grid; gap: 12px; }
+  @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  .step { background: #fff; border-radius: 22px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,.05); display: flex; gap: 14px; align-items: center; }
+  .step h3 { font-weight: 900; color: #2D3436; }
+  .step p { font-size: 13px; color: #6B7280; }
+  .step-num { width: 46px; height: 46px; border-radius: 50%; background: #FFD93D; color: #2D3436; font-weight: 900; font-size: 20px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
 
   /* Testimonials */
-  .quote { background: #fff; border-radius: 20px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,.05); }
-  .stars { color: #FFD93D; font-size: 16px; }
+  .q-track { padding-top: 10px; }
+  .quote { flex: 0 0 min(320px, 84%); scroll-snap-align: center; background: #fff; border-radius: 24px; padding: 20px; box-shadow: 0 6px 18px rgba(0,0,0,.06); display: flex; flex-direction: column; gap: 10px; border: 2px solid transparent; user-select: none; }
+  .quote.active { border-color: #FFD93D; }
+  .q-top { display: flex; gap: 10px; align-items: center; }
+  .q-avatar { width: 44px; height: 44px; border-radius: 50%; background: #FFE9E9; color: #FF6B6B; font-weight: 900; font-size: 20px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .q-name { font-weight: 900; color: #2D3436; }
+  .q-role { font-size: 12px; color: #6B7280; }
+  .q-new { font-size: 11px; background: #E8F8F0; color: #0B7A3B; padding: 2px 8px; border-radius: 999px; }
+  .stars { color: #FFC83D; font-size: 18px; letter-spacing: 2px; }
+  .stars .off { color: #E5E7EB; }
+  .q-text { color: #374151; flex: 1; }
+  .q-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .q-fav { font-size: 12px; font-weight: 700; background: #FFF8E1; color: #92400E; padding: 4px 10px; border-radius: 999px; }
+  .q-like { min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 2px solid #F3F4F6; font-weight: 800; color: #374151; background: #fff; }
+  .q-like.on { border-color: #FFC9C9; background: #FFF1F1; color: #E11D48; }
+  .q-summary { display: inline-flex; align-items: center; gap: 10px; background: #fff; padding: 8px 18px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.05); }
+  .q-big { font-size: 26px; font-weight: 900; color: #2D3436; font-family: 'Fredoka','Tajawal',sans-serif; }
+  .rv-thanks { margin-top: 10px; font-weight: 800; color: #0B7A3B; }
 
-  /* CTA banner */
-  .cta-banner { background: linear-gradient(135deg, #FF6B6B 0%, #FFB86B 100%); border-radius: 32px; padding: 48px 32px; text-align: center; color: #fff; box-shadow: 0 20px 40px rgba(255,107,107,.25); }
-
-  /* Tighter sections */
-  section.tight { padding-top: 40px; padding-bottom: 40px; }
-  .bg-fade-1 { background: linear-gradient(to bottom, #FFF8E1, #FFFFFF); }
-  .bg-fade-3 { background: linear-gradient(to bottom, #FFFFFF, #E8F4F8); }
-  .bg-fade-4 { background: #E8F4F8; }
-  .bg-fade-5 { background: linear-gradient(to bottom, #E8F4F8, #FFF8E1); }
-
-  /* Carousel */
-  .carousel-wrap { position: relative; max-width: 1100px; margin: 0 auto; padding: 20px 0; }
-  .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 30px 40px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .carousel-track::-webkit-scrollbar { display: none; }
-  .c-card { flex: 0 0 260px; background: #fff; border-radius: 24px; padding: 28px 22px; text-align: center; scroll-snap-align: center; transition: all .4s ease; opacity: .55; transform: scale(.9); text-decoration: none; color: inherit; box-shadow: 0 4px 14px rgba(0,0,0,.05); display: flex; flex-direction: column; align-items: center; }
-  .c-card.active { flex: 0 0 300px; opacity: 1; transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,.15); border: 3px solid #FF6B6B; }
-  .c-card .ico { font-size: 60px; margin-bottom: 12px; }
-  .c-card h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; color: #2D3436; }
-  .c-card p { font-size: 14px; color: #6B7280; margin-bottom: 10px; min-height: 42px; }
-  .badge-free { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #E8F8F0; color: #0B7A3B; }
-  .badge-pro { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #FFF4CC; color: #8A6D00; }
-  .btn-card { margin-top: 10px; background: #FF6B6B; color: #fff; padding: 10px 24px; border-radius: 999px; font-weight: 800; font-size: 14px; }
-  .btn-card:hover { background: #FF5252; }
-  .c-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; background: #fff; border: 2px solid #FF6B6B; color: #FF6B6B; font-size: 26px; font-weight: 900; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
-  .c-nav:hover { background: #FF6B6B; color: #fff; }
-  .c-nav.prev { left: -8px; }
-  .c-nav.next { right: -8px; }
-  .c-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-  .c-dots .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; cursor: pointer; transition: all .3s; border: none; padding: 0; }
-  .c-dots .dot.active { background: #FF6B6B; width: 26px; border-radius: 5px; }
-  @media (max-width: 640px) {
-    .c-nav { display: none; }
-    .c-card { flex: 0 0 230px; }
-    .c-card.active { flex: 0 0 260px; }
-  }
+  /* Review modal */
+  .rv-modal { position: fixed; inset: 0; background: rgba(15,23,42,.5); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; padding: 12px; }
+  .rv-modal[hidden] { display: none; }
+  @media (min-width: 640px) { .rv-modal { align-items: center; } }
+  .rv-box { position: relative; background: #fff; border-radius: 28px; padding: 24px; width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 6px; max-height: 92vh; overflow: auto; }
+  .rv-box h3 { font-size: 22px; font-weight: 900; color: #2D3436; margin-bottom: 6px; }
+  .rv-box label { font-size: 13px; font-weight: 800; color: #374151; margin-top: 6px; }
+  .rv-box input, .rv-box select, .rv-box textarea { width: 100%; border: 2px solid #E5E7EB; border-radius: 14px; padding: 10px 12px; font: inherit; }
+  .rv-box input:focus, .rv-box select:focus, .rv-box textarea:focus { outline: none; border-color: #FF6B6B; }
+  .rv-row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; }
+  .rv-x { position: absolute; top: 14px; inset-inline-end: 14px; width: 40px; height: 40px; border-radius: 50%; background: #F3F4F6; font-weight: 900; }
+  .rv-stars { display: flex; gap: 4px; direction: ltr; justify-content: flex-end; }
+  .rv-stars button { font-size: 32px; color: #E5E7EB; min-width: 44px; min-height: 44px; }
+  .rv-stars button.on { color: #FFC83D; }
+  .rv-err { color: #E11D48; font-size: 13px; font-weight: 700; }
+  .rv-box .btn-primary { margin-top: 12px; }
+  .cta-w { background: #fff; color: #FF6B6B; font-weight: 900; padding: 14px 30px; border-radius: 999px; font-size: 18px; }
+  .cta-o { background: rgba(255,255,255,.2); border: 2px solid #fff; color: #fff; font-weight: 900; padding: 14px 30px; border-radius: 999px; font-size: 18px; }
 
 </style>
 </head>
@@ -103,7 +157,20 @@
   <div class="hero-blob blob-1"></div>
   <div class="hero-blob blob-2"></div>
   <div class="relative z-10">
-    <div class="text-6xl mb-4 float">📚</div>
+    <svg class="mascot" viewBox="0 0 140 140" role="img" aria-label="حرفوش">
+      <ellipse cx="70" cy="132" rx="34" ry="5" fill="#000" opacity=".08"/>
+      <g class="arm"><path d="M30 92 Q14 78 18 62" stroke="#FFB347" stroke-width="10" stroke-linecap="round" fill="none"/></g>
+      <path d="M110 92 Q122 104 116 116" stroke="#FFB347" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <rect x="28" y="40" width="84" height="88" rx="40" fill="#FFD93D"/>
+      <path d="M42 46 L36 22 L56 40 Z M98 46 L104 22 L84 40 Z" fill="#FFD93D"/>
+      <ellipse cx="70" cy="104" rx="24" ry="18" fill="#FFF3B0"/>
+      <ellipse class="eye" cx="55" cy="74" rx="7" ry="9" fill="#2D3436"/>
+      <ellipse class="eye" cx="85" cy="74" rx="7" ry="9" fill="#2D3436"/>
+      <circle cx="57" cy="71" r="2.5" fill="#fff"/><circle cx="87" cy="71" r="2.5" fill="#fff"/>
+      <circle cx="44" cy="88" r="6" fill="#FF6B6B" opacity=".35"/><circle cx="96" cy="88" r="6" fill="#FF6B6B" opacity=".35"/>
+      <path d="M62 88 Q70 96 78 88" stroke="#2D3436" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <text x="70" y="114" text-anchor="middle" font-family="Tajawal" font-weight="900" font-size="20" fill="#FF6B6B">ح</text>
+    </svg>
     <h1 class="hero-title mb-3" data-ar="حرفي" data-en="Harfi">حرفي</h1>
     <p class="text-2xl md:text-3xl text-gray-800 mb-3 font-bold" data-ar="عالمٌ من الحروف والقصص" data-en="A world of letters and stories">عالمٌ من الحروف والقصص</p>
     <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto" data-ar="حروف عربية بالتشكيل والأغاني، حروف إنجليزية، حساب وجداول ضرب، 22 دولة عربية بأناشيدها، قصص، تلوين ورسم وألعاب — كل ذلك في مكانٍ واحد." data-en="Arabic letters with diacritics and songs, English letters, math and times tables, 22 Arab countries with anthems, stories, coloring, drawing and games — all in one place.">حروف عربية بالتشكيل والأغاني، حروف إنجليزية، حساب وجداول ضرب، 22 دولة عربية بأناشيدها، قصص، تلوين ورسم وألعاب — كل ذلك في مكانٍ واحد.</p>
@@ -119,156 +186,154 @@
   </div>
 </section>
 
-<!-- STATS -->
-<section class="max-w-5xl mx-auto px-4 py-8">
-  <div class="bg-white rounded-3xl shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6 py-8 px-6">
-    <div class="stat"><div class="stat-num">28</div><div class="stat-lbl" data-ar="حرفاً عربياً بالتشكيل" data-en="Arabic letters + diacritics">حرفاً عربياً بالتشكيل</div></div>
-    <div class="stat"><div class="stat-num">26</div><div class="stat-lbl" data-ar="حرفاً إنجليزياً بالأغاني" data-en="English letters + songs">حرفاً إنجليزياً بالأغاني</div></div>
-    <div class="stat"><div class="stat-num">22</div><div class="stat-lbl" data-ar="دولة عربية بأناشيدها" data-en="Arab countries + anthems">دولة عربية بأناشيدها</div></div>
-    <div class="stat"><div class="stat-num">13</div><div class="stat-lbl" data-ar="جدول ضرب (0–12)" data-en="Times tables (0–12)">جدول ضرب (0–12)</div></div>
-  </div>
+<!-- STATS (from catalog) -->
+<section class="max-w-5xl mx-auto px-4 py-6">
+  <div class="stats-card grid grid-cols-2 md:grid-cols-4 gap-4" id="stats-grid"></div>
 </section>
 
-<!-- FEATURES CAROUSEL -->
+<!-- SECTIONS CAROUSEL (manual: arrows + swipe, no autoplay) -->
 <section class="tight bg-fade-1">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center mb-2">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="🎯 اكتشف عالم حرفي" data-en="🎯 Discover the world of Harfi">🎯 اكتشف عالم حرفي</h2>
-      <p class="text-gray-600 text-lg" data-ar="تسع تجارب تعليمية بين يديك" data-en="Nine learning experiences at your fingertips">تسع تجارب تعليمية بين يديك</p>
+      <h2 class="sec-title" data-ar="🎯 اكتشف عالم حرفي" data-en="🎯 Discover the world of Harfi">🎯 اكتشف عالم حرفي</h2>
+      <p class="sec-sub" id="sections-count"></p>
     </div>
-    <div class="carousel-wrap">
-      <button class="c-nav prev" onclick="scrollCarousel(-1)" aria-label="prev">‹</button>
-      <div class="carousel-track" id="carousel-track">
-        <a href="/arabic.html" class="c-card"><span class="ico">🔤</span><h3 data-ar="الحروف العربية" data-en="Arabic Letters">الحروف العربية</h3><p data-ar="28 حرفاً بالنطق والكلمات والتشكيل والأغاني" data-en="28 letters with speech, words, diacritics and songs">28 حرفاً بالنطق والكلمات والتشكيل والأغاني</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="ابدأ" data-en="Start">ابدأ</span></a>
-        <a href="/english.html" class="c-card"><span class="ico">🇬🇧</span><h3 data-ar="الحروف الإنجليزية" data-en="English Letters">الحروف الإنجليزية</h3><p data-ar="من A إلى Z بالكلمات والجمل والأغاني" data-en="A to Z with words, sentences and songs">من A إلى Z بالكلمات والجمل والأغاني</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="ابدأ" data-en="Start">ابدأ</span></a>
-        <a href="/math.html" class="c-card"><span class="ico">🔢</span><h3 data-ar="الحساب والأرقام" data-en="Math & Numbers">الحساب والأرقام</h3><p data-ar="أرقام بالعربية والإنجليزية، جمع وطرح، وجداول الضرب 0–12" data-en="Arabic & English numerals, add, subtract, times tables 0–12">أرقام بالعربية والإنجليزية، جمع وطرح، وجداول الضرب 0–12</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="احسب" data-en="Count">احسب</span></a>
-        <a href="/countries.html" class="c-card"><span class="ico">🌍</span><h3 data-ar="الدول العربية" data-en="Arab Countries">الدول العربية</h3><p data-ar="22 دولة بأعلامها وعواصمها ومدنها وأناشيدها" data-en="22 countries: flags, capitals, cities and anthems">22 دولة بأعلامها وعواصمها ومدنها وأناشيدها</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="اكتشف" data-en="Explore">اكتشف</span></a>
-        <a href="/stories.html" class="c-card"><span class="ico">🌙</span><h3 data-ar="قصص قبل النوم" data-en="Bedtime Stories">قصص قبل النوم</h3><p data-ar="قصص تفاعلية بقارئ صوتي هادئ" data-en="Interactive stories with a calm narrator">قصص تفاعلية بقارئ صوتي هادئ</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="اقرأ" data-en="Read">اقرأ</span></a>
-        <a href="/coloring.html" class="c-card"><span class="ico">🎨</span><h3 data-ar="التلوين والرسم" data-en="Coloring & Drawing">التلوين والرسم</h3><p data-ar="24 لوناً، أشكال وحروف وأرقام، وركن رسم حر" data-en="24 colors, shapes, letters, numbers and free drawing">24 لوناً، أشكال وحروف وأرقام، وركن رسم حر</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="لوّن" data-en="Color">لوّن</span></a>
-        <a href="/play.html" class="c-card"><span class="ico">🎮</span><h3 data-ar="العب وتعلم" data-en="Play & Learn">العب وتعلم</h3><p data-ar="لعبة الحرف الأول ولعبة «نطق ورتّب» بمكافآت" data-en="First-letter game and “Say & Order” with rewards">لعبة الحرف الأول ولعبة «نطق ورتّب» بمكافآت</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="العب" data-en="Play">العب</span></a>
-        <a href="/parent-report.html" class="c-card"><span class="ico">👨‍👩‍👧</span><h3 data-ar="تقرير الأهل" data-en="Parent Report">تقرير الأهل</h3><p data-ar="تابع تقدّم طفلك ونقاط قوته بسهولة" data-en="Track your child’s progress and strengths">تابع تقدّم طفلك ونقاط قوته بسهولة</p><span class="badge-free" data-ar="مجاني" data-en="Free">مجاني</span><span class="btn-card" data-ar="شاهد" data-en="View">شاهد</span></a>
-        <a href="/pro.html" class="c-card"><span class="ico">💎</span><h3 data-ar="حرفي Pro" data-en="Harfi Pro">حرفي Pro</h3><p data-ar="ميزات إضافية للعائلات" data-en="Extra features for families">ميزات إضافية للعائلات</p><span class="badge-pro" data-ar="قريباً" data-en="Soon">قريباً</span><span class="btn-card" data-ar="اشترك" data-en="Join">اشترك</span></a>
+    <div class="slider-wrap">
+      <div class="carousel-track" id="carousel-track"></div>
+      <div class="slider-ctrl">
+        <button class="c-nav" id="c-prev" aria-label="السابق">‹</button>
+        <div class="c-dots" id="carousel-dots"></div>
+        <button class="c-nav" id="c-next" aria-label="التالي">›</button>
       </div>
-      <button class="c-nav next" onclick="scrollCarousel(1)" aria-label="next">›</button>
     </div>
-    <div class="c-dots" id="carousel-dots"></div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- BENTO: why Harfi -->
+<section class="tight">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-6">
+      <h2 class="sec-title" data-ar="لماذا يحب الأطفال والأهل حرفي؟" data-en="Why kids and parents love Harfi">لماذا يحب الأطفال والأهل حرفي؟</h2>
+      <p class="sec-sub" data-ar="كل ما يحتاجه طفلك في مكان واحد آمن" data-en="Everything your child needs in one safe place">كل ما يحتاجه طفلك في مكان واحد آمن</p>
+    </div>
+    <div class="bento">
+      <a href="/coloring.html" class="b b-big" style="--bg:#FDE7F3;--fg:#9D174D">
+        <div class="b-ico">🎨🖌️⭐</div>
+        <h3 data-ar="استوديو تلوين ورسم ذكي" data-en="Smart coloring & drawing studio">استوديو تلوين ورسم ذكي</h3>
+        <p data-ar="تلوين داخل الحرف نفسه — الهمزة وحدها والألف بعدة ألوان. 7 فُرَش، 43+ رسمة، ملصقات، وتنعيم تلقائي للخطوط." data-en="Color inside the letter itself — the hamza alone, the alif in many colors. 7 brushes, 43+ pictures, stickers and auto-smoothing.">تلوين داخل الحرف نفسه — الهمزة وحدها والألف بعدة ألوان. 7 فُرَش، 43+ رسمة، ملصقات، وتنعيم تلقائي للخطوط.</p>
+      </a>
+      <div class="b b-tall" style="--bg:#FFF4D6;--fg:#92400E">
+        <div class="b-ico">🎙️</div>
+        <h3 data-ar="نطق واضح بثلاث سرعات" data-en="Clear speech, three speeds">نطق واضح بثلاث سرعات</h3>
+        <p data-ar="بطيء وعادي وسريع، مع تظليل الحرف داخل البطاقة أثناء النطق." data-en="Slow, normal and fast, with the letter glowing inside its card.">بطيء وعادي وسريع، مع تظليل الحرف داخل البطاقة أثناء النطق.</p>
+      </div>
+      <div class="b" style="--bg:#DDF7EC;--fg:#065F46">
+        <div class="b-ico">🛡️</div>
+        <h3 data-ar="آمن 100%" data-en="100% safe">آمن 100%</h3>
+        <p data-ar="بدون إعلانات ولا تتبّع ولا تسجيل" data-en="No ads, no tracking, no sign-up">بدون إعلانات ولا تتبّع ولا تسجيل</p>
+      </div>
+      <div class="b" style="--bg:#E6F0FF;--fg:#1E3A8A">
+        <div class="b-ico">✈️</div>
+        <h3 data-ar="يعمل بدون إنترنت" data-en="Works offline">يعمل بدون إنترنت</h3>
+        <p data-ar="في السيارة والطائرة والسفر" data-en="In the car, plane and on trips">في السيارة والطائرة والسفر</p>
+      </div>
+      <a href="/play.html" class="b b-wide" style="--bg:#DDF6FB;--fg:#155E75">
+        <div class="b-ico">🧠🖼️🔤</div>
+        <h3 data-ar="موسوعة 304 كلمة و4 ألعاب" data-en="304-word library and 4 games">موسوعة 304 كلمة و4 ألعاب</h3>
+        <p data-ar="13 تصنيفاً مصوّراً: حيوانات، طعام، مهن، مشاعر… مع الذاكرة واختر الصورة والإملاء." data-en="13 picture topics: animals, food, jobs, feelings… with Memory, Pick the picture and Spelling.">13 تصنيفاً مصوّراً: حيوانات، طعام، مهن، مشاعر… مع الذاكرة واختر الصورة والإملاء.</p>
+      </a>
+      <div class="b" style="--bg:#EFE8FF;--fg:#5B21B6">
+        <div class="b-ico">👨‍👩‍👧</div>
+        <h3 data-ar="ركن العائلة" data-en="Family corner">ركن العائلة</h3>
+        <p data-ar="40+ كلمة في 6 تصنيفات" data-en="40+ words in 6 groups">40+ كلمة في 6 تصنيفات</p>
+      </div>
+      <div class="b" style="--bg:#FFE9E9;--fg:#9F1239">
+        <div class="b-ico">🌐</div>
+        <h3 data-ar="لغتان بضغطة" data-en="Two languages, one tap">لغتان بضغطة</h3>
+        <p data-ar="واجهة عربية أو إنجليزية مجاناً" data-en="Arabic or English interface, free">واجهة عربية أو إنجليزية مجاناً</p>
+      </div>
+      <a href="/math.html" class="b b-wide" style="--bg:#FFF4D6;--fg:#78350F">
+        <div class="b-ico">🔢✖️</div>
+        <h3 data-ar="العد حتى 100 وجداول الضرب" data-en="Counting to 100 and times tables">العد حتى 100 وجداول الضرب</h3>
+        <p data-ar="13 جدولاً (0–12) بالنطق التسلسلي وتحدي النقاط." data-en="13 tables (0–12) with spoken sequences and a points challenge.">13 جدولاً (0–12) بالنطق التسلسلي وتحدي النقاط.</p>
+      </a>
+      <div class="b" style="--bg:#EEF2F6;--fg:#334155">
+        <div class="b-ico">♿</div>
+        <h3 data-ar="إعدادات وصول" data-en="Accessibility">إعدادات وصول</h3>
+        <p data-ar="حجم الخط، التباين، الوضع الداكن" data-en="Text size, contrast, dark mode">حجم الخط، التباين، الوضع الداكن</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS (compact row) -->
 <section class="tight bg-fade-3">
   <div class="max-w-5xl mx-auto px-4">
-    <div class="text-center mb-6">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="كيف يعمل؟" data-en="How does it work?">كيف يعمل؟</h2>
-      <p class="text-gray-600 text-lg" data-ar="ثلاث خطوات بسيطة" data-en="Three simple steps">ثلاث خطوات بسيطة</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="step"><div class="step-num">1</div><h3 class="text-lg font-black text-gray-800 mb-1" data-ar="اختر النشاط" data-en="Pick an activity">اختر النشاط</h3><p class="text-gray-600 text-sm" data-ar="حروف، تشكيل، حساب، قصة، لعبة أو تلوين" data-en="Letters, diacritics, math, a story, a game or coloring">حروف، تشكيل، حساب، قصة، لعبة أو تلوين</p></div>
-      <div class="step"><div class="step-num">2</div><h3 class="text-lg font-black text-gray-800 mb-1" data-ar="استمع وكرّر" data-en="Listen and repeat">استمع وكرّر</h3><p class="text-gray-600 text-sm" data-ar="نطق واضح بثلاث سرعات بالعربية والإنجليزية" data-en="Clear speech at three speeds in Arabic and English">نطق واضح بثلاث سرعات بالعربية والإنجليزية</p></div>
-      <div class="step"><div class="step-num">3</div><h3 class="text-lg font-black text-gray-800 mb-1" data-ar="العب واكتسب النقاط" data-en="Play and earn points">العب واكتسب النقاط</h3><p class="text-gray-600 text-sm" data-ar="مكافآت ممتعة وتقدّم محفوظ تلقائياً" data-en="Fun rewards and progress saved automatically">مكافآت ممتعة وتقدّم محفوظ تلقائياً</p></div>
+    <h2 class="sec-title text-center mb-5" data-ar="كيف يعمل؟" data-en="How does it work?">كيف يعمل؟</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><h3 data-ar="اختر النشاط" data-en="Pick an activity">اختر النشاط</h3><p data-ar="حروف، حساب، قصة، لعبة أو تلوين" data-en="Letters, math, a story, a game or coloring">حروف، حساب، قصة، لعبة أو تلوين</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h3 data-ar="استمع وكرّر" data-en="Listen and repeat">استمع وكرّر</h3><p data-ar="نطق واضح بالعربية والإنجليزية" data-en="Clear speech in Arabic and English">نطق واضح بالعربية والإنجليزية</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h3 data-ar="العب واكسب النجوم" data-en="Play and earn stars">العب واكسب النجوم</h3><p data-ar="مكافآت وتقدّم محفوظ تلقائياً" data-en="Rewards and progress saved automatically">مكافآت وتقدّم محفوظ تلقائياً</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- WHY HARFI -->
-<section class="tight bg-fade-4">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-6">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="لماذا حرفي؟" data-en="Why Harfi?">لماذا حرفي؟</h2>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🎙️</div><h3 class="font-black text-gray-800 mb-1" data-ar="نطق ذكي" data-en="Smart speech">نطق ذكي</h3><p class="text-sm text-gray-600" data-ar="صوت بطيء وعادي وسريع لكل عمر" data-en="Slow, normal and fast voice for every age">صوت بطيء وعادي وسريع لكل عمر</p></div>
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🌐</div><h3 class="font-black text-gray-800 mb-1" data-ar="لغتان بضغطة" data-en="Two languages, one tap">لغتان بضغطة</h3><p class="text-sm text-gray-600" data-ar="بدّل بين العربية والإنجليزية فوراً" data-en="Switch between Arabic and English instantly">بدّل بين العربية والإنجليزية فوراً</p></div>
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">♿</div><h3 class="font-black text-gray-800 mb-1" data-ar="إعدادات وصول" data-en="Accessibility built in">إعدادات وصول</h3><p class="text-sm text-gray-600" data-ar="حجم الخط، التباين، الوضع الداكن والحركة" data-en="Text size, contrast, dark mode and motion">حجم الخط، التباين، الوضع الداكن والحركة</p></div>
-      <div class="bg-white rounded-2xl p-6 text-center shadow-sm"><div class="text-4xl mb-2">🛡️</div><h3 class="font-black text-gray-800 mb-1" data-ar="آمن 100%" data-en="100% safe">آمن 100%</h3><p class="text-sm text-gray-600" data-ar="بدون إعلانات ولا تتبّع" data-en="No ads, no tracking">بدون إعلانات ولا تتبّع</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
+<!-- TESTIMONIALS (horizontal, likes, add review) -->
 <section class="tight bg-fade-5">
   <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-6">
-      <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-ar="ماذا يقول الأهل؟" data-en="What parents say">ماذا يقول الأهل؟</h2>
+    <div class="text-center mb-4">
+      <h2 class="sec-title" data-ar="ماذا يقول الأهل؟" data-en="What parents say">ماذا يقول الأهل؟</h2>
+      <div class="q-summary"><span class="q-big" id="q-avg">5.0</span><span class="stars">★★★★★</span><span class="sec-sub" id="q-count"></span></div>
     </div>
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3" data-ar="«ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع.»" data-en="“My daughter learned the letters in two weeks — lovely and fun design.”">«ابنتي تعلمت الحروف في أسبوعين فقط، تصميم رائع وممتع.»</p><div class="text-sm font-bold text-gray-800" data-ar="— أم سارة" data-en="— Sarah’s mum">— أم سارة</div></div>
-      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3" data-ar="«أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة.»" data-en="“Finally a high-quality Arabic app with no annoying ads.”">«أخيراً تطبيق عربي بجودة عالية وبدون إعلانات مزعجة.»</p><div class="text-sm font-bold text-gray-800" data-ar="— أبو محمد" data-en="— Mohammed’s dad">— أبو محمد</div></div>
-      <div class="quote"><div class="stars mb-2">★★★★★</div><p class="text-gray-700 mb-3" data-ar="«القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة.»" data-en="“The stories and songs are beautiful — my kids ask for them nightly.”">«القصص والأغاني جميلة جداً، أطفالي يطلبونها كل ليلة.»</p><div class="text-sm font-bold text-gray-800" data-ar="— أم يوسف" data-en="— Youssef’s mum">— أم يوسف</div></div>
+    <div class="slider-wrap">
+      <div class="carousel-track q-track" id="q-track"></div>
+      <div class="slider-ctrl">
+        <button class="c-nav" id="q-prev" aria-label="السابق">‹</button>
+        <div class="c-dots" id="q-dots"></div>
+        <button class="c-nav" id="q-next" aria-label="التالي">›</button>
+      </div>
+    </div>
+    <div class="text-center mt-5">
+      <button type="button" class="btn-primary" id="open-review" data-ar="✍️ أضف رأيك" data-en="✍️ Add your review">✍️ أضف رأيك</button>
+      <p class="rv-thanks" id="rv-thanks" hidden data-ar="🎉 شكراً! أُضيف رأيك" data-en="🎉 Thank you! Your review was added">🎉 شكراً! أُضيف رأيك</p>
     </div>
   </div>
 </section>
+
+<!-- REVIEW MODAL -->
+<div class="rv-modal" id="review-modal" hidden>
+  <form class="rv-box" id="review-form" novalidate>
+    <button type="button" class="rv-x" data-close aria-label="إغلاق">✕</button>
+    <h3 data-ar="شاركنا رأيك" data-en="Share your review">شاركنا رأيك</h3>
+    <label data-ar="تقييمك" data-en="Your rating">تقييمك</label>
+    <div class="rv-stars" id="rv-stars"></div>
+    <label for="rv-name" data-ar="الاسم (مثال: أم سارة)" data-en="Name (e.g. Sarah’s mum)">الاسم (مثال: أم سارة)</label>
+    <input id="rv-name" maxlength="40" />
+    <div class="rv-row">
+      <div><label for="rv-age" data-ar="عمر الطفل" data-en="Child age">عمر الطفل</label><input id="rv-age" type="number" min="2" max="12" /></div>
+      <div><label for="rv-fav" data-ar="القسم المفضل" data-en="Favorite section">القسم المفضل</label><select id="rv-fav"></select></div>
+    </div>
+    <label for="rv-text" data-ar="رأيك" data-en="Your review">رأيك</label>
+    <textarea id="rv-text" rows="3" maxlength="300"></textarea>
+    <p class="rv-err" id="rv-err" hidden data-ar="اكتب اسمك ورأيك من فضلك" data-en="Please write your name and review">اكتب اسمك ورأيك من فضلك</p>
+    <button type="submit" class="btn-primary w-full justify-center" data-ar="إرسال الرأي" data-en="Submit review">إرسال الرأي</button>
+  </form>
+</div>
 
 <!-- CTA BANNER -->
 <section class="max-w-5xl mx-auto px-4 py-10">
   <div class="cta-banner">
     <h2 class="text-3xl md:text-4xl font-black mb-3" data-ar="جاهز لتبدأ الرحلة؟ 🚀" data-en="Ready to start the journey? 🚀">جاهز لتبدأ الرحلة؟ 🚀</h2>
-    <p class="text-lg opacity-95 mb-6" data-ar="انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل." data-en="Join thousands of children learning with Harfi — free, no sign-up.">انضم لآلاف الأطفال الذين يتعلمون مع حرفي — مجاناً وبدون تسجيل.</p>
+    <p class="text-lg opacity-95 mb-6" data-ar="مجاناً وبدون تسجيل — ابدأ الآن." data-en="Free, no sign-up — start now.">مجاناً وبدون تسجيل — ابدأ الآن.</p>
     <div class="flex flex-wrap justify-center gap-3">
-      <a href="/arabic.html" class="bg-white text-[#FF6B6B] font-black px-8 py-4 rounded-full text-lg hover:scale-105 transition" data-ar="ابدأ بالعربية" data-en="Start in Arabic">ابدأ بالعربية</a>
-      <a href="/english.html" class="bg-white/20 border-2 border-white text-white font-black px-8 py-4 rounded-full text-lg hover:bg-white/30 transition" data-ar="ابدأ بالإنجليزية" data-en="Start in English">ابدأ بالإنجليزية</a>
+      <a href="/arabic.html" class="cta-w" data-ar="ابدأ بالعربية" data-en="Start in Arabic">ابدأ بالعربية</a>
+      <a href="/english.html" class="cta-o" data-ar="ابدأ بالإنجليزية" data-en="Start in English">ابدأ بالإنجليزية</a>
     </div>
   </div>
 </section>
 
-
-<script>
-(function () {
-  const track = document.getElementById('carousel-track');
-  const cards = Array.from(track.querySelectorAll('.c-card'));
-  const dotsWrap = document.getElementById('carousel-dots');
-  let idx = 0;
-
-  cards.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'dot'; d.setAttribute('aria-label', 'الشريحة ' + (i+1));
-    d.addEventListener('click', () => { idx = i; update(); });
-    dotsWrap.appendChild(d);
-  });
-
-  function update() {
-    cards.forEach((c, i) => c.classList.toggle('active', i === idx));
-    dotsWrap.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-    cards[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  }
-  window.scrollCarousel = function (dir) {
-    idx = (idx + dir + cards.length) % cards.length;
-    update();
-  };
-
-  // Touch swipe
-  let sx = 0, dragging = false;
-  track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; dragging = true; }, { passive: true });
-  track.addEventListener('touchend', (e) => {
-    if (!dragging) return; dragging = false;
-    const diff = sx - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) window.scrollCarousel(diff > 0 ? 1 : -1);
-  });
-
-  // Sync active card on manual scroll
-  let scrollTimer = null;
-  track.addEventListener('scroll', () => {
-    if (scrollTimer) clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => {
-      const trackRect = track.getBoundingClientRect();
-      const centerX = trackRect.left + trackRect.width / 2;
-      let closest = 0, minDist = Infinity;
-      cards.forEach((c, i) => {
-        const r = c.getBoundingClientRect();
-        const dist = Math.abs((r.left + r.width / 2) - centerX);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      });
-      if (closest !== idx) {
-        idx = closest;
-        cards.forEach((c, i) => c.classList.toggle('active', i === idx));
-        dotsWrap.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
-    }, 120);
-  }, { passive: true });
-
-  update();
-})();
-</script>
+<script src="/js/catalog.js"></script>
+<script src="/js/landing.js"></script>
 
 
 <div id="footer-root"></div>
