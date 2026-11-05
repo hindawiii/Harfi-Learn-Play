@@ -14,3 +14,4 @@
 - Sequential counting uses the shared readSequence API rather than accessing speech session internals, ensuring the same cancellation and completion rules everywhere.
 - The drawing corner keeps strokes and stickers as separate items in public/js/draw-engine.js and flattens only on export, so undo, restore-original and sticker editing stay possible.
 - Interface translation lives in public/js/i18n.js (prepared dictionary + patterns, applied via MutationObserver); lesson content is excluded by selector and keeps its own direction, so interface language never changes what is taught or spoken.
+- Landing page renders sections, stats and testimonials from public/js/catalog.js via public/js/landing.js; edit the catalog, not the HTML, so the landing stays in sync with the app.
