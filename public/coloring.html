@@ -45,6 +45,11 @@
 
   .sticker-btn{font-size:26px;width:46px;height:46px;border-radius:12px;background:#F8F9FA;border:none;cursor:pointer}
   .sticker-btn:active{transform:scale(.9)}
+  #tool-cursor{position:absolute;pointer-events:none;font-size:34px;transform:translate(-20%,-85%);display:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25));z-index:5}
+  .st-tab{white-space:nowrap;padding:6px 12px;border-radius:999px;background:#F1F3F5;font-weight:700;font-size:13px;border:none;cursor:pointer;min-height:40px}
+  .st-tab.active{background:#4ECDC4;color:#fff}
+  .layer-chip{flex:0 0 auto;width:48px;height:48px;border-radius:12px;background:#fff;border:2px solid #E9ECEF;font-size:26px;cursor:pointer}
+  .layer-chip.active{border-color:#4ECDC4;box-shadow:0 0 0 3px rgba(78,205,196,.3)}
   #draw-canvas{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);touch-action:none;cursor:crosshair;max-width:100%;height:auto;display:block;margin:0 auto}
   .tool-btn{padding:10px 16px;border-radius:12px;background:#fff;color:#495057;font-weight:700;border:2px solid #E9ECEF;cursor:pointer;min-height:44px;font-size:14px}
   .tool-btn.active{background:#4ECDC4;color:#fff;border-color:#4ECDC4}
@@ -142,7 +147,11 @@
 
     <!-- Canvas -->
     <div class="bg-gray-50 rounded-2xl p-3 mb-4">
-      <canvas id="draw-canvas" width="800" height="500"></canvas>
+      <div id="draw-wrap" style="position:relative;overflow:hidden;border-radius:14px">
+        <canvas id="draw-canvas" width="800" height="500"></canvas>
+        <div id="tool-cursor" aria-hidden="true"></div>
+      </div>
+      <div id="layer-strip" class="flex gap-2 overflow-x-auto mt-2 py-1" aria-label="ملصقات اللوحة"></div>
     </div>
 
     <!-- Palette -->
@@ -172,8 +181,10 @@
 
     <!-- Stickers -->
     <div class="mt-4 text-center">
-      <div class="text-sm font-bold text-gray-600 mb-2">🌟 ملصقات — اضغط لإضافتها، واسحبها لتحريكها</div>
-      <div id="sticker-tray" class="flex flex-wrap justify-center gap-1"><button class="sticker-btn" data-emoji="🐱" aria-label="ملصق 🐱">🐱</button><button class="sticker-btn" data-emoji="🐶" aria-label="ملصق 🐶">🐶</button><button class="sticker-btn" data-emoji="🐰" aria-label="ملصق 🐰">🐰</button><button class="sticker-btn" data-emoji="🦁" aria-label="ملصق 🦁">🦁</button><button class="sticker-btn" data-emoji="🐘" aria-label="ملصق 🐘">🐘</button><button class="sticker-btn" data-emoji="🦒" aria-label="ملصق 🦒">🦒</button><button class="sticker-btn" data-emoji="🐢" aria-label="ملصق 🐢">🐢</button><button class="sticker-btn" data-emoji="🦉" aria-label="ملصق 🦉">🦉</button><button class="sticker-btn" data-emoji="🐟" aria-label="ملصق 🐟">🐟</button><button class="sticker-btn" data-emoji="🦋" aria-label="ملصق 🦋">🦋</button><button class="sticker-btn" data-emoji="🐝" aria-label="ملصق 🐝">🐝</button><button class="sticker-btn" data-emoji="🐞" aria-label="ملصق 🐞">🐞</button><button class="sticker-btn" data-emoji="⭐" aria-label="ملصق ⭐">⭐</button><button class="sticker-btn" data-emoji="🌟" aria-label="ملصق 🌟">🌟</button><button class="sticker-btn" data-emoji="✨" aria-label="ملصق ✨">✨</button><button class="sticker-btn" data-emoji="🌙" aria-label="ملصق 🌙">🌙</button><button class="sticker-btn" data-emoji="☀️" aria-label="ملصق ☀️">☀️</button><button class="sticker-btn" data-emoji="🌈" aria-label="ملصق 🌈">🌈</button><button class="sticker-btn" data-emoji="☁️" aria-label="ملصق ☁️">☁️</button><button class="sticker-btn" data-emoji="❤️" aria-label="ملصق ❤️">❤️</button><button class="sticker-btn" data-emoji="🌸" aria-label="ملصق 🌸">🌸</button><button class="sticker-btn" data-emoji="🌻" aria-label="ملصق 🌻">🌻</button><button class="sticker-btn" data-emoji="🌳" aria-label="ملصق 🌳">🌳</button><button class="sticker-btn" data-emoji="🌴" aria-label="ملصق 🌴">🌴</button><button class="sticker-btn" data-emoji="🍀" aria-label="ملصق 🍀">🍀</button><button class="sticker-btn" data-emoji="🍎" aria-label="ملصق 🍎">🍎</button><button class="sticker-btn" data-emoji="🍓" aria-label="ملصق 🍓">🍓</button><button class="sticker-btn" data-emoji="🍉" aria-label="ملصق 🍉">🍉</button><button class="sticker-btn" data-emoji="🚗" aria-label="ملصق 🚗">🚗</button><button class="sticker-btn" data-emoji="🚂" aria-label="ملصق 🚂">🚂</button><button class="sticker-btn" data-emoji="✈️" aria-label="ملصق ✈️">✈️</button><button class="sticker-btn" data-emoji="🚀" aria-label="ملصق 🚀">🚀</button><button class="sticker-btn" data-emoji="🚲" aria-label="ملصق 🚲">🚲</button><button class="sticker-btn" data-emoji="⛵" aria-label="ملصق ⛵">⛵</button><button class="sticker-btn" data-emoji="🎈" aria-label="ملصق 🎈">🎈</button><button class="sticker-btn" data-emoji="👑" aria-label="ملصق 👑">👑</button></div>
+      <div class="text-sm font-bold text-gray-600 mb-2">🌟 مكتبة الملصقات — اضغط لإضافة ملصق، اسحبه لتحريكه، واستخدم المقابض أو إصبعين للتكبير والتدوير</div>
+      <div id="sticker-tabs" class="flex gap-1 overflow-x-auto pb-1 mb-2"></div>
+      <div id="sticker-tray" class="flex flex-wrap justify-center gap-1" style="max-height:220px;overflow-y:auto"></div>
+      <div id="sticker-count" class="text-xs text-gray-500 mt-1"></div>
       <div id="sticker-actions" class="flex flex-wrap justify-center gap-2 mt-2" hidden>
         <button class="tool-btn" onclick="drawer.transformSelected('bigger')">➕ أكبر</button>
         <button class="tool-btn" onclick="drawer.transformSelected('smaller')">➖ أصغر</button>
@@ -199,6 +210,7 @@
 <script src="/js/i18n.js"></script>
 <script src="/js/coloring-shapes.js"></script>
 <script src="/js/coloring-shapes-2.js"></script>
+<script src="/js/sticker-library.js"></script>
 <script src="/js/draw-engine.js"></script>
 <script src="/js/color-engine.js"></script>
 
@@ -324,8 +336,50 @@ function downloadDrawing(){
 drawer.onChange = d => {
   const st = d.items[d.selected];
   document.getElementById('sticker-actions').hidden = !(st && st.kind==='sticker');
+  renderLayers();
 };
-document.querySelectorAll('.sticker-btn').forEach(b=>b.addEventListener('click',()=>drawer.addSticker(b.dataset.emoji)));
+/* مكتبة الملصقات بتبويبات */
+function renderStickerTab(id){
+  const lib = window.HARFI_STICKERS, cat = lib.find(c=>c.id===id) || lib[0];
+  document.querySelectorAll('.st-tab').forEach(t=>t.classList.toggle('active', t.dataset.cat===cat.id));
+  const tray = document.getElementById('sticker-tray'); tray.innerHTML='';
+  cat.items.forEach(e=>{
+    const b=document.createElement('button'); b.className='sticker-btn'; b.textContent=e; b.dataset.emoji=e;
+    b.setAttribute('aria-label','ملصق '+e); b.onclick=()=>drawer.addSticker(e); tray.appendChild(b);
+  });
+}
+(function(){
+  const lib = window.HARFI_STICKERS, tabs = document.getElementById('sticker-tabs');
+  const en = document.documentElement.lang === 'en';
+  lib.forEach(c=>{
+    const t=document.createElement('button'); t.className='st-tab'; t.dataset.cat=c.id;
+    t.textContent=c.icon+' '+c.ar; t.onclick=()=>renderStickerTab(c.id); tabs.appendChild(t);
+  });
+  const total = lib.reduce((n,c)=>n+c.items.length,0);
+  document.getElementById('sticker-count').textContent = total+' ملصقًا في '+lib.length+' تصنيفًا';
+  renderStickerTab(lib[0].id);
+})();
+/* شريط ملصقات اللوحة للتنقل بينها وتعديلها */
+function renderLayers(){
+  const strip=document.getElementById('layer-strip'); strip.innerHTML='';
+  drawer.stickerIndexes().forEach(i=>{
+    const b=document.createElement('button'); b.className='layer-chip'+(i===drawer.selected?' active':'');
+    b.textContent=drawer.items[i].emoji; b.setAttribute('aria-label','اختيار الملصق '+drawer.items[i].emoji);
+    b.onclick=()=>drawer.select(i===drawer.selected?null:i); strip.appendChild(b);
+  });
+}
+/* معاينة الأداة تحت الإصبع/الفأرة */
+(function(){
+  const cur=document.getElementById('tool-cursor'), wrap=document.getElementById('draw-wrap');
+  const move=e=>{
+    const r=wrap.getBoundingClientRect();
+    cur.textContent = drawer.drag ? '✋' : (drawer.tool==='eraser' ? '🧽' : '🖌️');
+    cur.style.left=(e.clientX-r.left)+'px'; cur.style.top=(e.clientY-r.top)+'px'; cur.style.display='block';
+  };
+  canvas.addEventListener('pointermove',move); canvas.addEventListener('pointerdown',move);
+  canvas.addEventListener('pointerleave',()=>cur.style.display='none');
+  canvas.addEventListener('pointerup',e=>{ if(e.pointerType!=='mouse') setTimeout(()=>cur.style.display='none',400); });
+})();
 [['opt-smooth','smoothOn'],['opt-shape','shapeOn']].forEach(([id,key])=>{
   const b=document.getElementById(id);
   b.addEventListener('click',()=>{ drawer[key]=!drawer[key]; b.classList.toggle('active',drawer[key]); b.setAttribute('aria-pressed',drawer[key]); });
