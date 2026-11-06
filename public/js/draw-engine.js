@@ -155,17 +155,53 @@
     return null;
   };
 
+  /** نقطة في إحداثيات الملصق المحلية */
+  P._local = function (st, p) {
+    const a = -st.rot * Math.PI / 180, dx = p.x - st.x, dy = p.y - st.y;
+    return { x: (dx * Math.cos(a) - dy * Math.sin(a)) / st.scale, y: (dx * Math.sin(a) + dy * Math.cos(a)) / st.scale };
+  };
+  /** مقابض الملصق المحدد: تكبير (زاوية سفلية)، تدوير (أعلى)، حذف (زاوية علوية) */
+  P._hitHandle = function (p) {
+    const st = this.items[this.selected];
+    if (!st || st.kind !== 'sticker') return null;
+    const l = this._local(st, p), r = 26 / st.scale;
+    if (dist(l, { x: 46, y: 46 }) < r) return 'resize';
+    if (dist(l, { x: 0, y: -72 }) < r) return 'rotate';
+    if (dist(l, { x: -46, y: -46 }) < r) return 'delete';
+    return null;
+  };
+  P.select = function (i) { this.selected = i; this._changed(); };
+  P.stickerIndexes = function () { return this.items.map((it, i) => it.kind === 'sticker' ? i : -1).filter(i => i >= 0); };
+
   P._bind = function () {
+    this.pointers = new Map();
     const v = this.view;
     v.style.touchAction = 'none';
     v.addEventListener('pointerdown', e => {
       e.preventDefault();
       const p = this._pos(e);
       try { v.setPointerCapture(e.pointerId); } catch (_) {}
+      this.pointers.set(e.pointerId, p);
+      // إصبعان على ملصق محدد = تكبير/تصغير وتدوير بالقرص
+      if (this.pointers.size === 2 && this.items[this.selected] && this.items[this.selected].kind === 'sticker') {
+        const [a, b] = [...this.pointers.values()], st = this.items[this.selected];
+        this.cur = null;
+        this.drag = { mode: 'pinch', d0: dist(a, b) || 1, s0: st.scale, a0: Math.atan2(b.y - a.y, b.x - a.x), r0: st.rot };
+        return;
+      }
+      if (this.pointers.size > 1) return;
+      const h = this._hitHandle(p);
+      if (h) {
+        const st = this.items[this.selected];
+        if (h === 'delete') { this.transformSelected('delete'); return; }
+        this._push();
+        this.drag = h === 'resize' ? { mode: 'resize', d0: dist(p, st) || 1, s0: st.scale } : { mode: 'rotate' };
+        return;
+      }
       const hit = this._hitSticker(p);
       if (hit !== null) {
         this._push(); this.selected = hit;
-        const st = this.items[hit]; this.drag = { dx: st.x - p.x, dy: st.y - p.y };
+        const st = this.items[hit]; this.drag = { mode: 'move', dx: st.x - p.x, dy: st.y - p.y };
         this._changed(); return;
       }
       this.selected = null;
@@ -173,9 +209,20 @@
       this.render();
     });
     v.addEventListener('pointermove', e => {
+      const pm = this._pos(e);
+      if (this.pointers.has(e.pointerId)) this.pointers.set(e.pointerId, pm);
       if (this.drag) {
-        const p = this._pos(e), st = this.items[this.selected];
-        st.x = p.x + this.drag.dx; st.y = p.y + this.drag.dy; this.render(); return;
+        const p = pm, st = this.items[this.selected], d = this.drag;
+        if (!st) return;
+        if (d.mode === 'move') { st.x = p.x + d.dx; st.y = p.y + d.dy; }
+        else if (d.mode === 'resize') st.scale = Math.max(0.4, Math.min(5, d.s0 * dist(p, st) / d.d0));
+        else if (d.mode === 'rotate') st.rot = Math.atan2(p.y - st.y, p.x - st.x) * 180 / Math.PI + 90;
+        else if (d.mode === 'pinch' && this.pointers.size >= 2) {
+          const [a, b] = [...this.pointers.values()];
+          st.scale = Math.max(0.4, Math.min(5, d.s0 * dist(a, b) / d.d0));
+          st.rot = d.r0 + (Math.atan2(b.y - a.y, b.x - a.x) - d.a0) * 180 / Math.PI;
+        }
+        this.render(); return;
       }
       if (!this.cur) return;
       const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
@@ -185,7 +232,9 @@
       });
       this.render();
     });
-    const end = () => {
+    const end = e => {
+      if (e) this.pointers.delete(e.pointerId);
+      if (this.drag && this.drag.mode === 'pinch' && this.pointers.size) return;
       if (this.drag) { this.drag = null; this._changed(); return; }
       if (!this.cur) return;
       const s = this.cur; this.cur = null;
@@ -243,7 +292,12 @@
       c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(it.emoji, 0, 4);
       if (!forExport && i === this.selected) {
         c.strokeStyle = '#4ECDC4'; c.lineWidth = 3 / it.scale; c.setLineDash([8 / it.scale, 6 / it.scale]);
-        c.strokeRect(-42, -42, 84, 84);
+        c.strokeRect(-42, -42, 84, 84); c.setLineDash([]);
+        c.beginPath(); c.moveTo(0, -42); c.lineTo(0, -60); c.stroke();
+        [[46, 46, '#4ECDC4', '⤡'], [0, -72, '#FFD93D', '↻'], [-46, -46, '#FF6B6B', '✕']].forEach(([hx, hy, col, g]) => {
+          c.beginPath(); c.arc(hx, hy, 15 / it.scale, 0, Math.PI * 2); c.fillStyle = col; c.fill();
+          c.fillStyle = '#fff'; c.font = 'bold ' + (18 / it.scale) + 'px sans-serif'; c.fillText(g, hx, hy + 1);
+        });
       }
       c.restore();
     });
