@@ -50,6 +50,14 @@
   .st-tab.active{background:#4ECDC4;color:#fff}
   .layer-chip{flex:0 0 auto;width:48px;height:48px;border-radius:12px;background:#fff;border:2px solid #E9ECEF;font-size:26px;cursor:pointer}
   .layer-chip.active{border-color:#4ECDC4;box-shadow:0 0 0 3px rgba(78,205,196,.3)}
+  .studio{display:grid;gap:12px}
+  .studio-stage{position:sticky;top:8px;z-index:5;background:#fff;padding-bottom:6px}
+  .studio-panel{max-height:46vh;overflow-y:auto;overscroll-behavior:contain;padding:4px}
+  @media (min-width:900px){
+    .studio{grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);align-items:start}
+    .studio-panel{max-height:calc(100vh - 120px)}
+  }
+  @media (max-width:899px){ #draw-canvas{max-height:44vh;width:auto} }
   #draw-canvas{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);touch-action:none;cursor:crosshair;max-width:100%;height:auto;display:block;margin:0 auto}
   .tool-btn{padding:10px 16px;border-radius:12px;background:#fff;color:#495057;font-weight:700;border:2px solid #E9ECEF;cursor:pointer;min-height:44px;font-size:14px}
   .tool-btn.active{background:#4ECDC4;color:#fff;border-color:#4ECDC4}
@@ -145,14 +153,27 @@
       </div>
     </div>
 
+    <div class="studio">
+    <div class="studio-stage">
     <!-- Canvas -->
-    <div class="bg-gray-50 rounded-2xl p-3 mb-4">
+    <div class="bg-gray-50 rounded-2xl p-3 mb-2">
       <div id="draw-wrap" style="position:relative;overflow:hidden;border-radius:14px">
         <canvas id="draw-canvas" width="800" height="500"></canvas>
         <div id="tool-cursor" aria-hidden="true"></div>
       </div>
       <div id="layer-strip" class="flex gap-2 overflow-x-auto mt-2 py-1" aria-label="ملصقات اللوحة"></div>
     </div>
+    <!-- Tools: always next to the canvas -->
+    <div class="studio-quick flex flex-wrap justify-center gap-2">
+      <button id="tool-brush" class="tool-btn active" onclick="setTool('brush')">🖌️ فرشاة</button>
+      <button id="tool-eraser" class="tool-btn" onclick="setTool('eraser')">🧽 مطاط</button>
+      <button class="tool-btn" onclick="drawer.undo()">↩️ تراجع</button>
+      <button class="tool-btn" onclick="drawer.redo()">↪️ إعادة</button>
+      <button class="tool-btn" onclick="drawer.clear()">🗑️ مسح الكل</button>
+      <button class="tool-btn" onclick="downloadDrawing()">💾 حفظ صورة</button>
+    </div>
+    </div>
+    <div class="studio-panel">
 
     <!-- Palette -->
     <div class="mb-3 text-center">
@@ -193,14 +214,7 @@
       </div>
     </div>
 
-    <!-- Tools -->
-    <div class="flex flex-wrap justify-center gap-2 mt-4">
-      <button id="tool-brush" class="tool-btn active" onclick="setTool('brush')">🖌️ فرشاة</button>
-      <button id="tool-eraser" class="tool-btn" onclick="setTool('eraser')">🧽 مطاط</button>
-      <button class="tool-btn" onclick="drawer.undo()">↩️ تراجع</button>
-      <button class="tool-btn" onclick="drawer.redo()">↪️ إعادة</button>
-      <button class="tool-btn" onclick="drawer.clear()">🗑️ مسح الكل</button>
-      <button class="tool-btn" onclick="downloadDrawing()">💾 حفظ صورة</button>
+    </div>
     </div>
   </section>
 </main>
